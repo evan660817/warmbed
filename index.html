@@ -168,6 +168,7 @@
 
         function App() {
             const [step, setStep] = useState('landing');
+            const [adminSearchDate, setAdminSearchDate] = useState('');
             const [user, setUser] = useState(null);
             const [isMusicPlaying, setIsMusicPlaying] = useState(false);
             const audioRef = useRef(null);
@@ -235,10 +236,29 @@
                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
                 const q = query(colRef);
                 const unsubscribe = onSnapshot(q, (snapshot) => {
-                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    const validData = [];
+                    const now = new Date();
+                    
+                    snapshot.docs.forEach(docSnap => {
+                        const r = { id: docSnap.id, ...docSnap.data() };
+                        let expired = false;
+                        if (r.gameDate && r.gameTime) {
+                            const dateParts = r.gameDate.split('-');
+                            const timeParts = r.gameTime.split(':');
+                            if (dateParts.length === 3 && timeParts.length === 2) {
+                                const gameDateTime = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]), parseInt(timeParts[0]), parseInt(timeParts[1]));
+                                if ((now - gameDateTime) >= 24 * 60 * 60 * 1000) {
+                                    expired = true;
+                                    deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'responses', docSnap.id)).catch(console.error);
+                                }
+                            }
+                        }
+                        if (!expired) validData.push(r);
+                    });
+                    
                     // Sort by submission timestamp primarily
-                    data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                    setAllResponses(data);
+                    validData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    setAllResponses(validData);
                 }, (err) => console.error("Firestore error:", err));
                 return () => unsubscribe();
             }, [user, step]);
@@ -519,7 +539,17 @@
                     {step === 'admin' && (
                         <div className="min-h-screen p-10 bg-black/90 backdrop-blur-3xl overflow-y-auto animate-fade-in">
                             <div className="max-w-7xl mx-auto space-y-16">
-                                <div className="flex justify-between items-end border-b border-white/10 pb-8"><div className="flex items-center gap-4 text-white text-left"><Icons.Settings /><h1 className="text-4xl font-serif tracking-[.2em] uppercase">溫床・天秤觀測台</h1></div><button onClick={() => setStep('landing')} className="text-white/30 text-sm uppercase transition-colors hover:text-white tracking-widest">Logout</button></div>
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-white/10 pb-8 gap-6">
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex items-center gap-4 text-white text-left"><Icons.Settings /><h1 className="text-4xl font-serif tracking-[.2em] uppercase">溫床・天秤觀測台</h1></div>
+                                        <div className="flex flex-wrap items-center gap-4">
+                                            <span className="text-white/40 text-sm tracking-widest uppercase">總計 {allResponses.length} 條因果殘留</span>
+                                            <input type="date" value={adminSearchDate} onChange={e => setAdminSearchDate(e.target.value)} className="bg-white/10 text-white/70 border border-white/20 px-3 py-1.5 text-sm rounded-lg focus:outline-none focus:border-white/50 tracking-widest" style={{colorScheme: 'dark'}} />
+                                            {adminSearchDate && <button onClick={() => setAdminSearchDate('')} className="text-white/40 hover:text-white transition-colors text-xs tracking-widest border border-white/20 px-3 py-1.5 rounded-lg active:bg-white/10">清除篩選</button>}
+                                        </div>
+                                    </div>
+                                    <button onClick={() => setStep('landing')} className="text-white/30 text-sm uppercase transition-colors hover:text-white tracking-widest">Logout</button>
+                                </div>
 
                                 {/* 密碼管理區塊 */}
                                 <div className="mb-0 p-8 glass-panel rounded-2xl border border-white/10 shadow-2xl">
@@ -549,8 +579,11 @@
                                     </div>
                                 </div>
                                 {(() => {
+                                    // Filter by date if set
+                                    const filteredResponses = adminSearchDate ? allResponses.filter(r => r.gameDate === adminSearchDate) : allResponses;
+                                    
                                     // Group and sort sessions by Date (Latest First)
-                                    const grouped = allResponses.reduce((acc, curr) => {
+                                    const grouped = filteredResponses.reduce((acc, curr) => {
                                         const key = `${curr.gameDate} ${curr.gameTime}`;
                                         if (!acc[key]) acc[key] = [];
                                         acc[key].push(curr);
