@@ -382,7 +382,7 @@
                         <div className="min-h-screen p-6 animate-fade-in flex flex-col items-center">
                             <div className="max-w-2xl w-full pt-20 space-y-12">
                                 <div className="space-y-4 text-left"><div className="h-1.5 bg-white/10 w-full rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-700 shadow-[0_0_20px_#fff]" style={{ width: `${(currentQIndex / currentQuestions.length) * 100}%` }}></div></div><span className="text-white/30 text-xs tracking-widest font-mono uppercase block w-full text-center font-bold">命運的第 {currentQIndex + 1} 次叩問</span></div>
-                                <h2 className="text-4xl font-serif text-white leading-relaxed tracking-wider drop-shadow-lg text-center">{currentQ?.title}</h2>
+                                <h2 className="text-2xl md:text-4xl font-serif text-white leading-loose tracking-wider drop-shadow-lg text-left">{currentQ?.title}</h2>
                                 <div className="space-y-4 text-left">{currentQ?.options.map((o, i) => {
                                     const sel = selectedOptions.find(x => x.text === o.text);
                                     return (<button key={i} onClick={() => handleOptionClick(o)} className={`w-full text-left p-6 rounded-2xl glass-panel transition-all duration-300 hover:bg-white/10 group ${sel ? 'bg-white/20 border-white/50 text-white shadow-xl' : 'text-gray-300 border-white/5'}`}><div className="flex items-center justify-between"><span className="text-xl tracking-wide">{o.text}</span>{sel && <div className="animate-pulse"><Icons.ChevronRight /></div>}</div></button>);
