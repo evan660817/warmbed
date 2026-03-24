@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《溫床》官方玩家心測系統</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Noto Serif TC', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* 全局背景圖 */
+        .app-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('S__90570756_0.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: brightness(0.4);
+        }
+
+        /* 毛玻璃容器 */
+        .glass-panel {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+
+        select option {
+            background: #1a1a1a;
+            color: white;
+        }
+        select { cursor: pointer; }
+
+        .rotate-music {
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .bar-glow {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .destiny-glow {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+        const { useState, useEffect, useMemo, useRef } = React;
+
+        // Firebase ESM Imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // --- Firebase Config ---
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'warm-bed-test';
+
+        const Icons = {
+            Crown: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>,
+            Scroll: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1V4c0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h2"/><path d="M15 17a3 3 0 1 0-6 0"/><path d="M15 17v2a3 3 0 1 1-6 0v-2"/></svg>,
+            Skull: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 10L9.01 10"/><path d="M15 10L15.01 10"/><path d="M10 20v-3a2 2 0 0 0-4 0v3"/><path d="M18 20v-3a2 2 0 0 0-4 0v3"/><path d="M6 20h12"/><path d="M21 12a9 9 0 1 0-18 0c0 1.7.3 3.3.8 4.8.4 1.2 1.4 2.2 2.6 2.7.3.1.6.1.9.1h11.4c.3 0 .6 0 .9-.1 1.2-.5 2.2-1.5 2.6-2.7.5-1.5.8-3.1.8-4.8Z"/></svg>,
+            ChevronRight: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>,
+            Music: ({active}) => <svg className={active ? 'rotate-music' : ''} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>,
+            Flame: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>,
+            Eye: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>,
+            Settings: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2l-.05.1a1 1 0 0 1-1.1.55l-1.15-.31a2 2 0 0 0-2.5 1.4l-.15.44a2 2 0 0 0 1.4 2.5l.1.05a1 1 0 0 1 .55 1.1l-.31 1.15a2 2 0 0 0 1.4 2.5l.44.15a2 2 0 0 0 2.5-1.4l.05-.1z"/><circle cx="12" cy="12" r="3"/></svg>,
+            Lock: () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        };
+
+        const ALL_CHARACTERS = [
+            { id: 'lyon', gender: 'male', name: '里昂', img: '里昂_0.jpg', quote: '霸道傲慢且手段狠厲的國王。畢竟真正的強者不需要犧牲主觀感受去獲取利益。' },
+            { id: 'adam', gender: 'male', name: '亞當', img: '亞當_0.jpg', quote: '雙手沾滿鮮血的少年神父。靈魂底色善良，重視親情愛情卻因陰差陽錯被迫成為復仇者。' },
+            { id: 'vick', gender: 'male', name: '維克', img: '維克_0.jpg', quote: '野心勃勃的虛假「拯救者」。城府極深，善於偽裝，利益至上。' },
+            { id: 'daisy', gender: 'female', name: '黛西', img: '黛西_0.jpg', quote: '惡毒傲慢且野心勃勃的女皇。以玩弄人心為樂，眼中只有與自己同樣優秀的國王。' },
+            { id: 'jin', gender: 'female', name: '堇', img: '堇_0.jpg', quote: '看似優柔寡斷的公主，實則是內心充滿利益算計的釣系女巫。' },
+            { id: 'feiyi', gender: 'female', name: '菲伊', img: '菲伊_0.jpg', quote: '因命運坎坷而被迫成為病嬌刑訊師的可憐人。執著於沉淪墮落，在欺辱中尋求極致救贖。' },
+        ];
+
+        const QUESTIONS_MALE = [
+            { type: 'multi', title: '占卜師手中的卡片令你眼花繚亂，哪些符號觸動了你的靈魂？（多選）', options: [ { text: 'A. 怪物', scores: { vick: 5, lyon: 2, adam: -3 } }, { text: 'B. 背負', scores: { adam: 5, vick: 2 } }, { text: 'C. 權力', scores: { lyon: 5, vick: -3, adam: -3 } }, { text: 'D. 強制', scores: { vick: 5, lyon: 2, adam: -3 } }, { text: 'E. 墮神', scores: { adam: 5, lyon: 2 } }, { text: 'F. 極致', scores: { lyon: 5, vick: 2, adam: -3 } }, { text: 'G. 騎士', scores: { vick: 5 } }, { text: 'H. 國王', scores: { lyon: 5 } }, { text: 'I. 王子', scores: { adam: 5 } }, { text: 'J. 壓抑', scores: { adam: 5, vick: 2, lyon: -5 } }, { text: 'K. 真心', scores: { lyon: 5, adam: 2, vick: -3 } }, { text: 'L. 利用', scores: { vick: 5 } } ] },
+            { type: 'single', title: '踏入索多瑪這座墮落都市，你靈魂中最渴望駐足之處是？', options: [ { text: 'A. 繁華、名流宴會、議會席位、物欲橫流。', scores: { lyon: 10, vick: 5 } }, { text: 'B. 夕陽、教堂鐘聲、戀人低語、海誓山盟。', scores: { adam: 10, lyon: 5 } }, { text: 'C. 機會、槍與鮮血、算計背叛、掠奪佔有。', scores: { vick: 10, lyon: 5 } } ] },
+            { type: 'single', title: '若將羅德家族比作一個王朝，你在這星軌上的位置是？', options: [ { text: 'A. 曾經威嚴智慧，如今難以捉摸的暴君。', scores: { lyon: 10 } }, { text: 'B. 手握重兵，野心勃勃的將軍。', scores: { vick: 10 } }, { text: 'C. 憂鬱深沈，愛上王后的王子。', scores: { adam: 10 } } ] },
+            { type: 'single', title: '接受勳章時，耳畔響起的命運讖語是？', options: [ { text: 'A. 權力是強盛的階梯，野心是你的利劍。', scores: { vick: 10 } }, { text: 'B. 善良、愛、正義。保持你心中的光明。', scores: { adam: 15 } }, { text: 'C. 請隨心所欲吧，我的王，帶上你的傲慢。', scores: { lyon: 10 } } ] },
+            { type: 'single', title: '發現情感糾葛錯綜複雜，你的態度是？', options: [ { text: 'A. 我完全接受，搶來的愛才有趣。', scores: { adam: 10, vick: 10 } }, { text: 'B. 我可以嘗試，只要邏輯自洽。', scores: { adam: 5, vick: 5 } }, { text: 'C. 我絕不能接受，愛必須絕對忠誠。', scores: { adam: -10, vick: -10, lyon: 10 } } ] },
+            { type: 'single', title: '在決定命運的會議中，你如何展現自我？', options: [ { text: 'A. 侃侃而談，擁有極強的主導力。', scores: { lyon: 10, vick: 10 } }, { text: 'B. 保持克制，僅在必要時發聲。', scores: { adam: 10, vick: -5, lyon: -10 } } ] },
+            { type: 'single', title: '愛情的種子在欲望溫床中綻放，那會是什麼花？', options: [ { text: 'A. 玫瑰花，代表純粹且無私奉獻的愛。', scores: { lyon: 10, adam: 10 } }, { text: 'B. 那是一顆麥子。花總會凋零，我要糧食。', scores: { vick: 10 } } ] },
+            { type: 'single', title: '審視你的靈魂，你對愛情的最終信條是？', options: [ { text: 'A. 愛情是強者的權力，弱者只能謀取利益。', scores: { lyon: 10 } }, { text: 'B. 愛人是戰利品，先佔有，再享受。', scores: { vick: 10 } }, { text: 'C. 愛只是愛，我希望愛人永遠幸福。', scores: { adam: 15 } } ] },
+            { type: 'single', title: '當末日將至，索多瑪即將毀滅，你會？', options: [ { text: 'A. 無所謂，我會給命運一個盛大的謝幕。', scores: { lyon: 10 } }, { text: 'B. 慶幸大廈將傾，真相重回人間。', scores: { adam: 10 } }, { text: 'C. 在廢墟上重建王國，生命不死權欲不衰。', scores: { vick: 10 } } ] },
+            { type: 'single', title: '對你來說，血緣親情的意義是？', options: [ { text: 'A. 血緣不代表家族，我要自己選親人。', scores: { lyon: 10, vick: 10 } }, { text: 'B. 這是造物主給我的天然羈絆，是珍寶。', scores: { adam: 15 } } ] }
+        ];
+
+        const QUESTIONS_FEMALE = [
+            { type: 'multi', title: '占卜師攤開卡片，哪些神秘符號與你的靈魂共鳴？（多選）', options: [ { text: 'A. 皇后', scores: { daisy: 5 } }, { text: 'B. 叛逆', scores: { feiyi: 5, jin: 2 } }, { text: 'C. 真愛', scores: { daisy: 5, feiyi: 2, jin: -3 } }, { text: 'D. 女巫', scores: { jin: 5 } }, { text: 'E. 權力', scores: { daisy: 5, jin: 2, feiyi: -3 } }, { text: 'F. 毀滅', scores: { jin: 5, feiyi: 2 } }, { text: 'G. 公主', scores: { feiyi: 5 } }, { text: 'H. 反差', scores: { feiyi: 5, jin: 2 } }, { text: 'I. 後媽', scores: { daisy: 5, jin: 2, feiyi: -3 } }, { text: 'J. 救贖', scores: { feiyi: 5, jin: 2, daisy: -3 } }, { text: 'K. 復仇', scores: { jin: 5 } } ] },
+            { type: 'single', title: '步入索多瑪這座瑰麗的都市，最吸引你的景象是？', options: [ { text: 'A. 繁華、名流宴會、議會席位。', scores: { daisy: 10 } }, { text: 'B. 自由、三角關係、假意真心。', scores: { jin: 10 } }, { text: 'C. 墮落、為虎作倀、玷污明月。', scores: { feiyi: 10 } } ] },
+            { type: 'single', title: '若將家族比作一個王朝，你預見自己的位階是？', options: [ { text: 'A. 愛權力也愛享樂的野心女皇。', scores: { daisy: 10 } }, { text: 'B. 主宰人們生死的高智國師。', scores: { jin: 10 } }, { text: 'C. 監禁愛人的密探首領。', scores: { feiyi: 10 } } ] },
+            { type: 'single', title: '授勳詞像遠古的詛咒或祝福，哪句最觸動你？', options: [ { text: 'A. 權力是強盛的階梯，野心是你的利劍。', scores: { daisy: 10 } }, { text: 'B. 善良與正義是假象，保持心中的光明。', scores: { jin: 10 } }, { text: 'C. 你踩著真心接過了這枚不配擁有的勳章。', scores: { feiyi: 10 } } ] },
+            { type: 'single', title: '發現禁忌的多重關係，你如何面對這場火？', options: [ { text: 'A. 我可以接受。', scores: { jin: 10 } }, { text: 'B. 我絕不接受。', scores: { daisy: 15, feiyi: 15, jin: -40 } }, { text: 'C. 我無所謂。', scores: {} } ] },
+            { type: 'single', title: '若在審判般的會議中成為眾矢之的，你會？', options: [ { text: 'A. 抗壓強，邏輯合理我就接受。', scores: { feiyi: 20, daisy: -20 } }, { text: 'B. 既不願壓力別人，也不想抗壓。', scores: { jin: 20 } }, { text: 'C. 從來就只有我去施加壓力。', scores: { daisy: 20, feiyi: -20 } } ] },
+            { type: 'single', title: '愛的種子在欲望中萌發，你覺得那是？', options: [ { text: 'A. 絞殺別的植物的榕樹。', scores: { daisy: 10 } }, { text: 'B. 玫瑰，但我愛的不止一人。', scores: { jin: 10 } }, { text: 'C. 罌粟，共同沉淪，別拯救我。', scores: { feiyi: 10 } } ] },
+            { type: 'single', title: '天秤的兩端是愛情與利益，你的靈魂傾向哪邊？', options: [ { text: 'A. 真正強者不犧牲感受獲取利益。', scores: { daisy: 10 } }, { text: 'B. 愛無法跨越利益，我選利益同頻者。', scores: { jin: 10 } }, { text: 'C. 愛是最大利益，我要當主宰。', scores: { feiyi: 10 } } ] },
+            { type: 'single', title: '當因果報應臨頭，索多瑪崩毀時，你的態度是？', options: [ { text: 'A. 這是玩火自焚，我玩得很開心。', scores: { daisy: 10 } }, { text: 'B. 樂見其成，真相終將重現。', scores: { jin: 15 } }, { text: 'C. 前往新居，那裡有我的夢境。', scores: { feiyi: 10 } } ] },
+            { type: 'single', title: '親情在你的命運之書中寫著什麼？', options: [ { text: 'A. 親人是上帝選的，但我要自己選。', scores: { daisy: 10 } }, { text: 'B. 這是造物主給我的天然羈絆與珍寶。', scores: { feiyi: 10, jin: 10 } } ] }
+        ];
+
+        const today = new Date();
+        const YEARS = [today.getFullYear(), today.getFullYear() + 1];
+        const MONTHS = Array.from({length: 12}, (_, i) => i + 1);
+        const DAYS = Array.from({length: 31}, (_, i) => i + 1);
+        const HOURS = Array.from({length: 13}, (_, i) => `${i + 10}:00`);
+
+        function App() {
+            const [step, setStep] = useState('landing');
+            const [user, setUser] = useState(null);
+            const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+            const audioRef = useRef(null);
+            const [currentQIndex, setCurrentQIndex] = useState(0);
+            const [scores, setScores] = useState({});
+            const [selectedOptions, setSelectedOptions] = useState([]);
+            const [allResponses, setAllResponses] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [dateState, setDateState] = useState({ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() });
+            const [userData, setUserData] = useState({ name: '', gender: 'male', gameDate: '', gameTime: '14:00', message: '' });
+
+            const currentQuestions = useMemo(() => userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE, [userData.gender]);
+            const currentQ = useMemo(() => currentQuestions[currentQIndex] || currentQuestions[0], [currentQuestions, currentQIndex]);
+
+            useEffect(() => {
+                setUserData(prev => ({ ...prev, gameDate: `${dateState.year}-${String(dateState.month).padStart(2,'0')}-${String(dateState.day).padStart(2,'0')}` }));
+            }, [dateState]);
+
+            useEffect(() => {
+                const initAuth = async () => {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (err) { console.error("Auth error", err); }
+                };
+                initAuth();
+                const unsubscribe = onAuthStateChanged(auth, setUser);
+                return () => unsubscribe();
+            }, []);
+
+            useEffect(() => {
+                if (!user || step !== 'admin') return;
+                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
+                const q = query(colRef);
+                const unsubscribe = onSnapshot(q, (snapshot) => {
+                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    // Sort by submission timestamp primarily
+                    data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    setAllResponses(data);
+                }, (err) => console.error("Firestore error:", err));
+                return () => unsubscribe();
+            }, [user, step]);
+
+            const toggleMusic = () => {
+                if (audioRef.current) {
+                    if (isMusicPlaying) audioRef.current.pause();
+                    else audioRef.current.play();
+                    setIsMusicPlaying(!isMusicPlaying);
+                }
+            };
+
+            const handleStart = () => {
+                if (audioRef.current) audioRef.current.play().then(() => setIsMusicPlaying(true)).catch(() => {});
+                setStep('info'); window.scrollTo(0, 0);
+            };
+
+            const handleOptionClick = (o) => {
+                if (currentQ.type === 'single') {
+                    const ns = { ...scores };
+                    Object.entries(o.scores).forEach(([c, v]) => ns[c] = (ns[c] || 0) + v);
+                    setScores(ns);
+                    if (currentQIndex < currentQuestions.length - 1) setCurrentQIndex(currentQIndex + 1);
+                    else setStep('message');
+                    window.scrollTo(0, 0);
+                } else {
+                    setSelectedOptions(p => p.find(x => x.text === o.text) ? p.filter(x => x.text !== o.text) : [...p, o]);
+                }
+            };
+
+            const nextMultiStep = () => {
+                const ns = { ...scores };
+                selectedOptions.forEach(o => Object.entries(o.scores).forEach(([c, v]) => ns[c] = (ns[c] || 0) + v));
+                setScores(ns); setSelectedOptions([]);
+                if (currentQIndex < currentQuestions.length - 1) setCurrentQIndex(currentQIndex + 1);
+                else setStep('message');
+                window.scrollTo(0, 0);
+            };
+
+            const submitFinal = async () => {
+                if (!user) return;
+                setLoading(true);
+                try {
+                    const result = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), { 
+                        ...userData, scores, result, timestamp: new Date().toISOString(), uid: user.uid 
+                    });
+                    setStep('result');
+                } finally {
+                    setLoading(false);
+                    window.scrollTo(0, 0);
+                }
+            };
+
+            const calculatePercentages = (playerScores) => {
+                const sv = Object.values(playerScores);
+                const tp = sv.reduce((a, v) => a + Math.max(0, v), 0);
+                const res = {};
+                Object.entries(playerScores).forEach(([k, v]) => res[k] = tp === 0 ? 33 : Math.round((Math.max(0, v) / tp) * 100));
+                return res;
+            };
+
+            return (
+                <div className="relative min-h-screen">
+                    <div className="app-bg"></div>
+                    <audio ref={audioRef} src="Lana Del Rey - Young And Beautiful.mp3" loop />
+                    
+                    <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
+                        {step === 'landing' && (
+                            <button onClick={() => setStep('admin_login')} className="p-3 glass-panel rounded-full text-white/60 hover:text-white transition-all hover:scale-110 active:scale-95 flex items-center gap-2 group"><Icons.Settings /><span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap text-xs tracking-widest uppercase">後台結果</span></button>
+                        )}
+                        <button onClick={toggleMusic} className="p-3 glass-panel rounded-full text-white/60 hover:text-white transition-all hover:scale-110 active:scale-95"><Icons.Music active={isMusicPlaying} /></button>
+                    </div>
+
+                    {step === 'landing' && (
+                        <div className="min-h-screen flex flex-col items-center py-12 px-6 space-y-16 animate-fade-in text-center">
+                            <div className="glass-panel p-12 rounded-3xl max-w-xl w-full space-y-8 shadow-2xl mt-12">
+                                <div className="flex justify-center text-yellow-500 animate-pulse"><Icons.Crown /></div>
+                                <h1 className="text-6xl font-serif tracking-[0.3em] text-white drop-shadow-lg w-full">溫床</h1>
+                                <p className="text-lg text-gray-300 leading-loose tracking-widest">「人總愛在罪惡的溫床裡，尋找一位神。」<br/>權力、欲望、背德與純愛。<br/>星盤轉動，誰將與你的靈魂共鳴？</p>
+                                <button onClick={handleStart} className="w-full py-5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-xl font-bold transition-all hover:tracking-widest shadow-xl">進入索多瑪</button>
+                                <button onClick={() => setStep('admin_login')} className="text-white/20 text-xs hover:text-white/50 pt-4 flex items-center justify-center gap-1 transition-colors uppercase tracking-[0.2em]"><Icons.Lock /> 命運引路人登入</button>
+                            </div>
+                            <div className="w-full max-w-6xl space-y-12">
+                                <div className="flex flex-col items-center space-y-4 text-center"><div className="flex items-center gap-4 text-white/60 uppercase tracking-[0.5em] text-sm"><div className="hidden md:block w-12 h-[1px] bg-white/20"></div>索多瑪的眾生相<div className="hidden md:block w-12 h-[1px] bg-white/20"></div></div><Icons.Eye /></div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {ALL_CHARACTERS.map(char => (
+                                        <div key={char.id} className="glass-panel rounded-3xl overflow-hidden group border-white/5 hover:border-white/20 transition-all duration-500 text-left"><div className="relative aspect-[3/4] overflow-hidden"><img src={char.img} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onError={e=>e.target.src='https://via.placeholder.com/400x600?text='+char.name}/><div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div><div className="absolute bottom-6 left-6 right-6"><h3 className="text-3xl font-serif font-bold text-white tracking-[0.2em]">{char.name}</h3></div></div><div className="p-8"><p className="text-gray-300 text-sm font-light italic leading-relaxed text-left">「{char.quote}」</p></div></div>
+                                    ))}
+                                </div>
+                            </div>
+                            <div className="pt-20 pb-10 text-white/10 text-xs tracking-widest uppercase text-center w-full">Sodom's Fate System &copy; Warm Bed</div>
+                        </div>
+                    )}
+
+                    {step === 'info' && (
+                        <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">
+                            <div className="glass-panel p-10 rounded-3xl max-w-md w-full space-y-6">
+                                <div className="flex items-center justify-center gap-3 mb-4 border-b border-white/10 pb-4"><Icons.Scroll /><h2 className="text-3xl font-serif text-white tracking-widest">命運契約登記</h2></div>
+                                <input type="text" required placeholder="請輸入名諱" className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-white/40 transition-all text-center" value={userData.name} onChange={e => setUserData({...userData, name: e.target.value})} />
+                                <div className="flex gap-4">
+                                    <button type="button" onClick={() => setUserData({...userData, gender: 'male'})} className={`flex-1 py-4 rounded-xl border transition-all ${userData.gender === 'male' ? 'bg-blue-600/30 border-blue-400 text-blue-100 shadow-xl' : 'bg-white/5 border-white/10 text-white/30'}`}>男性</button>
+                                    <button type="button" onClick={() => setUserData({...userData, gender: 'female'})} className={`flex-1 py-4 rounded-xl border transition-all ${userData.gender === 'female' ? 'bg-pink-600/30 border-pink-400 text-pink-100 shadow-xl' : 'bg-white/5 border-white/10 text-white/30'}`}>女性</button>
+                                </div>
+                                <div className="space-y-4">
+                                    <label className="block text-xs text-white/40 tracking-widest uppercase text-center w-full font-bold">因果交會之時</label>
+                                    <div className="grid grid-cols-3 gap-2">
+                                        <select className="bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center focus:outline-none" value={dateState.year} onChange={e => setDateState({...dateState, year: parseInt(e.target.value)})}>{YEARS.map(y => <option key={y} value={y}>{y}年</option>)}</select>
+                                        <select className="bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center focus:outline-none" value={dateState.month} onChange={e => setDateState({...dateState, month: parseInt(e.target.value)})}>{MONTHS.map(m => <option key={m} value={m}>{m}月</option>)}</select>
+                                        <select className="bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center focus:outline-none" value={dateState.day} onChange={e => setDateState({...dateState, day: parseInt(e.target.value)})}>{DAYS.map(d => <option key={d} value={d}>{d}日</option>)}</select>
+                                    </div>
+                                    <select className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center mt-2 focus:outline-none" value={userData.gameTime} onChange={e => setUserData({...userData, gameTime: e.target.value})}>{HOURS.map(h => <option key={h} value={h}>{h}</option>)}</select>
+                                </div>
+                                <button onClick={() => setStep('quiz')} className="w-full py-5 bg-white text-black font-bold rounded-xl shadow-2xl hover:bg-gray-100 transition-colors">撥開迷霧</button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 'quiz' && (
+                        <div className="min-h-screen p-6 animate-fade-in flex flex-col items-center">
+                            <div className="max-w-2xl w-full pt-20 space-y-12">
+                                <div className="space-y-4 text-left"><div className="h-1.5 bg-white/10 w-full rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-700 shadow-[0_0_20px_#fff]" style={{ width: `${(currentQIndex / currentQuestions.length) * 100}%` }}></div></div><span className="text-white/30 text-xs tracking-widest font-mono uppercase block w-full text-center font-bold">命運的第 {currentQIndex + 1} 次叩問</span></div>
+                                <h2 className="text-4xl font-serif text-white leading-relaxed tracking-wider drop-shadow-lg text-center">{currentQ?.title}</h2>
+                                <div className="space-y-4 text-left">{currentQ?.options.map((o, i) => {
+                                    const sel = selectedOptions.find(x => x.text === o.text);
+                                    return (<button key={i} onClick={() => handleOptionClick(o)} className={`w-full text-left p-6 rounded-2xl glass-panel transition-all duration-300 hover:bg-white/10 group ${sel ? 'bg-white/20 border-white/50 text-white shadow-xl' : 'text-gray-300 border-white/5'}`}><div className="flex items-center justify-between"><span className="text-xl tracking-wide">{o.text}</span>{sel && <div className="animate-pulse"><Icons.ChevronRight /></div>}</div></button>);
+                                })}</div>
+                                {currentQ?.type === 'multi' && (<button onClick={nextMultiStep} disabled={selectedOptions.length === 0} className="w-full py-5 bg-white text-black rounded-2xl font-bold hover:tracking-widest transition-all disabled:opacity-20 shadow-xl mt-4">確認指引 <Icons.ChevronRight /></button>)}
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 'message' && (
+                        <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">
+                            <div className="glass-panel p-10 rounded-3xl max-w-md w-full space-y-8">
+                                <div className="flex justify-center text-white/50"><Icons.Skull /></div>
+                                <h2 className="text-2xl font-serif text-white tracking-widest">對命運引路人的私語</h2>
+                                <textarea className="w-full h-48 bg-white/5 border border-white/10 p-6 rounded-2xl focus:outline-none focus:border-white/30 text-white resize-none placeholder-white/10 text-center" placeholder="寫下你對身份的期許..." value={userData.message} onChange={e => setUserData({...userData, message: e.target.value})} />
+                                <button onClick={submitFinal} disabled={loading} className="w-full py-5 bg-white text-black font-bold rounded-2xl text-xl transition-all shadow-2xl flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">{loading ? '星軌計算中...' : '刻下靈魂契約'} <Icons.ChevronRight /></button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 'result' && (() => {
+                        const fp = calculatePercentages(scores);
+                        const sorted = Object.entries(fp).sort((a,b) => b[1] - a[1]).map(([id, pct]) => ({ ...ALL_CHARACTERS.find(c => c.id === id), pct }));
+                        return (
+                            <div className="min-h-screen py-20 px-6 overflow-y-auto animate-fade-in flex flex-col items-center text-center">
+                                <div className="max-w-6xl w-full space-y-16">
+                                    <div className="space-y-4"><h2 className="text-sm font-serif tracking-[1em] text-white/40 uppercase">星軌定論</h2><h1 className="text-5xl font-serif text-white tracking-[0.2em]">靈魂契合報告</h1></div>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                                        {sorted.map((c, i) => (
+                                            <div key={c.id} className={`glass-panel rounded-3xl overflow-hidden transition-all duration-1000 transform animate-fade-in ${i === 0 ? 'destiny-glow scale-105 z-10' : 'opacity-70 grayscale-[30%] hover:grayscale-0 hover:scale-102 hover:opacity-100'}`} style={{ animationDelay: `${i * 0.3}s` }}>
+                                                <div className="relative aspect-[3/4] overflow-hidden text-left"><img src={c.img} className="w-full h-full object-cover" onError={e=>e.target.src='https://via.placeholder.com/400x600?text='+c.name}/><div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div><div className="absolute top-4 right-4 bg-white text-black px-4 py-1 rounded-full font-serif font-bold text-lg">{c.pct}%</div><div className="absolute bottom-6 left-0 right-0 text-center text-white"><h3 className="text-4xl font-serif font-bold tracking-[0.3em]">{c.name}</h3>{i === 0 && <span className="text-[10px] uppercase tracking-[0.5em] text-yellow-500 font-bold">命定之選</span>}</div></div>
+                                                <div className="p-8 space-y-6 text-left"><div className="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div className={`h-full transition-all duration-1000 delay-500 ${i === 0 ? 'bg-white bar-glow' : 'bg-white/40'}`} style={{ width: `${c.pct}%` }}></div></div><p className="text-gray-200 text-sm font-light italic leading-relaxed text-center">「{c.quote}」</p></div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="glass-panel p-10 rounded-3xl max-w-2xl mx-auto space-y-4"><p className="text-white/60 text-sm tracking-widest leading-loose">星軌顯示你的靈魂具有多重切面，<br/>結果已交由「命運引路人」留存。</p><div className="pt-6 border-t border-white/10 text-[10px] text-white/20 tracking-[.5em] uppercase">Fate synchronized to DM.</div></div>
+                                </div>
+                            </div>
+                        );
+                    })()}
+
+                    {step === 'admin_login' && (
+                        <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">
+                            <div className="glass-panel p-10 rounded-3xl w-full max-w-sm space-y-6 shadow-2xl">
+                                <h2 className="text-2xl font-serif text-white tracking-widest uppercase">引路人驗證</h2>
+                                <input type="password" id="adminPwd" className="w-full bg-black/50 border border-white/10 p-4 rounded-xl text-center text-white focus:outline-none" placeholder="輸入秘鑰" />
+                                <button onClick={() => { if (document.getElementById('adminPwd').value === 'warmbed888') setStep('admin'); else alert('錯誤'); }} className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-100 transition-all shadow-xl uppercase tracking-widest">開啟後台</button>
+                                <button onClick={() => setStep('landing')} className="w-full text-white/20 text-xs mt-4 tracking-widest uppercase">返回迷霧首頁</button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 'admin' && (
+                        <div className="min-h-screen p-10 bg-black/90 backdrop-blur-3xl overflow-y-auto animate-fade-in">
+                            <div className="max-w-7xl mx-auto space-y-16">
+                                <div className="flex justify-between items-end border-b border-white/10 pb-8"><div className="flex items-center gap-4 text-white text-left"><Icons.Settings /><h1 className="text-4xl font-serif tracking-[.2em] uppercase">溫床・天秤觀測台</h1></div><button onClick={() => setStep('landing')} className="text-white/30 text-sm uppercase transition-colors hover:text-white tracking-widest">Logout</button></div>
+                                {(() => {
+                                    // Group and sort sessions by Date (Latest First)
+                                    const grouped = allResponses.reduce((acc, curr) => {
+                                        const key = `${curr.gameDate} ${curr.gameTime}`;
+                                        if (!acc[key]) acc[key] = [];
+                                        acc[key].push(curr);
+                                        return acc;
+                                    }, {});
+                                    const sortedSessionKeys = Object.keys(grouped).sort((a, b) => b.localeCompare(a));
+                                    
+                                    return sortedSessionKeys.map(key => (
+                                        <div key={key} className="space-y-8 text-left animate-fade-in">
+                                            <h2 className="text-2xl font-serif text-white/80 flex items-center gap-4"><div className="w-8 h-[1px] bg-white/20"></div> 因果結點：{key}</h2>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                                {grouped[key].map((p, i) => {
+                                                    const pcts = calculatePercentages(p.scores);
+                                                    return (
+                                                        <div key={i} className="glass-panel p-8 rounded-2xl space-y-6 border-white/5 hover:border-white/20 transition-all">
+                                                            <div className="flex justify-between items-center text-white"><span className="text-2xl font-bold tracking-wider text-left">{p.name}</span><span className={`px-4 py-1 rounded-full text-[10px] uppercase font-bold ${p.gender === 'male' ? 'bg-blue-500/20 text-blue-300' : 'bg-pink-500/20 text-pink-300'}`}>{p.gender === 'male' ? '男' : '女'}</span></div>
+                                                            <div className="space-y-3">
+                                                                <div className="text-[10px] text-white/40 tracking-[0.2em] uppercase border-b border-white/10 pb-1 mb-2">靈魂適配佔比</div>
+                                                                {Object.entries(pcts).sort((a,b)=>b[1]-a[1]).map(([sid, pct], j) => {
+                                                                    const char = ALL_CHARACTERS.find(c=>c.id===sid);
+                                                                    return (
+                                                                        <div key={sid} className={`flex justify-between items-center text-xs ${j === 0 ? 'text-white font-bold' : 'text-white/30'}`}>
+                                                                            <span>{char?.name || sid}</span>
+                                                                            <div className="flex-1 border-b border-white/5 mx-4 border-dotted opacity-20"></div>
+                                                                            <span>{pct}%</span>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                            {p.message && <div className="text-[11px] text-gray-300 bg-white/5 p-4 rounded-xl italic leading-relaxed text-left border border-white/5">💬 引路人私語：「{p.message}」</div>}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ));
+                                })()}
+                                {allResponses.length === 0 && <div className="text-center py-40 text-white/10 text-4xl font-serif tracking-widest uppercase w-full">No Records Found</div>}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《溫床》官方玩家心測系統</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-black">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Firebase Imports from CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // --- Firebase Configuration ---
+        // 這裡會自動讀取環境提供的配置
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'warm-bed-test';
+
+        // --- Assets & Data ---
+        // 注意：在 Google 協作平台上，img 路徑請更換為完整的 https 網址
+        const CHARACTERS = {
+            male: [
+                { id: 'lyon', name: '里昂', img: '里昂_0.jpg', description: '霸道傲慢、手段狠厲的國王。適合純愛黨、喜歡飆戲且道德感低的玩家。' },
+                { id: 'adam', name: '亞當', img: '亞當_0.jpg', description: '靈魂善良卻因命運成為復仇者的神父。適合內核善良、可接受三角戀、抗壓的玩家。' },
+                { id: 'vick', name: '維克', img: '維克_0.jpg', description: '野心勃勃的虛假「拯救者」。適合權欲極強、陰濕男鬼型、強輸出的玩家。' },
+            ],
+            female: [
+                { id: 'daisy', name: '黛西', img: '黛西_0.jpg', description: '惡毒傲慢、野心勃勃的女皇。適合喜歡骨科、紙醉金迷與權力、強輸出的玩家。' },
+                { id: 'jin', name: '堇', img: '堇_0.jpg', description: '釣系女巫、內心充滿算計。適合喜歡三角戀、自私貪婪、小媽/嫂子文學的玩家。' },
+                { id: 'feiyi', name: '菲伊', img: '菲伊_0.jpg', description: '病嬌刑訊師、渴望救贖的可憐人。適合戀陪、吃極致委屈線、弱勢承受壓力的玩家。' },
+            ]
+        };
+
+        const QUESTIONS_MALE = [
+            {
+                type: 'multi',
+                title: '占卜師拿了許多張卡片，挑選一些引起你興趣的：',
+                options: [
+                    { text: 'A. 怪物', scores: { vick: 5, lyon: 2, adam: -3 } },
+                    { text: 'B. 背負', scores: { adam: 5, vick: 2 } },
+                    { text: 'C. 權力', scores: { lyon: 5, vick: -3, adam: -3 } },
+                    { text: 'D. 強制', scores: { vick: 5, lyon: 2, adam: -3 } },
+                    { text: 'E. 墮神', scores: { adam: 5, lyon: 2 } },
+                    { text: 'F. 極致', scores: { lyon: 5, vick: 2, adam: -3 } },
+                    { text: 'G. 騎士', scores: { vick: 5 } },
+                    { text: 'H. 國王', scores: { lyon: 5 } },
+                    { text: 'I. 王子', scores: { adam: 5 } },
+                    { text: 'J. 壓抑', scores: { adam: 5, vick: 2, lyon: -5 } },
+                    { text: 'K. 真心', scores: { lyon: 5, adam: 2, vick: -3 } },
+                    { text: 'L. 利用', scores: { vick: 5 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '你踏入了索多瑪，這是紙醉金迷的都市，你最喜歡它的？',
+                options: [
+                    { text: 'A. 繁華、名流宴會、議會席位、物欲橫流。', scores: { lyon: 10, vick: 5 } },
+                    { text: 'B. 夕陽、教堂鐘聲、戀人低語、海誓山盟。', scores: { adam: 10, lyon: 5 } },
+                    { text: 'C. 機會、槍與鮮血、算計背叛、掠奪佔有。', scores: { vick: 10, lyon: 5 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '家族內部榮辱與共，若將家族比作一個王朝，您覺得自己是？',
+                options: [
+                    { text: 'A. 曾經威嚴智慧，如今難以捉摸的暴君。', scores: { lyon: 10 } },
+                    { text: 'B. 手握重兵，野心勃勃的將軍。', scores: { vick: 10 } },
+                    { text: 'C. 憂鬱深沈，愛上王后的王子。', scores: { adam: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '接受羅德家族勳章時，您聽到的授勳詞是？',
+                options: [
+                    { text: 'A. 權力，是我們走向強盛的階梯。野心是你的利劍。', scores: { vick: 10 } },
+                    { text: 'B. 善良，愛，正義是家族對外的形象。保持你心中的光明。', scores: { adam: 15 } },
+                    { text: 'C. 請隨心所欲吧，我的王，帶上你的傲慢，前路燦爛，儘管享樂。', scores: { lyon: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '發現家族允許三個人有情感糾葛，但實際卻各有各的算盤，你會認為？',
+                options: [
+                    { text: 'A. 我完全接受，愛情就是要靠自己爭奪來的才有趣。', scores: { adam: 10, vick: 10 } },
+                    { text: 'B. 我可以嘗試，只要邏輯能夠自洽。', scores: { adam: 5, vick: 5 } },
+                    { text: 'C. 我完全不可以接受，愛情就是要絕對忠誠的。', scores: { adam: -10, vick: -10, lyon: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '每隔一段時間會有場盛大的會議，會議上你希望？',
+                options: [
+                    { text: 'A. 侃侃而談，我有極強的輸出領導能力。', scores: { lyon: 10, vick: 10 } },
+                    { text: 'B. 我可以發言，我輸出力還行。', scores: { adam: 10, vick: -5, lyon: -10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '愛的種子也會在欲望中綻放，你覺得這顆種子是？',
+                options: [
+                    { text: 'A. 玫瑰花種子，代表的是純粹的愛，無私奉獻的愛。', scores: { lyon: 10, adam: 10 } },
+                    { text: 'B. 種子？分明是一顆麥子。花總是要結果的，我要的是糧食與豐收。', scores: { vick: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '對於愛情你的態度偏向：',
+                options: [
+                    { text: 'A. 愛情是強者的權力，弱者只能謀取利益，而我，真正的強者。', scores: { lyon: 10 } },
+                    { text: 'B. 愛情是權力的附屬，我將永遠索取權力，趨向利益，愛人是戰利品。', scores: { vick: 10 } },
+                    { text: 'C. 愛只是愛，我會讓愛人相信我是她的同盟，我與她利益永不衝突。', scores: { adam: 15 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '當你發現這個家族即將崩壞，索多瑪也即將毀滅，你會？',
+                options: [
+                    { text: 'A. 無所謂，我會給命運一個盛大的謝幕，史書之上，城市的毀滅必伴隨我的死亡。', scores: { lyon: 10 } },
+                    { text: 'B. 大廈將傾，終於光明與真相重回索多瑪。', scores: { adam: 10 } },
+                    { text: 'C. 可以在廢墟之上重建新的王國，哪怕它渺小而落魄。生命不死，權欲不衰。', scores: { vick: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '家族不過是個幫派，那麼對你來說，血緣親情的意義是？',
+                options: [
+                    { text: 'A. 血緣不能定義我內心承認的「家族」，親人是上帝選的，但我要自己選。', scores: { lyon: 10, vick: 10 } },
+                    { text: 'B. 親情是造物主給我的天然羈絆，是獨屬於我的珍寶，我會愛我的親人。', scores: { adam: 15 } },
+                ]
+            }
+        ];
+
+        const QUESTIONS_FEMALE = [
+            {
+                type: 'multi',
+                title: '占卜師拿了許多張卡片，挑選一些引起你興趣的：',
+                options: [
+                    { text: 'A. 皇后', scores: { daisy: 5 } },
+                    { text: 'B. 叛逆', scores: { feiyi: 5, jin: 2 } },
+                    { text: 'C. 真愛', scores: { daisy: 5, feiyi: 2, jin: -3 } },
+                    { text: 'D. 女巫', scores: { jin: 5 } },
+                    { text: 'E. 權力', scores: { daisy: 5, jin: 2, feiyi: -3 } },
+                    { text: 'F. 毀滅', scores: { jin: 5, feiyi: 2 } },
+                    { text: 'G. 公主', scores: { feiyi: 5 } },
+                    { text: 'H. 反差', scores: { feiyi: 5, jin: 2 } },
+                    { text: 'I. 後媽', scores: { daisy: 5, jin: 2, feiyi: -3 } },
+                    { text: 'J. 救贖', scores: { feiyi: 5, jin: 2, daisy: -3 } },
+                    { text: 'K. 復仇', scores: { jin: 5 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '你踏入了索多瑪，這是紙醉金迷的都市，你最喜歡它的？',
+                options: [
+                    { text: 'A. 繁華、名流宴會、議會席位、物欲橫流。', scores: { daisy: 10 } },
+                    { text: 'B. 自由、三角關係、游刃有餘、假意真心。', scores: { jin: 10 } },
+                    { text: 'C. 墮落、為虎作倀、明月高懸、玷污明月。', scores: { feiyi: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '家族內部榮辱與共，若將家族比作一個王朝，您覺得自己是？',
+                options: [
+                    { text: 'A. 愛權力也愛享樂的野心女皇。', scores: { daisy: 10 } },
+                    { text: 'B. 主宰人們生死的高智國師。', scores: { jin: 10 } },
+                    { text: 'C. 主宰牢獄，監禁愛人的密探首領。', scores: { feiyi: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '接受羅德家族勳章時，您聽到的授勳詞是？',
+                options: [
+                    { text: 'A. 權力，是我們走向強盛的階梯。野心是你的利劍。', scores: { daisy: 10 } },
+                    { text: 'B. 善良，愛，正義是家族對外的形象。保持你心中的光明。', scores: { jin: 10 } },
+                    { text: 'C. 你本不配待在這裡，但你掠奪了愛人的一切，踩著真心接過了勳章。', scores: { feiyi: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '發現家族允許三個人有情感糾葛。你怎麼認為？',
+                options: [
+                    { text: 'A. 我可以接受。', scores: { jin: 10 } },
+                    { text: 'B. 我不能接受。', scores: { daisy: 15, feiyi: 15, jin: -40 } },
+                    { text: 'C. 我無所謂。', scores: {} },
+                ]
+            },
+            {
+                type: 'single',
+                title: '如果在會議中，你成為了眾矢之的，那麼你的心態是？',
+                options: [
+                    { text: 'A. 我抗壓能力較強，只要邏輯合理我完全可以接受。', scores: { feiyi: 20, daisy: -20 } },
+                    { text: 'B. 我既不想壓力別人又不想抗壓。', scores: { jin: 20 } },
+                    { text: 'C. 我抗不了一點壓，從來就只有我去壓力別人。', scores: { daisy: 20, feiyi: -20 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '愛的種子也會在欲望中綻放，你覺得這顆種子是？',
+                options: [
+                    { text: 'A. 它不是一朵花，是一棵榕樹，能盡情絞殺別的植物。', scores: { daisy: 10 } },
+                    { text: 'B. 玫瑰種子，但不只一顆。我有不只一個愛人。', scores: { jin: 10 } },
+                    { text: 'C. 罌粟，我要讓戀人離不開我，我也一樣。一起沈淪，別拯救我。', scores: { feiyi: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '對於愛情和利益你的態度偏向是？',
+                options: [
+                    { text: 'A. 愛情是強者的權力，弱者只能謀取利益，而我，真正的強者。', scores: { daisy: 10 } },
+                    { text: 'B. 愛無法跨越利益，我只會選擇和我利益同頻者相愛。', scores: { jin: 10 } },
+                    { text: 'C. 愛不就是最大的利益嗎？我可以卑微如塵埃，但我要當愛人的主宰。', scores: { feiyi: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '當你發現這個家族即將崩壞，索多瑪也即將毀滅，你的態度是？',
+                options: [
+                    { text: 'A. 我是家族的主宰，這說明作為玩具這已經沒有價值了，玩得很開心。', scores: { daisy: 10 } },
+                    { text: 'B. 我樂見如此，大廈將傾，終於光明與真相重回索多瑪。', scores: { jin: 15 } },
+                    { text: 'C. 我要去一個新的地方，那裡有我想要的一切。', scores: { feiyi: 10 } },
+                ]
+            },
+            {
+                type: 'single',
+                title: '家族不過是個幫派，那麼對你來說，血緣親情的意義是？',
+                options: [
+                    { text: 'A. 血緣不能定義我內心承認的「家族」，親人是上帝選的，但我要自己選。', scores: { daisy: 10 } },
+                    { text: 'B. 親情是造物主給我的天然羈絆，是獨屬於我的珍寶，我會愛我的親人。', scores: { feiyi: 10, jin: 10 } },
+                ]
+            }
+        ];
+
+        // --- Icon Components (Simple SVGs) ---
+        const CrownIcon = () => (
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-600 mb-4 animate-pulse"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+        );
+
+        function App() {
+            const [step, setStep] = useState('landing');
+            const [user, setUser] = useState(null);
+            const [userData, setUserData] = useState({
+                name: '',
+                gender: 'male',
+                gameDate: '',
+                gameTime: '',
+                message: ''
+            });
+            const [currentQIndex, setCurrentQIndex] = useState(0);
+            const [scores, setScores] = useState({});
+            const [selectedOptions, setSelectedOptions] = useState([]);
+            const [allResponses, setAllResponses] = useState([]);
+            const [loading, setLoading] = useState(false);
+
+            useEffect(() => {
+                const initAuth = async () => {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                };
+                initAuth();
+                const unsubscribe = onAuthStateChanged(auth, setUser);
+                return () => unsubscribe();
+            }, []);
+
+            useEffect(() => {
+                if (!user || step !== 'admin') return;
+                const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), orderBy('timestamp', 'desc'));
+                const unsubscribe = onSnapshot(q, (snapshot) => {
+                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    setAllResponses(data);
+                }, (err) => console.error("Firestore error:", err));
+                return () => unsubscribe();
+            }, [user, step]);
+
+            const handleStart = () => setStep('info');
+
+            const handleInfoSubmit = (e) => {
+                e.preventDefault();
+                const initialScores = userData.gender === 'male' 
+                    ? { lyon: 0, adam: 0, vick: 0 } 
+                    : { daisy: 0, jin: 0, feiyi: 0 };
+                setScores(initialScores);
+                setStep('quiz');
+            };
+
+            const currentQuestions = userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE;
+            const currentQ = currentQuestions[currentQIndex];
+
+            const handleOptionClick = (option) => {
+                if (currentQ.type === 'single') {
+                    const newScores = { ...scores };
+                    Object.entries(option.scores).forEach(([char, val]) => {
+                        newScores[char] = (newScores[char] || 0) + val;
+                    });
+                    setScores(newScores);
+                    if (currentQIndex < currentQuestions.length - 1) {
+                        setCurrentQIndex(currentQIndex + 1);
+                    } else {
+                        setStep('message');
+                    }
+                } else {
+                    const exists = selectedOptions.find(o => o.text === option.text);
+                    if (exists) {
+                        setSelectedOptions(selectedOptions.filter(o => o.text !== option.text));
+                    } else {
+                        setSelectedOptions([...selectedOptions, option]);
+                    }
+                }
+            };
+
+            const nextMultiStep = () => {
+                const newScores = { ...scores };
+                selectedOptions.forEach(opt => {
+                    Object.entries(opt.scores).forEach(([char, val]) => {
+                        newScores[char] = (newScores[char] || 0) + val;
+                    });
+                });
+                setScores(newScores);
+                setSelectedOptions([]);
+                if (currentQIndex < currentQuestions.length - 1) {
+                    setCurrentQIndex(currentQIndex + 1);
+                } else {
+                    setStep('message');
+                }
+            };
+
+            const submitFinal = async () => {
+                setLoading(true);
+                try {
+                    const finalResult = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+                    const payload = {
+                        ...userData,
+                        scores,
+                        result: finalResult,
+                        timestamp: new Date().toISOString(),
+                        uid: user.uid
+                    };
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), payload);
+                    setStep('result');
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            // Views
+            if (step === 'landing') return (
+                <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6 text-center space-y-8">
+                    <CrownIcon />
+                    <h1 className="text-5xl font-serif tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-700">溫床</h1>
+                    <p className="text-lg text-gray-400 font-light max-w-md leading-relaxed">
+                        「人總愛在罪惡的溫床裡，尋找一位神。」<br/>權力、慾望、背德與純愛。<br/>你，會是誰？
+                    </p>
+                    <button onClick={handleStart} className="px-12 py-4 bg-gradient-to-r from-yellow-800 to-yellow-600 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-lg shadow-yellow-900/20">進入測驗</button>
+                    <button onClick={() => setStep('admin_login')} className="text-gray-600 text-sm hover:text-gray-400">主持人後台</button>
+                </div>
+            );
+
+            if (step === 'info') return (
+                <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white p-6">
+                    <div className="w-full max-w-md bg-neutral-900/50 p-8 rounded-2xl border border-neutral-800 shadow-2xl">
+                        <h2 className="text-2xl font-serif mb-6 text-yellow-500">基本資訊蒐集</h2>
+                        <form onSubmit={handleInfoSubmit} className="space-y-4">
+                            <input type="text" required placeholder="玩家名稱" className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none focus:border-yellow-600" value={userData.name} onChange={e => setUserData({...userData, name: e.target.value})} />
+                            <div className="flex gap-2">
+                                <button type="button" onClick={() => setUserData({...userData, gender: 'male'})} className={`flex-1 p-3 rounded-lg border transition-all ${userData.gender === 'male' ? 'bg-blue-900/30 border-blue-500 text-blue-200' : 'bg-neutral-800 border-neutral-700 text-gray-500'}`}>男生版</button>
+                                <button type="button" onClick={() => setUserData({...userData, gender: 'female'})} className={`flex-1 p-3 rounded-lg border transition-all ${userData.gender === 'female' ? 'bg-pink-900/30 border-pink-500 text-pink-200' : 'bg-neutral-800 border-neutral-700 text-gray-500'}`}>女生版</button>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <input type="date" required className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none text-white" value={userData.gameDate} onChange={e => setUserData({...userData, gameDate: e.target.value})} />
+                                <input type="time" required className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none text-white" value={userData.gameTime} onChange={e => setUserData({...userData, gameTime: e.target.value})} />
+                            </div>
+                            <button className="w-full py-4 bg-yellow-700 hover:bg-yellow-600 rounded-xl font-bold mt-4 transition-all">開始心測</button>
+                        </form>
+                    </div>
+                </div>
+            );
+
+            if (step === 'quiz') return (
+                <div className="flex flex-col min-h-screen bg-black text-white p-6">
+                    <div className="max-w-2xl mx-auto w-full pt-12 space-y-8">
+                        <span className="text-yellow-600 font-serif text-sm tracking-widest uppercase">Question {currentQIndex + 1}</span>
+                        <h2 className="text-3xl font-serif leading-tight">{currentQ.title}</h2>
+                        <div className="space-y-3">
+                            {currentQ.options.map((option, i) => {
+                                const isSelected = selectedOptions.find(o => o.text === option.text);
+                                return (
+                                    <button key={i} onClick={() => handleOptionClick(option)} className={`w-full text-left p-5 rounded-xl border transition-all duration-300 ${isSelected ? 'border-yellow-600 bg-yellow-950/20 text-yellow-200' : 'border-neutral-800 bg-neutral-900 text-gray-300'}`}>
+                                        {option.text}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        {currentQ.type === 'multi' && (
+                            <button onClick={nextMultiStep} disabled={selectedOptions.length === 0} className="w-full py-4 bg-yellow-800 disabled:opacity-30 rounded-xl font-bold">下一題</button>
+                        )}
+                    </div>
+                </div>
+            );
+
+            if (step === 'message') return (
+                <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6">
+                    <div className="w-full max-w-md space-y-6">
+                        <h2 className="text-2xl font-serif text-yellow-500">想對主持人說的話？</h2>
+                        <textarea className="w-full h-40 bg-neutral-900 border border-neutral-800 p-4 rounded-xl focus:outline-none focus:border-yellow-600" placeholder="對角色的期待或備註..." value={userData.message} onChange={e => setUserData({...userData, message: e.target.value})} />
+                        <button onClick={submitFinal} disabled={loading} className="w-full py-4 bg-yellow-700 hover:bg-yellow-600 rounded-xl font-bold text-lg">{loading ? '命運計算中...' : '提交結果'}</button>
+                    </div>
+                </div>
+            );
+
+            if (step === 'result') {
+                const resultId = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+                const character = CHARACTERS[userData.gender].find(c => c.id === resultId);
+                return (
+                    <div className="flex flex-col items-center min-h-screen bg-black text-white p-6">
+                        <div className="max-w-xl w-full text-center space-y-8 mt-12">
+                            <h2 className="text-xl font-serif tracking-widest text-yellow-600 uppercase">Your Destiny is...</h2>
+                            <div className="relative mx-auto w-64 h-80 overflow-hidden rounded-2xl border-4 border-yellow-800/50">
+                                <img src={character?.img} alt={character?.name} className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                                <div className="absolute bottom-4 left-0 right-0 text-3xl font-serif font-bold tracking-widest">{character?.name}</div>
+                            </div>
+                            <p className="text-gray-400 italic font-light px-4 leading-relaxed">{character?.description}</p>
+                            <div className="pt-8 text-xs text-gray-600 text-center">測驗結果僅供參考，請以現場主持人分配為準。</div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (step === 'admin_login') {
+                return (
+                    <div className="flex items-center justify-center min-h-screen bg-neutral-950 text-white p-6">
+                        <div className="w-full max-w-sm bg-neutral-900 p-8 rounded-2xl space-y-6">
+                            <h2 className="text-2xl font-serif text-center">後台權限驗證</h2>
+                            <input type="password" id="adminPwd" className="w-full bg-black border border-neutral-700 p-3 rounded-lg" placeholder="請輸入主持人密碼" />
+                            <button onClick={() => {
+                                const val = document.getElementById('adminPwd').value;
+                                if (val === 'warmbed888') setStep('admin');
+                                else alert('密碼錯誤');
+                            }} className="w-full py-3 bg-neutral-100 text-black font-bold rounded-lg">進入後台</button>
+                            <button onClick={() => setStep('landing')} className="w-full text-sm text-gray-500 underline">返回首頁</button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (step === 'admin') {
+                const sessions = allResponses.reduce((acc, curr) => {
+                    const key = `${curr.gameDate} ${curr.gameTime}`;
+                    if (!acc[key]) acc[key] = [];
+                    acc[key].push(curr);
+                    return acc;
+                }, {});
+                return (
+                    <div className="min-h-screen bg-neutral-950 text-white p-8">
+                        <div className="max-w-6xl mx-auto space-y-8">
+                            <div className="flex justify-between items-center border-b border-neutral-800 pb-4">
+                                <h1 className="text-3xl font-serif text-yellow-500">《溫床》測驗後台</h1>
+                                <button onClick={() => setStep('landing')} className="text-gray-500">登出</button>
+                            </div>
+                            {Object.entries(sessions).map(([sessionKey, players]) => (
+                                <div key={sessionKey} className="bg-neutral-900/50 rounded-2xl p-6 border border-neutral-800">
+                                    <h2 className="text-xl font-bold mb-4 text-yellow-600">場次：{sessionKey}</h2>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        {players.map((p, idx) => (
+                                            <div key={idx} className="bg-black/50 p-4 rounded-xl border border-neutral-800 space-y-3">
+                                                <div className="text-lg font-bold">{p.name} ({p.gender === 'male' ? '男' : '女'})</div>
+                                                <div className="space-y-1">
+                                                    {Object.entries(p.scores).sort((a,b) => b[1]-a[1]).map(([key, val]) => (
+                                                        <div key={key} className="flex justify-between text-xs text-gray-400">
+                                                            <span>{CHARACTERS[p.gender].find(c => c.id === key).name}</span>
+                                                            <span>{val} pt</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                {p.message && <div className="text-[11px] text-gray-500 bg-neutral-950 p-2 rounded italic italic">💬 {p.message}</div>}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            }
+
+            return null;
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
