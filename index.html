@@ -524,7 +524,7 @@
                                 {/* 密碼管理區塊 */}
                                 <div className="mb-0 p-8 glass-panel rounded-2xl border border-white/10 shadow-2xl">
                                     <div className="flex items-center gap-3 mb-2"><Icons.Lock /><h3 className="text-2xl text-white font-serif font-bold tracking-widest">門禁金鑰管理</h3></div>
-                                    <p className="text-white/50 text-sm mb-8 tracking-widest">授權未來的場次，輸入當日密碼後按下開放權限。</p>
+                                    <p className="text-white/50 text-sm mb-8 tracking-widest">您可以自訂任何密碼（例如 0325早、0325晚、甚至英文 apple）並開放權限。</p>
                                     <div className="flex flex-wrap gap-4 mb-8">
                                         {gatePasswords.map(pw => (
                                             <div key={pw} className="bg-white/10 px-5 py-3 rounded-xl flex items-center gap-4 shadow-xl border border-white/5">
@@ -538,7 +538,7 @@
                                         {gatePasswords.length === 0 && <span className="text-white/20 text-sm py-3 italic tracking-widest">目前未設置任何開放密碼，一般玩家無法進入測驗。</span>}
                                     </div>
                                     <div className="flex gap-4 max-w-md">
-                                        <input type="text" value={newPasswordInput} onChange={e => setNewPasswordInput(e.target.value)} placeholder="新密碼 (例: 0325)" className="flex-1 bg-black/30 border border-white/20 p-4 text-white rounded-xl focus:outline-none focus:border-white/50 text-center tracking-[0.2em] font-mono shadow-inner" />
+                                        <input type="text" value={newPasswordInput} onChange={e => setNewPasswordInput(e.target.value)} placeholder="自訂密碼 (例: 0325早)" className="flex-1 bg-black/30 border border-white/20 p-4 text-white rounded-xl focus:outline-none focus:border-white/50 text-center tracking-[0.2em] font-mono shadow-inner" />
                                         <button onClick={async () => {
                                             if(newPasswordInput.trim() && !gatePasswords.includes(newPasswordInput.trim())) {
                                                 const newPws = [...gatePasswords, newPasswordInput.trim()];
