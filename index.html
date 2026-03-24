@@ -182,20 +182,20 @@
                 setUserData(prev => ({ ...prev, gameDate: `${dateState.year}-${String(dateState.month).padStart(2,'0')}-${String(dateState.day).padStart(2,'0')}` }));
             }, [dateState]);
 
-        useEffect(() => {
-            const initAuth = async () => {
-                if (!auth) {
-                    setUser({ uid: 'local-user' });
-                    return;
-                }
-                try {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
+            useEffect(() => {
+                const initAuth = async () => {
+                    if (!auth) {
+                        setUser({ uid: 'local-user' });
+                        return;
                     }
-                } catch (err) { console.error("Auth error", err); }
-            };
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (err) { console.error("Auth error", err); }
+                };
                 initAuth();
                 const unsubscribe = onAuthStateChanged(auth, setUser);
                 return () => unsubscribe();
@@ -266,9 +266,9 @@
                         console.log("Mock saved result:", result);
                     }
                     setStep('result');
-                } catch (err) {
-                    console.error("Save error:", err);
-                    setStep('result'); // force through so player can still see result
+                } catch (error) {
+                    console.error("Save error:", error);
+                    setStep('result'); // mock proceed
                 } finally {
                     setLoading(false);
                     window.scrollTo(0, 0);
@@ -446,174 +446,6 @@
                     )}
                 </div>
             );
-        }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
-</body>
-            const submitFinal = async () => {
-                setLoading(true);
-                try {
-                    const finalResult = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
-                    const payload = {
-                        ...userData,
-                        scores,
-                        result: finalResult,
-                        timestamp: new Date().toISOString(),
-                        uid: user.uid
-                    };
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), payload);
-                    setStep('result');
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                    setLoading(false);
-                }
-            };
-
-            // Views
-            if (step === 'landing') return (
-                <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6 text-center space-y-8">
-                    <CrownIcon />
-                    <h1 className="text-5xl font-serif tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-700">溫床</h1>
-                    <p className="text-lg text-gray-400 font-light max-w-md leading-relaxed">
-                        「人總愛在罪惡的溫床裡，尋找一位神。」<br/>權力、慾望、背德與純愛。<br/>你，會是誰？
-                    </p>
-                    <button onClick={handleStart} className="px-12 py-4 bg-gradient-to-r from-yellow-800 to-yellow-600 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-lg shadow-yellow-900/20">進入測驗</button>
-                    <button onClick={() => setStep('admin_login')} className="text-gray-600 text-sm hover:text-gray-400">主持人後台</button>
-                </div>
-            );
-
-            if (step === 'info') return (
-                <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white p-6">
-                    <div className="w-full max-w-md bg-neutral-900/50 p-8 rounded-2xl border border-neutral-800 shadow-2xl">
-                        <h2 className="text-2xl font-serif mb-6 text-yellow-500">基本資訊蒐集</h2>
-                        <form onSubmit={handleInfoSubmit} className="space-y-4">
-                            <input type="text" required placeholder="玩家名稱" className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none focus:border-yellow-600" value={userData.name} onChange={e => setUserData({...userData, name: e.target.value})} />
-                            <div className="flex gap-2">
-                                <button type="button" onClick={() => setUserData({...userData, gender: 'male'})} className={`flex-1 p-3 rounded-lg border transition-all ${userData.gender === 'male' ? 'bg-blue-900/30 border-blue-500 text-blue-200' : 'bg-neutral-800 border-neutral-700 text-gray-500'}`}>男生版</button>
-                                <button type="button" onClick={() => setUserData({...userData, gender: 'female'})} className={`flex-1 p-3 rounded-lg border transition-all ${userData.gender === 'female' ? 'bg-pink-900/30 border-pink-500 text-pink-200' : 'bg-neutral-800 border-neutral-700 text-gray-500'}`}>女生版</button>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <input type="date" required className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none text-white" value={userData.gameDate} onChange={e => setUserData({...userData, gameDate: e.target.value})} />
-                                <input type="time" required className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none text-white" value={userData.gameTime} onChange={e => setUserData({...userData, gameTime: e.target.value})} />
-                            </div>
-                            <button className="w-full py-4 bg-yellow-700 hover:bg-yellow-600 rounded-xl font-bold mt-4 transition-all">開始心測</button>
-                        </form>
-                    </div>
-                </div>
-            );
-
-            if (step === 'quiz') return (
-                <div className="flex flex-col min-h-screen bg-black text-white p-6">
-                    <div className="max-w-2xl mx-auto w-full pt-12 space-y-8">
-                        <span className="text-yellow-600 font-serif text-sm tracking-widest uppercase">Question {currentQIndex + 1}</span>
-                        <h2 className="text-3xl font-serif leading-tight">{currentQ.title}</h2>
-                        <div className="space-y-3">
-                            {currentQ.options.map((option, i) => {
-                                const isSelected = selectedOptions.find(o => o.text === option.text);
-                                return (
-                                    <button key={i} onClick={() => handleOptionClick(option)} className={`w-full text-left p-5 rounded-xl border transition-all duration-300 ${isSelected ? 'border-yellow-600 bg-yellow-950/20 text-yellow-200' : 'border-neutral-800 bg-neutral-900 text-gray-300'}`}>
-                                        {option.text}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                        {currentQ.type === 'multi' && (
-                            <button onClick={nextMultiStep} disabled={selectedOptions.length === 0} className="w-full py-4 bg-yellow-800 disabled:opacity-30 rounded-xl font-bold">下一題</button>
-                        )}
-                    </div>
-                </div>
-            );
-
-            if (step === 'message') return (
-                <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6">
-                    <div className="w-full max-w-md space-y-6">
-                        <h2 className="text-2xl font-serif text-yellow-500">想對主持人說的話？</h2>
-                        <textarea className="w-full h-40 bg-neutral-900 border border-neutral-800 p-4 rounded-xl focus:outline-none focus:border-yellow-600" placeholder="對角色的期待或備註..." value={userData.message} onChange={e => setUserData({...userData, message: e.target.value})} />
-                        <button onClick={submitFinal} disabled={loading} className="w-full py-4 bg-yellow-700 hover:bg-yellow-600 rounded-xl font-bold text-lg">{loading ? '命運計算中...' : '提交結果'}</button>
-                    </div>
-                </div>
-            );
-
-            if (step === 'result') {
-                const resultId = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
-                const character = CHARACTERS[userData.gender].find(c => c.id === resultId);
-                return (
-                    <div className="flex flex-col items-center min-h-screen bg-black text-white p-6">
-                        <div className="max-w-xl w-full text-center space-y-8 mt-12">
-                            <h2 className="text-xl font-serif tracking-widest text-yellow-600 uppercase">Your Destiny is...</h2>
-                            <div className="relative mx-auto w-64 h-80 overflow-hidden rounded-2xl border-4 border-yellow-800/50">
-                                <img src={character?.img} alt={character?.name} className="w-full h-full object-cover" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-                                <div className="absolute bottom-4 left-0 right-0 text-3xl font-serif font-bold tracking-widest">{character?.name}</div>
-                            </div>
-                            <p className="text-gray-400 italic font-light px-4 leading-relaxed">{character?.description}</p>
-                            <div className="pt-8 text-xs text-gray-600 text-center">測驗結果僅供參考，請以現場主持人分配為準。</div>
-                        </div>
-                    </div>
-                );
-            }
-
-            if (step === 'admin_login') {
-                return (
-                    <div className="flex items-center justify-center min-h-screen bg-neutral-950 text-white p-6">
-                        <div className="w-full max-w-sm bg-neutral-900 p-8 rounded-2xl space-y-6">
-                            <h2 className="text-2xl font-serif text-center">後台權限驗證</h2>
-                            <input type="password" id="adminPwd" className="w-full bg-black border border-neutral-700 p-3 rounded-lg" placeholder="請輸入主持人密碼" />
-                            <button onClick={() => {
-                                const val = document.getElementById('adminPwd').value;
-                                if (val === 'warmbed888') setStep('admin');
-                                else alert('密碼錯誤');
-                            }} className="w-full py-3 bg-neutral-100 text-black font-bold rounded-lg">進入後台</button>
-                            <button onClick={() => setStep('landing')} className="w-full text-sm text-gray-500 underline">返回首頁</button>
-                        </div>
-                    </div>
-                );
-            }
-
-            if (step === 'admin') {
-                const sessions = allResponses.reduce((acc, curr) => {
-                    const key = `${curr.gameDate} ${curr.gameTime}`;
-                    if (!acc[key]) acc[key] = [];
-                    acc[key].push(curr);
-                    return acc;
-                }, {});
-                return (
-                    <div className="min-h-screen bg-neutral-950 text-white p-8">
-                        <div className="max-w-6xl mx-auto space-y-8">
-                            <div className="flex justify-between items-center border-b border-neutral-800 pb-4">
-                                <h1 className="text-3xl font-serif text-yellow-500">《溫床》測驗後台</h1>
-                                <button onClick={() => setStep('landing')} className="text-gray-500">登出</button>
-                            </div>
-                            {Object.entries(sessions).map(([sessionKey, players]) => (
-                                <div key={sessionKey} className="bg-neutral-900/50 rounded-2xl p-6 border border-neutral-800">
-                                    <h2 className="text-xl font-bold mb-4 text-yellow-600">場次：{sessionKey}</h2>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        {players.map((p, idx) => (
-                                            <div key={idx} className="bg-black/50 p-4 rounded-xl border border-neutral-800 space-y-3">
-                                                <div className="text-lg font-bold">{p.name} ({p.gender === 'male' ? '男' : '女'})</div>
-                                                <div className="space-y-1">
-                                                    {Object.entries(p.scores).sort((a,b) => b[1]-a[1]).map(([key, val]) => (
-                                                        <div key={key} className="flex justify-between text-xs text-gray-400">
-                                                            <span>{CHARACTERS[p.gender].find(c => c.id === key).name}</span>
-                                                            <span>{val} pt</span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                                {p.message && <div className="text-[11px] text-gray-500 bg-neutral-950 p-2 rounded italic italic">💬 {p.message}</div>}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-            }
-
-            return null;
         }
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
