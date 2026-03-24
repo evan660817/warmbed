@@ -182,6 +182,8 @@
             const [gatePasswords, setGatePasswords] = useState([]);
             const [verifyCode, setVerifyCode] = useState('');
             const [newPasswordInput, setNewPasswordInput] = useState('');
+            const [newPwDate, setNewPwDate] = useState('');
+            const [newPwTime, setNewPwTime] = useState('14:00');
 
             const currentQuestions = useMemo(() => userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE, [userData.gender]);
             const currentQ = useMemo(() => currentQuestions[currentQIndex] || currentQuestions[0], [currentQuestions, currentQIndex]);
@@ -215,7 +217,9 @@
                 if (db) {
                     unsubscribeGate = onSnapshot(doc(db, 'admin', 'gateSettings'), (docSnap) => {
                         if (docSnap.exists() && docSnap.data().allowedPasswords) {
-                            setGatePasswords(docSnap.data().allowedPasswords);
+                            // Support both old string format and new object {pw,date,time} format
+                            const raw = docSnap.data().allowedPasswords;
+                            setGatePasswords(raw.map(item => typeof item === 'string' ? { pw: item, date: '', time: '' } : item));
                         } else {
                             setGatePasswords([]);
                         }
@@ -441,14 +445,26 @@
                                 <p className="text-white/50 text-sm">請輸入由主辦人提供的場次金鑰</p>
                                 <input type="text" placeholder="場次密碼" className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-white/40 transition-all text-center tracking-[0.2em] font-mono text-xl" value={verifyCode} onChange={e => setVerifyCode(e.target.value)} />
                                 <button onClick={() => {
-                                    if(verifyCode.trim() === 'warmbed888' || gatePasswords.includes(verifyCode.trim())) {
+                                    const trimmed = verifyCode.trim();
+                                    if (trimmed === 'warmbed888') {
+                                        // Master key: let player fill their own session
                                         setUserData({ name: '', gender: 'male', gameDate: `${dateState.year}-${String(dateState.month).padStart(2,'0')}-${String(dateState.day).padStart(2,'0')}`, gameTime: '14:00', message: '' });
                                         setStep('info');
                                         if (audioRef.current && !isMusicPlaying) {
                                             audioRef.current.play().then(() => setIsMusicPlaying(true)).catch(e => console.log('Audio blocked', e));
                                         }
                                     } else {
-                                        alert('金鑰無效，請確認您輸入的是正確的通行密碼。');
+                                        const matched = gatePasswords.find(item => item.pw === trimmed);
+                                        if (matched) {
+                                            // Auto-lock the session from the password's bound date & time
+                                            setUserData({ name: '', gender: 'male', gameDate: matched.date, gameTime: matched.time, message: '' });
+                                            setStep('info');
+                                            if (audioRef.current && !isMusicPlaying) {
+                                                audioRef.current.play().then(() => setIsMusicPlaying(true)).catch(e => console.log('Audio blocked', e));
+                                            }
+                                        } else {
+                                            alert('金鑰無效，請確認您輸入的是正確的通行密碼。');
+                                        }
                                     }
                                 }} className="w-full py-4 bg-white text-black font-bold rounded-xl shadow-2xl hover:bg-gray-200 transition-colors uppercase tracking-widest mt-4">驗證金鑰</button>
                                 <button onClick={() => setStep('landing')} className="text-white/30 text-xs hover:text-white/50 pt-4 transition-colors uppercase tracking-widest block w-full text-center">返回首頁</button>
@@ -554,28 +570,44 @@
                                 {/* 密碼管理區塊 */}
                                 <div className="mb-0 p-8 glass-panel rounded-2xl border border-white/10 shadow-2xl">
                                     <div className="flex items-center gap-3 mb-2"><Icons.Lock /><h3 className="text-2xl text-white font-serif font-bold tracking-widest">門禁金鑰管理</h3></div>
-                                    <p className="text-white/50 text-sm mb-8 tracking-widest">您可以自訂任何密碼（例如 0325早、0325晚、甚至英文 apple）並開放權限。</p>
-                                    <div className="flex flex-wrap gap-4 mb-8">
-                                        {gatePasswords.map(pw => (
-                                            <div key={pw} className="bg-white/10 px-5 py-3 rounded-xl flex items-center gap-4 shadow-xl border border-white/5">
-                                                <span className="text-white font-mono tracking-widest text-lg">{pw}</span>
+                                    <p className="text-white/50 text-sm mb-8 tracking-widest">每組密碼直接綁定對應的場次日期與時間，玩家驗證後會自動帶入正確場次，無法自行修改。</p>
+                                    <div className="flex flex-col gap-4 mb-8">
+                                        {gatePasswords.map((item, idx) => (
+                                            <div key={idx} className="bg-white/10 px-5 py-4 rounded-xl flex flex-wrap items-center justify-between gap-4 shadow-xl border border-white/5">
+                                                <div className="flex flex-col gap-1">
+                                                    <span className="text-white font-mono tracking-widest text-lg">{item.pw}</span>
+                                                    <span className="text-white/40 text-xs tracking-widest">{item.date} {item.time}</span>
+                                                </div>
                                                 <button onClick={async () => {
-                                                    const newPws = gatePasswords.filter(p => p !== pw);
+                                                    const newPws = gatePasswords.filter((_, i) => i !== idx);
                                                     if(db) await setDoc(doc(db, 'admin', 'gateSettings'), { allowedPasswords: newPws }, { merge: true });
-                                                }} className="text-red-400 hover:text-red-300 transition-colors p-1" title="撤銷該密碼權限">✕</button>
+                                                }} className="text-red-400 hover:text-red-300 transition-colors p-1" title="撤銷該密碼">✕</button>
                                             </div>
                                         ))}
                                         {gatePasswords.length === 0 && <span className="text-white/20 text-sm py-3 italic tracking-widest">目前未設置任何開放密碼，一般玩家無法進入測驗。</span>}
                                     </div>
-                                    <div className="flex gap-4 max-w-md">
-                                        <input type="text" value={newPasswordInput} onChange={e => setNewPasswordInput(e.target.value)} placeholder="自訂密碼 (例: 0325早)" className="flex-1 bg-black/30 border border-white/20 p-4 text-white rounded-xl focus:outline-none focus:border-white/50 text-center tracking-[0.2em] font-mono shadow-inner" />
+                                    <div className="flex flex-col gap-4 max-w-xl">
+                                        <div className="flex flex-wrap gap-3">
+                                            <input type="text" value={newPasswordInput} onChange={e => setNewPasswordInput(e.target.value)} placeholder="自訂密碼" className="flex-1 min-w-[120px] bg-black/30 border border-white/20 p-3 text-white rounded-xl focus:outline-none focus:border-white/50 text-center tracking-[0.2em] font-mono" />
+                                            <input type="date" value={newPwDate} onChange={e => setNewPwDate(e.target.value)} className="bg-black/30 border border-white/20 p-3 text-white/70 rounded-xl focus:outline-none focus:border-white/50 tracking-widest text-sm" style={{colorScheme:'dark'}} />
+                                            <select value={newPwTime} onChange={e => setNewPwTime(e.target.value)} className="bg-black/30 border border-white/20 p-3 text-white/70 rounded-xl focus:outline-none focus:border-white/50 tracking-widest text-sm">
+                                                {HOURS.map(h => <option key={h} value={h}>{h}</option>)}
+                                            </select>
+                                        </div>
                                         <button onClick={async () => {
-                                            if(newPasswordInput.trim() && !gatePasswords.includes(newPasswordInput.trim())) {
-                                                const newPws = [...gatePasswords, newPasswordInput.trim()];
-                                                if(db) await setDoc(doc(db, 'admin', 'gateSettings'), { allowedPasswords: newPws }, { merge: true });
-                                                setNewPasswordInput('');
+                                            if(newPasswordInput.trim() && newPwDate) {
+                                                const already = gatePasswords.find(item => item.pw === newPasswordInput.trim());
+                                                if(!already) {
+                                                    const newEntry = { pw: newPasswordInput.trim(), date: newPwDate, time: newPwTime };
+                                                    const newPws = [...gatePasswords, newEntry];
+                                                    if(db) await setDoc(doc(db, 'admin', 'gateSettings'), { allowedPasswords: newPws }, { merge: true });
+                                                    setNewPasswordInput('');
+                                                    setNewPwDate('');
+                                                }
+                                            } else {
+                                                alert('請同時輸入密碼與選擇對應的日期！');
                                             }
-                                        }} className="bg-white hover:bg-gray-200 text-black px-8 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] tracking-widest uppercase">開放權限</button>
+                                        }} className="bg-white hover:bg-gray-200 text-black py-3 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] tracking-widest uppercase">開放權限</button>
                                     </div>
                                 </div>
                                 {(() => {
