@@ -348,6 +348,13 @@
                 document.addEventListener('click', handleFirstInteraction);
                 document.addEventListener('touchstart', handleFirstInteraction);
                 
+                // Preload critical images to RAM silently
+                const imageUrls = ['亞當_0.jpg', '維克_0.jpg', '里昂_0.jpg', '堇_0.jpg', '菲伊_0.jpg', '黛西_0.jpg'];
+                imageUrls.forEach(url => {
+                    const img = new Image();
+                    img.src = url;
+                });
+                
                 return () => {
                     document.removeEventListener('click', handleFirstInteraction);
                     document.removeEventListener('touchstart', handleFirstInteraction);
