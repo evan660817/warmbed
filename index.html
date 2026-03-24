@@ -361,7 +361,7 @@
                                     const sel = selectedOptions.find(x => x.text === o.text);
                                     return (<button key={i} onClick={() => handleOptionClick(o)} className={`w-full text-left p-6 rounded-2xl glass-panel transition-all duration-300 hover:bg-white/10 group ${sel ? 'bg-white/20 border-white/50 text-white shadow-xl' : 'text-gray-300 border-white/5'}`}><div className="flex items-center justify-between"><span className="text-xl tracking-wide">{o.text}</span>{sel && <div className="animate-pulse"><Icons.ChevronRight /></div>}</div></button>);
                                 })}</div>
-                                {currentQ?.type === 'multi' && (<button onClick={nextMultiStep} disabled={selectedOptions.length === 0} className="w-full py-5 bg-white text-black rounded-2xl font-bold hover:tracking-widest transition-all disabled:opacity-20 shadow-xl mt-4">確認指引 <Icons.ChevronRight /></button>)}
+                                {currentQ?.type === 'multi' && (<button onClick={nextMultiStep} disabled={selectedOptions.length === 0} className="w-full py-5 bg-white text-black rounded-2xl font-bold hover:tracking-widest transition-all disabled:opacity-20 shadow-xl mt-4">確認指引</button>)}
                             </div>
                         </div>
                     )}
