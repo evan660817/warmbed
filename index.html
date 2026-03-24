@@ -177,6 +177,9 @@
             const [loading, setLoading] = useState(false);
             const [dateState, setDateState] = useState({ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() });
             const [userData, setUserData] = useState({ name: '', gender: 'male', gameDate: '', gameTime: '14:00', message: '' });
+            const [gatePasswords, setGatePasswords] = useState([]);
+            const [verifyCode, setVerifyCode] = useState('');
+            const [newPasswordInput, setNewPasswordInput] = useState('');
 
             const currentQuestions = useMemo(() => userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE, [userData.gender]);
             const currentQ = useMemo(() => currentQuestions[currentQIndex] || currentQuestions[0], [currentQuestions, currentQIndex]);
@@ -201,11 +204,23 @@
                 };
                 initAuth();
                 
-                let unsubscribe = () => {};
+                let unsubscribeAuth = () => {};
                 if (auth) {
-                    unsubscribe = onAuthStateChanged(auth, setUser);
+                    unsubscribeAuth = onAuthStateChanged(auth, setUser);
                 }
-                return () => unsubscribe();
+                
+                let unsubscribeGate = () => {};
+                if (db) {
+                    unsubscribeGate = onSnapshot(doc(db, 'admin', 'gateSettings'), (docSnap) => {
+                        if (docSnap.exists() && docSnap.data().allowedPasswords) {
+                            setGatePasswords(docSnap.data().allowedPasswords);
+                        } else {
+                            setGatePasswords([]);
+                        }
+                    }, (err) => console.error(err));
+                }
+
+                return () => { unsubscribeAuth(); unsubscribeGate(); };
             }, []);
 
             useEffect(() => {
@@ -236,8 +251,8 @@
             };
 
             const handleStart = () => {
-                if (audioRef.current) audioRef.current.play().then(() => setIsMusicPlaying(true)).catch(() => {});
-                setStep('info'); window.scrollTo(0, 0);
+                setVerifyCode('');
+                setStep('gate');
             };
 
             const handleOptionClick = (o) => {
@@ -387,6 +402,28 @@
                         </div>
                     )}
 
+                    {step === 'gate' && (
+                        <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">
+                            <div className="glass-panel p-10 rounded-3xl max-w-sm w-full space-y-6">
+                                <div className="flex items-center justify-center gap-3 mb-4 border-b border-white/10 pb-4"><Icons.Lock /><h2 className="text-2xl font-serif text-white tracking-widest">命運的敲門磚</h2></div>
+                                <p className="text-white/50 text-sm">請輸入由主辦人提供的場次金鑰</p>
+                                <input type="text" placeholder="場次密碼" className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-white/40 transition-all text-center tracking-[0.2em] font-mono text-xl" value={verifyCode} onChange={e => setVerifyCode(e.target.value)} />
+                                <button onClick={() => {
+                                    if(verifyCode.trim() === 'warmbed888' || gatePasswords.includes(verifyCode.trim())) {
+                                        setUserData({ name: '', gender: 'male', gameDate: `${dateState.year}-${String(dateState.month).padStart(2,'0')}-${String(dateState.day).padStart(2,'0')}`, gameTime: '14:00', message: '' });
+                                        setStep('info');
+                                        if (audioRef.current && !isMusicPlaying) {
+                                            audioRef.current.play().then(() => setIsMusicPlaying(true)).catch(e => console.log('Audio blocked', e));
+                                        }
+                                    } else {
+                                        alert('金鑰無效，請確認您輸入的是正確的通行密碼。');
+                                    }
+                                }} className="w-full py-4 bg-white text-black font-bold rounded-xl shadow-2xl hover:bg-gray-200 transition-colors uppercase tracking-widest mt-4">驗證金鑰</button>
+                                <button onClick={() => setStep('landing')} className="text-white/30 text-xs hover:text-white/50 pt-4 transition-colors uppercase tracking-widest block w-full text-center">返回首頁</button>
+                            </div>
+                        </div>
+                    )}
+
                     {step === 'info' && (
                         <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">
                             <div className="glass-panel p-10 rounded-3xl max-w-md w-full space-y-6">
@@ -471,6 +508,34 @@
                         <div className="min-h-screen p-10 bg-black/90 backdrop-blur-3xl overflow-y-auto animate-fade-in">
                             <div className="max-w-7xl mx-auto space-y-16">
                                 <div className="flex justify-between items-end border-b border-white/10 pb-8"><div className="flex items-center gap-4 text-white text-left"><Icons.Settings /><h1 className="text-4xl font-serif tracking-[.2em] uppercase">溫床・天秤觀測台</h1></div><button onClick={() => setStep('landing')} className="text-white/30 text-sm uppercase transition-colors hover:text-white tracking-widest">Logout</button></div>
+
+                                {/* 密碼管理區塊 */}
+                                <div className="mb-0 p-8 glass-panel rounded-2xl border border-white/10 shadow-2xl">
+                                    <div className="flex items-center gap-3 mb-2"><Icons.Lock /><h3 className="text-2xl text-white font-serif font-bold tracking-widest">門禁金鑰管理</h3></div>
+                                    <p className="text-white/50 text-sm mb-8 tracking-widest">授權未來的場次，輸入當日密碼後按下開放權限。</p>
+                                    <div className="flex flex-wrap gap-4 mb-8">
+                                        {gatePasswords.map(pw => (
+                                            <div key={pw} className="bg-white/10 px-5 py-3 rounded-xl flex items-center gap-4 shadow-xl border border-white/5">
+                                                <span className="text-white font-mono tracking-widest text-lg">{pw}</span>
+                                                <button onClick={async () => {
+                                                    const newPws = gatePasswords.filter(p => p !== pw);
+                                                    if(db) await setDoc(doc(db, 'admin', 'gateSettings'), { allowedPasswords: newPws }, { merge: true });
+                                                }} className="text-red-400 hover:text-red-300 transition-colors p-1" title="撤銷該密碼權限">✕</button>
+                                            </div>
+                                        ))}
+                                        {gatePasswords.length === 0 && <span className="text-white/20 text-sm py-3 italic tracking-widest">目前未設置任何開放密碼，一般玩家無法進入測驗。</span>}
+                                    </div>
+                                    <div className="flex gap-4 max-w-md">
+                                        <input type="text" value={newPasswordInput} onChange={e => setNewPasswordInput(e.target.value)} placeholder="新密碼 (例: 0325)" className="flex-1 bg-black/30 border border-white/20 p-4 text-white rounded-xl focus:outline-none focus:border-white/50 text-center tracking-[0.2em] font-mono shadow-inner" />
+                                        <button onClick={async () => {
+                                            if(newPasswordInput.trim() && !gatePasswords.includes(newPasswordInput.trim())) {
+                                                const newPws = [...gatePasswords, newPasswordInput.trim()];
+                                                if(db) await setDoc(doc(db, 'admin', 'gateSettings'), { allowedPasswords: newPws }, { merge: true });
+                                                setNewPasswordInput('');
+                                            }
+                                        }} className="bg-white hover:bg-gray-200 text-black px-8 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] tracking-widest uppercase">開放權限</button>
+                                    </div>
+                                </div>
                                 {(() => {
                                     // Group and sort sessions by Date (Latest First)
                                     const grouped = allResponses.reduce((acc, curr) => {
