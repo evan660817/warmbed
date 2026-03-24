@@ -296,10 +296,36 @@
                 return res;
             };
 
+            useEffect(() => {
+                const initAudio = () => {
+                    if (audioRef.current) {
+                        audioRef.current.play().then(() => setIsMusicPlaying(true)).catch(err => {
+                            console.warn("Autoplay blocked by browser policy:", err);
+                        });
+                    }
+                };
+                // 嘗試在載入時自動播放
+                initAudio();
+                
+                // 但如果被瀏覽器阻擋，任何點擊畫面行為都會觸發播放
+                const handleFirstInteraction = () => {
+                    initAudio();
+                    document.removeEventListener('click', handleFirstInteraction);
+                    document.removeEventListener('touchstart', handleFirstInteraction);
+                };
+                document.addEventListener('click', handleFirstInteraction);
+                document.addEventListener('touchstart', handleFirstInteraction);
+                
+                return () => {
+                    document.removeEventListener('click', handleFirstInteraction);
+                    document.removeEventListener('touchstart', handleFirstInteraction);
+                };
+            }, []);
+
             return (
                 <div className="relative min-h-screen">
                     <div className="app-bg"></div>
-                    <audio ref={audioRef} src="Lana Del Rey - Young And Beautiful.mp3" loop />
+                    <audio ref={audioRef} src="Lana Del Rey - Young And Beautiful.mp3" loop autoPlay playsInline />
                     
                     <div className="fixed top-6 right-6 z-50 flex items-center gap-3">
                         {step === 'landing' && (
