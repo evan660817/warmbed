@@ -1,0 +1,1258 @@
+{\rtf1\ansi\ansicpg950\cocoartf2821
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset136 PingFangTC-Regular;\f2\fnil\fcharset0 AppleColorEmoji;
+}
+{\colortbl;\red255\green255\blue255;\red70\green137\blue204;\red23\green24\blue24;\red140\green211\blue254;
+\red202\green202\blue202;\red109\green109\blue109;\red194\green126\blue101;\red109\green115\blue120;\red183\green111\blue247;
+\red212\green212\blue212;\red113\green192\blue131;\red167\green197\blue152;\red70\green137\blue204;\red23\green24\blue24;
+\red140\green211\blue254;\red202\green202\blue202;\red109\green109\blue109;\red194\green126\blue101;\red109\green115\blue120;
+}
+{\*\expandedcolortbl;;\cssrgb\c33725\c61176\c83922;\cssrgb\c11765\c12157\c12549;\cssrgb\c61176\c86275\c99608;
+\cssrgb\c83137\c83137\c83137;\cssrgb\c50196\c50196\c50196;\cssrgb\c80784\c56863\c47059;\cssrgb\c50196\c52549\c54510;\cssrgb\c77255\c54118\c97647;
+\cssrgb\c86275\c86275\c86275;\cssrgb\c50588\c78824\c58431;\cssrgb\c70980\c80784\c65882;\cssrgb\c33725\c61176\c83922;\cssrgb\c11765\c12157\c12549;
+\cssrgb\c61176\c86275\c99608;\cssrgb\c83137\c83137\c83137;\cssrgb\c50196\c50196\c50196;\cssrgb\c80784\c56863\c47059;\cssrgb\c50196\c52549\c54510;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 <!DOCTYPE\cf4 \strokec4  html\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 <\cf2 \strokec2 html\cf5 \strokec5  \cf4 \strokec4 lang\cf6 \strokec6 =\cf7 \strokec7 "zh-TW"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 <\cf2 \strokec2 head\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 meta\cf5 \strokec5  \cf4 \strokec4 charset\cf6 \strokec6 =\cf7 \strokec7 "UTF-8"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 meta\cf5 \strokec5  \cf4 \strokec4 name\cf6 \strokec6 =\cf7 \strokec7 "viewport"\cf5 \strokec5  \cf4 \strokec4 content\cf6 \strokec6 =\cf7 \strokec7 "width=device-width, initial-scale=1.0"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 title\cf6 \strokec6 >\cf5 \strokec5 \uc0\u12298 \u28331 \u24202 \u12299 \u23448 \u26041 \u29609 \u23478 \u24515 \u28204 \u31995 \u32113 \cf6 \strokec6 </\cf2 \strokec2 title\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf8 \strokec8 <!-- Tailwind CSS -->\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf5 \strokec5  \cf4 \strokec4 src\cf6 \strokec6 =\cf7 \strokec7 "https://cdn.tailwindcss.com"\cf6 \strokec6 ></\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf8 \strokec8 <!-- React & Babel -->\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf5 \strokec5  \cf4 \strokec4 src\cf6 \strokec6 =\cf7 \strokec7 "https://unpkg.com/react@18/umd/react.production.min.js"\cf6 \strokec6 ></\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf5 \strokec5  \cf4 \strokec4 src\cf6 \strokec6 =\cf7 \strokec7 "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"\cf6 \strokec6 ></\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf5 \strokec5  \cf4 \strokec4 src\cf6 \strokec6 =\cf7 \strokec7 "https://unpkg.com/@babel/standalone/babel.min.js"\cf6 \strokec6 ></\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 style\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3         \cf9 \strokec9 @import\cf5 \strokec5  \cf7 \strokec7 url\cf10 \strokec10 (\cf11 \strokec11 'https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap'\cf10 \strokec10 );\cf5 \cb1 \strokec5 \
+\cb3         \cb1 \
+\cb3         \cf2 \strokec2 body\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 font-family:\cf5 \strokec5  \cf11 \strokec11 'Noto Serif TC'\cf10 \strokec10 ,\cf5 \strokec5  \cf7 \strokec7 serif\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 margin:\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 padding:\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 background-color:\cf5 \strokec5  #000\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 color:\cf5 \strokec5  \cf7 \strokec7 white\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 overflow-x:\cf5 \strokec5  \cf7 \strokec7 hidden\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf8 \strokec8 /* \uc0\u20840 \u23616 \u32972 \u26223 \u22294  */\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 .app-bg\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 position:\cf5 \strokec5  \cf7 \strokec7 fixed\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 top:\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 left:\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 width:\cf5 \strokec5  \cf12 \strokec12 100%\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 height:\cf5 \strokec5  \cf12 \strokec12 100%\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 z-index:\cf5 \strokec5  \cf12 \strokec12 -1\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 background-image:\cf5 \strokec5  \cf7 \strokec7 url\cf10 \strokec10 (\cf11 \strokec11 'S__90570756_0.jpg'\cf10 \strokec10 );\cf5 \strokec5  \cb1 \
+\cb3             \cf4 \strokec4 background-size:\cf5 \strokec5  \cf7 \strokec7 cover\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 background-position:\cf5 \strokec5  \cf7 \strokec7 center\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 background-attachment:\cf5 \strokec5  \cf7 \strokec7 fixed\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 filter:\cf5 \strokec5  \cf7 \strokec7 brightness(\cf12 \strokec12 0.4\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf8 \strokec8 /* \uc0\u27611 \u29627 \u29827 \u23481 \u22120  */\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 .glass-panel\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.5\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 backdrop-filter:\cf5 \strokec5  \cf7 \strokec7 blur(\cf12 \strokec12 25px\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 -webkit-backdrop-filter:\cf5 \strokec5  \cf7 \strokec7 blur(\cf12 \strokec12 25px\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 border:\cf5 \strokec5  \cf12 \strokec12 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.1\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf12 \strokec12 0\cf5 \strokec5  \cf12 \strokec12 8px\cf5 \strokec5  \cf12 \strokec12 32px\cf5 \strokec5  \cf12 \strokec12 0\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.8\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf2 \strokec2 .animate-fade-in\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 animation:\cf5 \strokec5  \cf7 \strokec7 fadeIn\cf5 \strokec5  \cf12 \strokec12 1s\cf5 \strokec5  \cf7 \strokec7 ease-out\cf5 \strokec5  \cf7 \strokec7 forwards\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf9 \strokec9 @keyframes\cf5 \strokec5  \cf7 \strokec7 fadeIn\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf7 \strokec7 from\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 opacity:\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ;\cf5 \strokec5  \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 translateY(\cf12 \strokec12 20px\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3             \cf7 \strokec7 to\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 opacity:\cf5 \strokec5  \cf12 \strokec12 1\cf10 \strokec10 ;\cf5 \strokec5  \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 translateY(\cf12 \strokec12 0\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf2 \strokec2 ::-webkit-scrollbar\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 width:\cf5 \strokec5  \cf12 \strokec12 6px\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 ::-webkit-scrollbar-track\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.1\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 ::-webkit-scrollbar-thumb\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.2\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf12 \strokec12 10px\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf2 \strokec2 select\cf5 \strokec5  \cf2 \strokec2 option\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 background:\cf5 \strokec5  #1a1a1a\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 color:\cf5 \strokec5  \cf7 \strokec7 white\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3         \cf2 \strokec2 select\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 cursor:\cf5 \strokec5  \cf7 \strokec7 pointer\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf2 \strokec2 .rotate-music\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 animation:\cf5 \strokec5  \cf7 \strokec7 spin\cf5 \strokec5  \cf12 \strokec12 4s\cf5 \strokec5  \cf7 \strokec7 linear\cf5 \strokec5  \cf7 \strokec7 infinite\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3         \cf9 \strokec9 @keyframes\cf5 \strokec5  \cf7 \strokec7 spin\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf7 \strokec7 from\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 rotate(\cf12 \strokec12 0deg\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3             \cf7 \strokec7 to\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \strokec5  \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 rotate(\cf12 \strokec12 360deg\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \strokec5  \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf2 \strokec2 .bar-glow\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf12 \strokec12 0\cf5 \strokec5  \cf12 \strokec12 0\cf5 \strokec5  \cf12 \strokec12 15px\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.3\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\
+\cb3         \cf2 \strokec2 .destiny-glow\cf5 \strokec5  \cf10 \strokec10 \{\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 border:\cf5 \strokec5  \cf12 \strokec12 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.4\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3             \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf12 \strokec12 0\cf5 \strokec5  \cf12 \strokec12 0\cf5 \strokec5  \cf12 \strokec12 40px\cf5 \strokec5  \cf7 \strokec7 rgba(\cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 255\cf10 \strokec10 ,\cf5 \strokec5  \cf12 \strokec12 0.15\cf7 \strokec7 )\cf10 \strokec10 ;\cf5 \cb1 \strokec5 \
+\cb3         \cf10 \strokec10 \}\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 </\cf2 \strokec2 style\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 </\cf2 \strokec2 head\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 <\cf2 \strokec2 body\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "root"\cf6 \strokec6 ></\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\
+\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf5 \strokec5  \cf4 \strokec4 type\cf6 \strokec6 =\cf7 \strokec7 "text/babel"\cf5 \strokec5  \cf4 \strokec4 data-type\cf6 \strokec6 =\cf7 \strokec7 "module"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cb3         const \{ useState, useEffect, useMemo, useRef \} = React;\cb1 \
+\
+\cb3         // Firebase ESM Imports\cb1 \
+\cb3         import \{ initializeApp \} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";\cb1 \
+\cb3         import \{ getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, setDoc \} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";\cb1 \
+\cb3         import \{ getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken \} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";\cb1 \
+\
+\cb3         // --- Firebase Config ---\cb1 \
+\cb3         const firebaseConfig = JSON.parse(__firebase_config);\cb1 \
+\cb3         const app = initializeApp(firebaseConfig);\cb1 \
+\cb3         const auth = getAuth(app);\cb1 \
+\cb3         const db = getFirestore(app);\cb1 \
+\cb3         const appId = typeof __app_id !== 'undefined' ? __app_id : 'warm-bed-test';\cb1 \
+\
+\cb3         const Icons = \{\cb1 \
+\cb3             Crown: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>,\cb1 \
+\cb3             Scroll: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1V4c0-.6-.4-1-1-1H3c-.6 0-1 .4-1 1v12c0 .6.4 1 1 1h2"/><path d="M15 17a3 3 0 1 0-6 0"/><path d="M15 17v2a3 3 0 1 1-6 0v-2"/></svg>,\cb1 \
+\cb3             Skull: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 10L9.01 10"/><path d="M15 10L15.01 10"/><path d="M10 20v-3a2 2 0 0 0-4 0v3"/><path d="M18 20v-3a2 2 0 0 0-4 0v3"/><path d="M6 20h12"/><path d="M21 12a9 9 0 1 0-18 0c0 1.7.3 3.3.8 4.8.4 1.2 1.4 2.2 2.6 2.7.3.1.6.1.9.1h11.4c.3 0 .6 0 .9-.1 1.2-.5 2.2-1.5 2.6-2.7.5-1.5.8-3.1.8-4.8Z"/></svg>,\cb1 \
+\cb3             ChevronRight: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>,\cb1 \
+\cb3             Music: (\{active\}) => <svg className=\{active ? 'rotate-music' : ''\} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>,\cb1 \
+\cb3             Flame: () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>,\cb1 \
+\cb3             Eye: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>,\cb1 \
+\cb3             Settings: () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2l-.05.1a1 1 0 0 1-1.1.55l-1.15-.31a2 2 0 0 0-2.5 1.4l-.15.44a2 2 0 0 0 1.4 2.5l.1.05a1 1 0 0 1 .55 1.1l-.31 1.15a2 2 0 0 0 1.4 2.5l.44.15a2 2 0 0 0 2.5-1.4l.05-.1z"/><circle cx="12" cy="12" r="3"/></svg>,\cb1 \
+\cb3             Lock: () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>\cb1 \
+\cb3         \};\cb1 \
+\
+\cb3         const ALL_CHARACTERS = [\cb1 \
+\cb3             \{ id: 'lyon', gender: 'male', name: '\uc0\u37324 \u26114 ', img: '\u37324 \u26114 _0.jpg', quote: '\u38712 \u36947 \u20658 \u24930 \u19988 \u25163 \u27573 \u29408 \u21426 \u30340 \u22283 \u29579 \u12290 \u30050 \u31455 \u30495 \u27491 \u30340 \u24375 \u32773 \u19981 \u38656 \u35201 \u29351 \u29298 \u20027 \u35264 \u24863 \u21463 \u21435 \u29554 \u21462 \u21033 \u30410 \u12290 ' \},\cb1 \
+\cb3             \{ id: 'adam', gender: 'male', name: '\uc0\u20126 \u30070 ', img: '\u20126 \u30070 _0.jpg', quote: '\u38617 \u25163 \u27838 \u28415 \u39854 \u34880 \u30340 \u23569 \u24180 \u31070 \u29238 \u12290 \u38728 \u39746 \u24213 \u33394 \u21892 \u33391 \u65292 \u37325 \u35222 \u35242 \u24773 \u24859 \u24773 \u21371 \u22240 \u38512 \u24046 \u38525 \u37679 \u34987 \u36843 \u25104 \u28858 \u24489 \u20167 \u32773 \u12290 ' \},\cb1 \
+\cb3             \{ id: 'vick', gender: 'male', name: '\uc0\u32173 \u20811 ', img: '\u32173 \u20811 _0.jpg', quote: '\u37326 \u24515 \u21187 \u21187 \u30340 \u34395 \u20551 \u12300 \u25327 \u25937 \u32773 \u12301 \u12290 \u22478 \u24220 \u26997 \u28145 \u65292 \u21892 \u26044 \u20605 \u35037 \u65292 \u21033 \u30410 \u33267 \u19978 \u12290 ' \},\cb1 \
+\cb3             \{ id: 'daisy', gender: 'female', name: '\uc0\u40667 \u35199 ', img: '\u40667 \u35199 _0.jpg', quote: '\u24801 \u27602 \u20658 \u24930 \u19988 \u37326 \u24515 \u21187 \u21187 \u30340 \u22899 \u30343 \u12290 \u20197 \u29609 \u24324 \u20154 \u24515 \u28858 \u27138 \u65292 \u30524 \u20013 \u21482 \u26377 \u33287 \u33258 \u24049 \u21516 \u27171 \u20778 \u31168 \u30340 \u22283 \u29579 \u12290 ' \},\cb1 \
+\cb3             \{ id: 'jin', gender: 'female', name: '\uc0\u22535 ', img: '\u22535 _0.jpg', quote: '\u30475 \u20284 \u20778 \u26580 \u23521 \u26039 \u30340 \u20844 \u20027 \u65292 \u23526 \u21063 \u26159 \u20839 \u24515 \u20805 \u28415 \u21033 \u30410 \u31639 \u35336 \u30340 \u37347 \u31995 \u22899 \u24043 \u12290 ' \},\cb1 \
+\cb3             \{ id: 'feiyi', gender: 'female', name: '\uc0\u33778 \u20234 ', img: '\u33778 \u20234 _0.jpg', quote: '\u22240 \u21629 \u36939 \u22350 \u22391 \u32780 \u34987 \u36843 \u25104 \u28858 \u30149 \u23308 \u21009 \u35338 \u24107 \u30340 \u21487 \u24976 \u20154 \u12290 \u22519 \u33879 \u26044 \u27785 \u28138 \u22702 \u33853 \u65292 \u22312 \u27450 \u36785 \u20013 \u23563 \u27714 \u26997 \u33268 \u25937 \u36118 \u12290 ' \},\cb1 \
+\cb3         ];\cb1 \
+\
+\cb3         const QUESTIONS_MALE = [\cb1 \
+\cb3             \{ type: 'multi', title: '\uc0\u21344 \u21340 \u24107 \u25163 \u20013 \u30340 \u21345 \u29255 \u20196 \u20320 \u30524 \u33457 \u32346 \u20098 \u65292 \u21738 \u20123 \u31526 \u34399 \u35320 \u21205 \u20102 \u20320 \u30340 \u38728 \u39746 \u65311 \u65288 \u22810 \u36984 \u65289 ', options: [ \{ text: 'A. \u24618 \u29289 ', scores: \{ vick: 5, lyon: 2, adam: -3 \} \}, \{ text: 'B. \u32972 \u36000 ', scores: \{ adam: 5, vick: 2 \} \}, \{ text: 'C. \u27402 \u21147 ', scores: \{ lyon: 5, vick: -3, adam: -3 \} \}, \{ text: 'D. \u24375 \u21046 ', scores: \{ vick: 5, lyon: 2, adam: -3 \} \}, \{ text: 'E. \u22702 \u31070 ', scores: \{ adam: 5, lyon: 2 \} \}, \{ text: 'F. \u26997 \u33268 ', scores: \{ lyon: 5, vick: 2, adam: -3 \} \}, \{ text: 'G. \u39438 \u22763 ', scores: \{ vick: 5 \} \}, \{ text: 'H. \u22283 \u29579 ', scores: \{ lyon: 5 \} \}, \{ text: 'I. \u29579 \u23376 ', scores: \{ adam: 5 \} \}, \{ text: 'J. \u22739 \u25233 ', scores: \{ adam: 5, vick: 2, lyon: -5 \} \}, \{ text: 'K. \u30495 \u24515 ', scores: \{ lyon: 5, adam: 2, vick: -3 \} \}, \{ text: 'L. \u21033 \u29992 ', scores: \{ vick: 5 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u36367 \u20837 \u32034 \u22810 \u29802 \u36889 \u24231 \u22702 \u33853 \u37117 \u24066 \u65292 \u20320 \u38728 \u39746 \u20013 \u26368 \u28212 \u26395 \u39376 \u36275 \u20043 \u34389 \u26159 \u65311 ', options: [ \{ text: 'A. \u32321 \u33775 \u12289 \u21517 \u27969 \u23476 \u26371 \u12289 \u35696 \u26371 \u24109 \u20301 \u12289 \u29289 \u27442 \u27243 \u27969 \u12290 ', scores: \{ lyon: 10, vick: 5 \} \}, \{ text: 'B. \u22805 \u38525 \u12289 \u25945 \u22530 \u37912 \u32882 \u12289 \u25088 \u20154 \u20302 \u35486 \u12289 \u28023 \u35475 \u23665 \u30431 \u12290 ', scores: \{ adam: 10, lyon: 5 \} \}, \{ text: 'C. \u27231 \u26371 \u12289 \u27085 \u33287 \u39854 \u34880 \u12289 \u31639 \u35336 \u32972 \u21467 \u12289 \u25504 \u22890 \u20308 \u26377 \u12290 ', scores: \{ vick: 10, lyon: 5 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u33509 \u23559 \u32645 \u24503 \u23478 \u26063 \u27604 \u20316 \u19968 \u20491 \u29579 \u26397 \u65292 \u20320 \u22312 \u36889 \u26143 \u36556 \u19978 \u30340 \u20301 \u32622 \u26159 \u65311 ', options: [ \{ text: 'A. \u26366 \u32147 \u23041 \u22196 \u26234 \u24935 \u65292 \u22914 \u20170 \u38627 \u20197 \u25417 \u25720 \u30340 \u26292 \u21531 \u12290 ', scores: \{ lyon: 10 \} \}, \{ text: 'B. \u25163 \u25569 \u37325 \u20853 \u65292 \u37326 \u24515 \u21187 \u21187 \u30340 \u23559 \u36557 \u12290 ', scores: \{ vick: 10 \} \}, \{ text: 'C. \u24962 \u39729 \u28145 \u27784 \u65292 \u24859 \u19978 \u29579 \u21518 \u30340 \u29579 \u23376 \u12290 ', scores: \{ adam: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u25509 \u21463 \u21235 \u31456 \u26178 \u65292 \u32819 \u30036 \u38911 \u36215 \u30340 \u21629 \u36939 \u35734 \u35486 \u26159 \u65311 ', options: [ \{ text: 'A. \u27402 \u21147 \u26159 \u24375 \u30427 \u30340 \u38542 \u26799 \u65292 \u37326 \u24515 \u26159 \u20320 \u30340 \u21033 \u21133 \u12290 ', scores: \{ vick: 10 \} \}, \{ text: 'B. \u21892 \u33391 \u12289 \u24859 \u12289 \u27491 \u32681 \u12290 \u20445 \u25345 \u20320 \u24515 \u20013 \u30340 \u20809 \u26126 \u12290 ', scores: \{ adam: 15 \} \}, \{ text: 'C. \u35531 \u38568 \u24515 \u25152 \u27442 \u21543 \u65292 \u25105 \u30340 \u29579 \u65292 \u24118 \u19978 \u20320 \u30340 \u20658 \u24930 \u12290 ', scores: \{ lyon: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u30332 \u29694 \u24773 \u24863 \u31998 \u33883 \u37679 \u32156 \u35079 \u38620 \u65292 \u20320 \u30340 \u24907 \u24230 \u26159 \u65311 ', options: [ \{ text: 'A. \u25105 \u23436 \u20840 \u25509 \u21463 \u65292 \u25654 \u20358 \u30340 \u24859 \u25165 \u26377 \u36259 \u12290 ', scores: \{ adam: 10, vick: 10 \} \}, \{ text: 'B. \u25105 \u21487 \u20197 \u22039 \u35430 \u65292 \u21482 \u35201 \u37007 \u36655 \u33258 \u27965 \u12290 ', scores: \{ adam: 5, vick: 5 \} \}, \{ text: 'C. \u25105 \u32085 \u19981 \u33021 \u25509 \u21463 \u65292 \u24859 \u24517 \u38920 \u32085 \u23565 \u24544 \u35488 \u12290 ', scores: \{ adam: -10, vick: -10, lyon: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u22312 \u27770 \u23450 \u21629 \u36939 \u30340 \u26371 \u35696 \u20013 \u65292 \u20320 \u22914 \u20309 \u23637 \u29694 \u33258 \u25105 \u65311 ', options: [ \{ text: 'A. \u20355 \u20355 \u32780 \u35527 \u65292 \u25793 \u26377 \u26997 \u24375 \u30340 \u20027 \u23566 \u21147 \u12290 ', scores: \{ lyon: 10, vick: 10 \} \}, \{ text: 'B. \u20445 \u25345 \u20811 \u21046 \u65292 \u20677 \u22312 \u24517 \u35201 \u26178 \u30332 \u32882 \u12290 ', scores: \{ adam: 10, vick: -5, lyon: -10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u24859 \u24773 \u30340 \u31278 \u23376 \u22312 \u27442 \u26395 \u28331 \u24202 \u20013 \u32187 \u25918 \u65292 \u37027 \u26371 \u26159 \u20160 \u40636 \u33457 \u65311 ', options: [ \{ text: 'A. \u29611 \u29808 \u33457 \u65292 \u20195 \u34920 \u32020 \u31929 \u19988 \u28961 \u31169 \u22857 \u29563 \u30340 \u24859 \u12290 ', scores: \{ lyon: 10, adam: 10 \} \}, \{ text: 'B. \u37027 \u26159 \u19968 \u38982 \u40613 \u23376 \u12290 \u33457 \u32317 \u26371 \u20939 \u38646 \u65292 \u25105 \u35201 \u31975 \u39135 \u12290 ', scores: \{ vick: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u23529 \u35222 \u20320 \u30340 \u38728 \u39746 \u65292 \u20320 \u23565 \u24859 \u24773 \u30340 \u26368 \u32066 \u20449 \u26781 \u26159 \u65311 ', options: [ \{ text: 'A. \u24859 \u24773 \u26159 \u24375 \u32773 \u30340 \u27402 \u21147 \u65292 \u24369 \u32773 \u21482 \u33021 \u35584 \u21462 \u21033 \u30410 \u12290 ', scores: \{ lyon: 10 \} \}, \{ text: 'B. \u24859 \u20154 \u26159 \u25136 \u21033 \u21697 \u65292 \u20808 \u20308 \u26377 \u65292 \u20877 \u20139 \u21463 \u12290 ', scores: \{ vick: 10 \} \}, \{ text: 'C. \u24859 \u21482 \u26159 \u24859 \u65292 \u25105 \u24076 \u26395 \u24859 \u20154 \u27704 \u36960 \u24184 \u31119 \u12290 ', scores: \{ adam: 15 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u30070 \u26411 \u26085 \u23559 \u33267 \u65292 \u32034 \u22810 \u29802 \u21363 \u23559 \u27584 \u28357 \u65292 \u20320 \u26371 \u65311 ', options: [ \{ text: 'A. \u28961 \u25152 \u35586 \u65292 \u25105 \u26371 \u32102 \u21629 \u36939 \u19968 \u20491 \u30427 \u22823 \u30340 \u35613 \u24149 \u12290 ', scores: \{ lyon: 10 \} \}, \{ text: 'B. \u24950 \u24184 \u22823 \u24264 \u23559 \u20670 \u65292 \u30495 \u30456 \u37325 \u22238 \u20154 \u38291 \u12290 ', scores: \{ adam: 10 \} \}, \{ text: 'C. \u22312 \u24290 \u22687 \u19978 \u37325 \u24314 \u29579 \u22283 \u65292 \u29983 \u21629 \u19981 \u27515 \u27402 \u27442 \u19981 \u34928 \u12290 ', scores: \{ vick: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u23565 \u20320 \u20358 \u35498 \u65292 \u34880 \u32227 \u35242 \u24773 \u30340 \u24847 \u32681 \u26159 \u65311 ', options: [ \{ text: 'A. \u34880 \u32227 \u19981 \u20195 \u34920 \u23478 \u26063 \u65292 \u25105 \u35201 \u33258 \u24049 \u36984 \u35242 \u20154 \u12290 ', scores: \{ lyon: 10, vick: 10 \} \}, \{ text: 'B. \u36889 \u26159 \u36896 \u29289 \u20027 \u32102 \u25105 \u30340 \u22825 \u28982 \u32648 \u32070 \u65292 \u26159 \u29645 \u23542 \u12290 ', scores: \{ adam: 15 \} \} ] \}\cb1 \
+\cb3         ];\cb1 \
+\
+\cb3         const QUESTIONS_FEMALE = [\cb1 \
+\cb3             \{ type: 'multi', title: '\uc0\u21344 \u21340 \u24107 \u25892 \u38283 \u21345 \u29255 \u65292 \u21738 \u20123 \u31070 \u31192 \u31526 \u34399 \u33287 \u20320 \u30340 \u38728 \u39746 \u20849 \u40180 \u65311 \u65288 \u22810 \u36984 \u65289 ', options: [ \{ text: 'A. \u30343 \u21518 ', scores: \{ daisy: 5 \} \}, \{ text: 'B. \u21467 \u36870 ', scores: \{ feiyi: 5, jin: 2 \} \}, \{ text: 'C. \u30495 \u24859 ', scores: \{ daisy: 5, feiyi: 2, jin: -3 \} \}, \{ text: 'D. \u22899 \u24043 ', scores: \{ jin: 5 \} \}, \{ text: 'E. \u27402 \u21147 ', scores: \{ daisy: 5, jin: 2, feiyi: -3 \} \}, \{ text: 'F. \u27584 \u28357 ', scores: \{ jin: 5, feiyi: 2 \} \}, \{ text: 'G. \u20844 \u20027 ', scores: \{ feiyi: 5 \} \}, \{ text: 'H. \u21453 \u24046 ', scores: \{ feiyi: 5, jin: 2 \} \}, \{ text: 'I. \u24460 \u23229 ', scores: \{ daisy: 5, jin: 2, feiyi: -3 \} \}, \{ text: 'J. \u25937 \u36118 ', scores: \{ feiyi: 5, jin: 2, daisy: -3 \} \}, \{ text: 'K. \u24489 \u20167 ', scores: \{ jin: 5 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u27493 \u20837 \u32034 \u22810 \u29802 \u36889 \u24231 \u29808 \u40599 \u30340 \u37117 \u24066 \u65292 \u26368 \u21560 \u24341 \u20320 \u30340 \u26223 \u35937 \u26159 \u65311 ', options: [ \{ text: 'A. \u32321 \u33775 \u12289 \u21517 \u27969 \u23476 \u26371 \u12289 \u35696 \u26371 \u24109 \u20301 \u12290 ', scores: \{ daisy: 10 \} \}, \{ text: 'B. \u33258 \u30001 \u12289 \u19977 \u35282 \u38364 \u20418 \u12289 \u20551 \u24847 \u30495 \u24515 \u12290 ', scores: \{ jin: 10 \} \}, \{ text: 'C. \u22702 \u33853 \u12289 \u28858 \u34382 \u20316 \u20480 \u12289 \u29623 \u27745 \u26126 \u26376 \u12290 ', scores: \{ feiyi: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u33509 \u23559 \u23478 \u26063 \u27604 \u20316 \u19968 \u20491 \u29579 \u26397 \u65292 \u20320 \u38928 \u35211 \u33258 \u24049 \u30340 \u20301 \u38542 \u26159 \u65311 ', options: [ \{ text: 'A. \u24859 \u27402 \u21147 \u20063 \u24859 \u20139 \u27138 \u30340 \u37326 \u24515 \u22899 \u30343 \u12290 ', scores: \{ daisy: 10 \} \}, \{ text: 'B. \u20027 \u23472 \u20154 \u20497 \u29983 \u27515 \u30340 \u39640 \u26234 \u22283 \u24107 \u12290 ', scores: \{ jin: 10 \} \}, \{ text: 'C. \u30435 \u31105 \u24859 \u20154 \u30340 \u23494 \u25506 \u39318 \u38936 \u12290 ', scores: \{ feiyi: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u25480 \u21235 \u35422 \u20687 \u36960 \u21476 \u30340 \u35419 \u21650 \u25110 \u31069 \u31119 \u65292 \u21738 \u21477 \u26368 \u35320 \u21205 \u20320 \u65311 ', options: [ \{ text: 'A. \u27402 \u21147 \u26159 \u24375 \u30427 \u30340 \u38542 \u26799 \u65292 \u37326 \u24515 \u26159 \u20320 \u30340 \u21033 \u21133 \u12290 ', scores: \{ daisy: 10 \} \}, \{ text: 'B. \u21892 \u33391 \u33287 \u27491 \u32681 \u26159 \u20551 \u35937 \u65292 \u20445 \u25345 \u24515 \u20013 \u30340 \u20809 \u26126 \u12290 ', scores: \{ jin: 10 \} \}, \{ text: 'C. \u20320 \u36393 \u33879 \u30495 \u24515 \u25509 \u36942 \u20102 \u36889 \u26522 \u19981 \u37197 \u25793 \u26377 \u30340 \u21235 \u31456 \u12290 ', scores: \{ feiyi: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u30332 \u29694 \u31105 \u24524 \u30340 \u22810 \u37325 \u38364 \u20418 \u65292 \u20320 \u22914 \u20309 \u38754 \u23565 \u36889 \u22580 \u28779 \u65311 ', options: [ \{ text: 'A. \u25105 \u21487 \u20197 \u25509 \u21463 \u12290 ', scores: \{ jin: 10 \} \}, \{ text: 'B. \u25105 \u32085 \u19981 \u25509 \u21463 \u12290 ', scores: \{ daisy: 15, feiyi: 15, jin: -40 \} \}, \{ text: 'C. \u25105 \u28961 \u25152 \u35586 \u12290 ', scores: \{\} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u33509 \u22312 \u23529 \u21028 \u33324 \u30340 \u26371 \u35696 \u20013 \u25104 \u28858 \u30526 \u30690 \u20043 \u30340 \u65292 \u20320 \u26371 \u65311 ', options: [ \{ text: 'A. \u25239 \u22739 \u24375 \u65292 \u37007 \u36655 \u21512 \u29702 \u25105 \u23601 \u25509 \u21463 \u12290 ', scores: \{ feiyi: 20, daisy: -20 \} \}, \{ text: 'B. \u26082 \u19981 \u39000 \u22739 \u21147 \u21029 \u20154 \u65292 \u20063 \u19981 \u24819 \u25239 \u22739 \u12290 ', scores: \{ jin: 20 \} \}, \{ text: 'C. \u24478 \u20358 \u23601 \u21482 \u26377 \u25105 \u21435 \u26045 \u21152 \u22739 \u21147 \u12290 ', scores: \{ daisy: 20, feiyi: -20 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u24859 \u30340 \u31278 \u23376 \u22312 \u27442 \u26395 \u20013 \u33804 \u30332 \u65292 \u20320 \u35258 \u24471 \u37027 \u26159 \u65311 ', options: [ \{ text: 'A. \u32094 \u27578 \u21029 \u30340 \u26893 \u29289 \u30340 \u27029 \u27193 \u12290 ', scores: \{ daisy: 10 \} \}, \{ text: 'B. \u29611 \u29808 \u65292 \u20294 \u25105 \u24859 \u30340 \u19981 \u27490 \u19968 \u20154 \u12290 ', scores: \{ jin: 10 \} \}, \{ text: 'C. \u32588 \u31903 \u65292 \u20849 \u21516 \u27785 \u28138 \u65292 \u21029 \u25327 \u25937 \u25105 \u12290 ', scores: \{ feiyi: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u22825 \u31204 \u30340 \u20841 \u31471 \u26159 \u24859 \u24773 \u33287 \u21033 \u30410 \u65292 \u20320 \u30340 \u38728 \u39746 \u20670 \u21521 \u21738 \u37002 \u65311 ', options: [ \{ text: 'A. \u30495 \u27491 \u24375 \u32773 \u19981 \u29351 \u29298 \u24863 \u21463 \u29554 \u21462 \u21033 \u30410 \u12290 ', scores: \{ daisy: 10 \} \}, \{ text: 'B. \u24859 \u28961 \u27861 \u36328 \u36234 \u21033 \u30410 \u65292 \u25105 \u36984 \u21033 \u30410 \u21516 \u38971 \u32773 \u12290 ', scores: \{ jin: 10 \} \}, \{ text: 'C. \u24859 \u26159 \u26368 \u22823 \u21033 \u30410 \u65292 \u25105 \u35201 \u30070 \u20027 \u23472 \u12290 ', scores: \{ feiyi: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u30070 \u22240 \u26524 \u22577 \u25033 \u33256 \u38957 \u65292 \u32034 \u22810 \u29802 \u23849 \u27584 \u26178 \u65292 \u20320 \u30340 \u24907 \u24230 \u26159 \u65311 ', options: [ \{ text: 'A. \u36889 \u26159 \u29609 \u28779 \u33258 \u28954 \u65292 \u25105 \u29609 \u24471 \u24456 \u38283 \u24515 \u12290 ', scores: \{ daisy: 10 \} \}, \{ text: 'B. \u27138 \u35211 \u20854 \u25104 \u65292 \u30495 \u30456 \u32066 \u23559 \u37325 \u29694 \u12290 ', scores: \{ jin: 15 \} \}, \{ text: 'C. \u21069 \u24448 \u26032 \u23621 \u65292 \u37027 \u35041 \u26377 \u25105 \u30340 \u22818 \u22659 \u12290 ', scores: \{ feiyi: 10 \} \} ] \},\cb1 \
+\cb3             \{ type: 'single', title: '\uc0\u35242 \u24773 \u22312 \u20320 \u30340 \u21629 \u36939 \u20043 \u26360 \u20013 \u23531 \u33879 \u20160 \u40636 \u65311 ', options: [ \{ text: 'A. \u35242 \u20154 \u26159 \u19978 \u24093 \u36984 \u30340 \u65292 \u20294 \u25105 \u35201 \u33258 \u24049 \u36984 \u12290 ', scores: \{ daisy: 10 \} \}, \{ text: 'B. \u36889 \u26159 \u36896 \u29289 \u20027 \u32102 \u25105 \u30340 \u22825 \u28982 \u32648 \u32070 \u33287 \u29645 \u23542 \u12290 ', scores: \{ feiyi: 10, jin: 10 \} \} ] \}\cb1 \
+\cb3         ];\cb1 \
+\
+\cb3         const today = new Date();\cb1 \
+\cb3         const YEARS = [today.getFullYear(), today.getFullYear() + 1];\cb1 \
+\cb3         const MONTHS = Array.from(\{length: 12\}, (_, i) => i + 1);\cb1 \
+\cb3         const DAYS = Array.from(\{length: 31\}, (_, i) => i + 1);\cb1 \
+\cb3         const HOURS = Array.from(\{length: 13\}, (_, i) => `$\{i + 10\}:00`);\cb1 \
+\
+\cb3         function App() \{\cb1 \
+\cb3             const [step, setStep] = useState('landing');\cb1 \
+\cb3             const [user, setUser] = useState(null);\cb1 \
+\cb3             const [isMusicPlaying, setIsMusicPlaying] = useState(false);\cb1 \
+\cb3             const audioRef = useRef(null);\cb1 \
+\cb3             const [currentQIndex, setCurrentQIndex] = useState(0);\cb1 \
+\cb3             const [scores, setScores] = useState(\{\});\cb1 \
+\cb3             const [selectedOptions, setSelectedOptions] = useState([]);\cb1 \
+\cb3             const [allResponses, setAllResponses] = useState([]);\cb1 \
+\cb3             const [loading, setLoading] = useState(false);\cb1 \
+\cb3             const [dateState, setDateState] = useState(\{ year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate() \});\cb1 \
+\cb3             const [userData, setUserData] = useState(\{ name: '', gender: 'male', gameDate: '', gameTime: '14:00', message: '' \});\cb1 \
+\
+\cb3             const currentQuestions = useMemo(() => userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE, [userData.gender]);\cb1 \
+\cb3             const currentQ = useMemo(() => currentQuestions[currentQIndex] || currentQuestions[0], [currentQuestions, currentQIndex]);\cb1 \
+\
+\cb3             useEffect(() => \{\cb1 \
+\cb3                 setUserData(prev => (\{ ...prev, gameDate: `$\{dateState.year\}-$\{String(dateState.month).padStart(2,'0')\}-$\{String(dateState.day).padStart(2,'0')\}` \}));\cb1 \
+\cb3             \}, [dateState]);\cb1 \
+\
+\cb3             useEffect(() => \{\cb1 \
+\cb3                 const initAuth = async () => \{\cb1 \
+\cb3                     try \{\cb1 \
+\cb3                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) \{\cb1 \
+\cb3                             await signInWithCustomToken(auth, __initial_auth_token);\cb1 \
+\cb3                         \} else \{\cb1 \
+\cb3                             await signInAnonymously(auth);\cb1 \
+\cb3                         \}\cb1 \
+\cb3                     \} catch (err) \{ console.error("Auth error", err); \}\cb1 \
+\cb3                 \};\cb1 \
+\cb3                 initAuth();\cb1 \
+\cb3                 const unsubscribe = onAuthStateChanged(auth, setUser);\cb1 \
+\cb3                 return () => unsubscribe();\cb1 \
+\cb3             \}, []);\cb1 \
+\
+\cb3             useEffect(() => \{\cb1 \
+\cb3                 if (!user || step !== 'admin') return;\cb1 \
+\cb3                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');\cb1 \
+\cb3                 const q = query(colRef);\cb1 \
+\cb3                 const unsubscribe = onSnapshot(q, (snapshot) => \{\cb1 \
+\cb3                     const data = snapshot.docs.map(doc => (\{ id: doc.id, ...doc.data() \}));\cb1 \
+\cb3                     // Sort by submission timestamp primarily\cb1 \
+\cb3                     data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));\cb1 \
+\cb3                     setAllResponses(data);\cb1 \
+\cb3                 \}, (err) => console.error("Firestore error:", err));\cb1 \
+\cb3                 return () => unsubscribe();\cb1 \
+\cb3             \}, [user, step]);\cb1 \
+\
+\cb3             const toggleMusic = () => \{\cb1 \
+\cb3                 if (audioRef.current) \{\cb1 \
+\cb3                     if (isMusicPlaying) audioRef.current.pause();\cb1 \
+\cb3                     else audioRef.current.play();\cb1 \
+\cb3                     setIsMusicPlaying(!isMusicPlaying);\cb1 \
+\cb3                 \}\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             const handleStart = () => \{\cb1 \
+\cb3                 if (audioRef.current) audioRef.current.play().then(() => setIsMusicPlaying(true)).catch(() => \{\});\cb1 \
+\cb3                 setStep('info'); window.scrollTo(0, 0);\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             const handleOptionClick = (o) => \{\cb1 \
+\cb3                 if (currentQ.type === 'single') \{\cb1 \
+\cb3                     const ns = \{ ...scores \};\cb1 \
+\cb3                     Object.entries(o.scores).forEach(([c, v]) => ns[c] = (ns[c] || 0) + v);\cb1 \
+\cb3                     setScores(ns);\cb1 \
+\cb3                     if (currentQIndex < currentQuestions.length - 1) setCurrentQIndex(currentQIndex + 1);\cb1 \
+\cb3                     else setStep('message');\cb1 \
+\cb3                     window.scrollTo(0, 0);\cb1 \
+\cb3                 \} else \{\cb1 \
+\cb3                     setSelectedOptions(p => p.find(x => x.text === o.text) ? p.filter(x => x.text !== o.text) : [...p, o]);\cb1 \
+\cb3                 \}\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             const nextMultiStep = () => \{\cb1 \
+\cb3                 const ns = \{ ...scores \};\cb1 \
+\cb3                 selectedOptions.forEach(o => Object.entries(o.scores).forEach(([c, v]) => ns[c] = (ns[c] || 0) + v));\cb1 \
+\cb3                 setScores(ns); setSelectedOptions([]);\cb1 \
+\cb3                 if (currentQIndex < currentQuestions.length - 1) setCurrentQIndex(currentQIndex + 1);\cb1 \
+\cb3                 else setStep('message');\cb1 \
+\cb3                 window.scrollTo(0, 0);\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             const submitFinal = async () => \{\cb1 \
+\cb3                 if (!user) return;\cb1 \
+\cb3                 setLoading(true);\cb1 \
+\cb3                 try \{\cb1 \
+\cb3                     const result = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];\cb1 \
+\cb3                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), \{ \cb1 \
+\cb3                         ...userData, scores, result, timestamp: new Date().toISOString(), uid: user.uid \cb1 \
+\cb3                     \});\cb1 \
+\cb3                     setStep('result');\cb1 \
+\cb3                 \} finally \{\cb1 \
+\cb3                     setLoading(false);\cb1 \
+\cb3                     window.scrollTo(0, 0);\cb1 \
+\cb3                 \}\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             const calculatePercentages = (playerScores) => \{\cb1 \
+\cb3                 const sv = Object.values(playerScores);\cb1 \
+\cb3                 const tp = sv.reduce((a, v) => a + Math.max(0, v), 0);\cb1 \
+\cb3                 const res = \{\};\cb1 \
+\cb3                 Object.entries(playerScores).forEach(([k, v]) => res[k] = tp === 0 ? 33 : Math.round((Math.max(0, v) / tp) * 100));\cb1 \
+\cb3                 return res;\cb1 \
+\cb3             \};\cb1 \
+\
+\cb3             return (\cb1 \
+\cb3                 <div className="relative min-h-screen">\cb1 \
+\cb3                     <div className="app-bg"></div>\cb1 \
+\cb3                     <audio ref=\{audioRef\} src="Lana Del Rey - Young And Beautiful.mp3" loop />\cb1 \
+\cb3                     \cb1 \
+\cb3                     <div className="fixed top-6 right-6 z-50 flex items-center gap-3">\cb1 \
+\cb3                         \{step === 'landing' && (\cb1 \
+\cb3                             <button onClick=\{() => setStep('admin_login')\} className="p-3 glass-panel rounded-full text-white/60 hover:text-white transition-all hover:scale-110 active:scale-95 flex items-center gap-2 group"><Icons.Settings /><span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap text-xs tracking-widest uppercase">\uc0\u24460 \u21488 \u32080 \u26524 </span></button>\cb1 \
+\cb3                         )\}\cb1 \
+\cb3                         <button onClick=\{toggleMusic\} className="p-3 glass-panel rounded-full text-white/60 hover:text-white transition-all hover:scale-110 active:scale-95"><Icons.Music active=\{isMusicPlaying\} /></button>\cb1 \
+\cb3                     </div>\cb1 \
+\
+\cb3                     \{step === 'landing' && (\cb1 \
+\cb3                         <div className="min-h-screen flex flex-col items-center py-12 px-6 space-y-16 animate-fade-in text-center">\cb1 \
+\cb3                             <div className="glass-panel p-12 rounded-3xl max-w-xl w-full space-y-8 shadow-2xl mt-12">\cb1 \
+\cb3                                 <div className="flex justify-center text-yellow-500 animate-pulse"><Icons.Crown /></div>\cb1 \
+\cb3                                 <h1 className="text-6xl font-serif tracking-[0.3em] text-white drop-shadow-lg w-full">\uc0\u28331 \u24202 </h1>\cb1 \
+\cb3                                 <p className="text-lg text-gray-300 leading-loose tracking-widest">\uc0\u12300 \u20154 \u32317 \u24859 \u22312 \u32618 \u24801 \u30340 \u28331 \u24202 \u35041 \u65292 \u23563 \u25214 \u19968 \u20301 \u31070 \u12290 \u12301 <br/>\u27402 \u21147 \u12289 \u27442 \u26395 \u12289 \u32972 \u24503 \u33287 \u32020 \u24859 \u12290 <br/>\u26143 \u30436 \u36681 \u21205 \u65292 \u35504 \u23559 \u33287 \u20320 \u30340 \u38728 \u39746 \u20849 \u40180 \u65311 </p>\cb1 \
+\cb3                                 <button onClick=\{handleStart\} className="w-full py-5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-xl font-bold transition-all hover:tracking-widest shadow-xl">\uc0\u36914 \u20837 \u32034 \u22810 \u29802 </button>\cb1 \
+\cb3                                 <button onClick=\{() => setStep('admin_login')\} className="text-white/20 text-xs hover:text-white/50 pt-4 flex items-center justify-center gap-1 transition-colors uppercase tracking-[0.2em]"><Icons.Lock /> \uc0\u21629 \u36939 \u24341 \u36335 \u20154 \u30331 \u20837 </button>\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                             <div className="w-full max-w-6xl space-y-12">\cb1 \
+\cb3                                 <div className="flex flex-col items-center space-y-4 text-center"><div className="flex items-center gap-4 text-white/60 uppercase tracking-[0.5em] text-sm"><div className="hidden md:block w-12 h-[1px] bg-white/20"></div>\uc0\u32034 \u22810 \u29802 \u30340 \u30526 \u29983 \u30456 <div className="hidden md:block w-12 h-[1px] bg-white/20"></div></div><Icons.Eye /></div>\cb1 \
+\cb3                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">\cb1 \
+\cb3                                     \{ALL_CHARACTERS.map(char => (\cb1 \
+\cb3                                         <div key=\{char.id\} className="glass-panel rounded-3xl overflow-hidden group border-white/5 hover:border-white/20 transition-all duration-500 text-left"><div className="relative aspect-[3/4] overflow-hidden"><img src=\{char.img\} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onError=\{e=>e.target.src='https://via.placeholder.com/400x600?text='+char.name\}/><div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div><div className="absolute bottom-6 left-6 right-6"><h3 className="text-3xl font-serif font-bold text-white tracking-[0.2em]">\{char.name\}</h3></div></div><div className="p-8"><p className="text-gray-300 text-sm font-light italic leading-relaxed text-left">\uc0\u12300 \{char.quote\}\u12301 </p></div></div>\cb1 \
+\cb3                                     ))\}\cb1 \
+\cb3                                 </div>\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                             <div className="pt-20 pb-10 text-white/10 text-xs tracking-widest uppercase text-center w-full">Sodom's Fate System &copy; Warm Bed</div>\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                     )\}\cb1 \
+\
+\cb3                     \{step === 'info' && (\cb1 \
+\cb3                         <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">\cb1 \
+\cb3                             <div className="glass-panel p-10 rounded-3xl max-w-md w-full space-y-6">\cb1 \
+\cb3                                 <div className="flex items-center justify-center gap-3 mb-4 border-b border-white/10 pb-4"><Icons.Scroll /><h2 className="text-3xl font-serif text-white tracking-widest">\uc0\u21629 \u36939 \u22865 \u32004 \u30331 \u35352 </h2></div>\cb1 \
+\cb3                                 <input type="text" required placeholder="\uc0\u35531 \u36664 \u20837 \u21517 \u35569 " className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white placeholder-white/20 focus:outline-none focus:border-white/40 transition-all text-center" value=\{userData.name\} onChange=\{e => setUserData(\{...userData, name: e.target.value\})\} />\cb1 \
+\cb3                                 <div className="flex gap-4">\cb1 \
+\cb3                                     <button type="button" onClick=\{() => setUserData(\{...userData, gender: 'male'\})\} className=\{`flex-1 py-4 rounded-xl border transition-all $\{userData.gender === 'male' ? 'bg-blue-600/30 border-blue-400 text-blue-100 shadow-xl' : 'bg-white/5 border-white/10 text-white/30'\}`\}>\uc0\u30007 \u24615 </button>\cb1 \
+\cb3                                     <button type="button" onClick=\{() => setUserData(\{...userData, gender: 'female'\})\} className=\{`flex-1 py-4 rounded-xl border transition-all $\{userData.gender === 'female' ? 'bg-pink-600/30 border-pink-400 text-pink-100 shadow-xl' : 'bg-white/5 border-white/10 text-white/30'\}`\}>\uc0\u22899 \u24615 </button>\cb1 \
+\cb3                                 </div>\cb1 \
+\cb3                                 <div className="space-y-4">\cb1 \
+\cb3                                     <label className="block text-xs text-white/40 tracking-widest uppercase text-center w-full font-bold">\uc0\u22240 \u26524 \u20132 \u26371 \u20043 \u26178 </label>\cb1 \
+\cb3                                     <div className="grid grid-cols-3 gap-2">\cb1 \
+\cb3                                         <select className="bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center focus:outline-none" value=\{dateState.year\} onChange=\{e => setDateState(\{...dateState, year: parseInt(e.target.value)\})\}>\{YEARS.map(y => <option key=\{y\} value=\{y\}>\{y\}\uc0\u24180 </option>)\}</select>\cb1 \
+\cb3                                         <select className="bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center focus:outline-none" value=\{dateState.month\} onChange=\{e => setDateState(\{...dateState, month: parseInt(e.target.value)\})\}>\{MONTHS.map(m => <option key=\{m\} value=\{m\}>\{m\}\uc0\u26376 </option>)\}</select>\cb1 \
+\cb3                                         <select className="bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center focus:outline-none" value=\{dateState.day\} onChange=\{e => setDateState(\{...dateState, day: parseInt(e.target.value)\})\}>\{DAYS.map(d => <option key=\{d\} value=\{d\}>\{d\}\uc0\u26085 </option>)\}</select>\cb1 \
+\cb3                                     </div>\cb1 \
+\cb3                                     <select className="w-full bg-white/5 border border-white/10 p-3 rounded-xl text-white appearance-none text-center mt-2 focus:outline-none" value=\{userData.gameTime\} onChange=\{e => setUserData(\{...userData, gameTime: e.target.value\})\}>\{HOURS.map(h => <option key=\{h\} value=\{h\}>\{h\}</option>)\}</select>\cb1 \
+\cb3                                 </div>\cb1 \
+\cb3                                 <button onClick=\{() => setStep('quiz')\} className="w-full py-5 bg-white text-black font-bold rounded-xl shadow-2xl hover:bg-gray-100 transition-colors">\uc0\u25765 \u38283 \u36855 \u38695 </button>\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                     )\}\cb1 \
+\
+\cb3                     \{step === 'quiz' && (\cb1 \
+\cb3                         <div className="min-h-screen p-6 animate-fade-in flex flex-col items-center">\cb1 \
+\cb3                             <div className="max-w-2xl w-full pt-20 space-y-12">\cb1 \
+\cb3                                 <div className="space-y-4 text-left"><div className="h-1.5 bg-white/10 w-full rounded-full overflow-hidden"><div className="h-full bg-white transition-all duration-700 shadow-[0_0_20px_#fff]" style=\{\{ width: `$\{(currentQIndex / currentQuestions.length) * 100\}%` \}\}></div></div><span className="text-white/30 text-xs tracking-widest font-mono uppercase block w-full text-center font-bold">\uc0\u21629 \u36939 \u30340 \u31532  \{currentQIndex + 1\} \u27425 \u21481 \u21839 </span></div>\cb1 \
+\cb3                                 <h2 className="text-4xl font-serif text-white leading-relaxed tracking-wider drop-shadow-lg text-center">\{currentQ?.title\}</h2>\cb1 \
+\cb3                                 <div className="space-y-4 text-left">\{currentQ?.options.map((o, i) => \{\cb1 \
+\cb3                                     const sel = selectedOptions.find(x => x.text === o.text);\cb1 \
+\cb3                                     return (<button key=\{i\} onClick=\{() => handleOptionClick(o)\} className=\{`w-full text-left p-6 rounded-2xl glass-panel transition-all duration-300 hover:bg-white/10 group $\{sel ? 'bg-white/20 border-white/50 text-white shadow-xl' : 'text-gray-300 border-white/5'\}`\}><div className="flex items-center justify-between"><span className="text-xl tracking-wide">\{o.text\}</span>\{sel && <div className="animate-pulse"><Icons.ChevronRight /></div>\}</div></button>);\cb1 \
+\cb3                                 \})\}</div>\cb1 \
+\cb3                                 \{currentQ?.type === 'multi' && (<button onClick=\{nextMultiStep\} disabled=\{selectedOptions.length === 0\} className="w-full py-5 bg-white text-black rounded-2xl font-bold hover:tracking-widest transition-all disabled:opacity-20 shadow-xl mt-4">\uc0\u30906 \u35469 \u25351 \u24341  <Icons.ChevronRight /></button>)\}\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                     )\}\cb1 \
+\
+\cb3                     \{step === 'message' && (\cb1 \
+\cb3                         <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">\cb1 \
+\cb3                             <div className="glass-panel p-10 rounded-3xl max-w-md w-full space-y-8">\cb1 \
+\cb3                                 <div className="flex justify-center text-white/50"><Icons.Skull /></div>\cb1 \
+\cb3                                 <h2 className="text-2xl font-serif text-white tracking-widest">\uc0\u23565 \u21629 \u36939 \u24341 \u36335 \u20154 \u30340 \u31169 \u35486 </h2>\cb1 \
+\cb3                                 <textarea className="w-full h-48 bg-white/5 border border-white/10 p-6 rounded-2xl focus:outline-none focus:border-white/30 text-white resize-none placeholder-white/10 text-center" placeholder="\uc0\u23531 \u19979 \u20320 \u23565 \u36523 \u20221 \u30340 \u26399 \u35377 ..." value=\{userData.message\} onChange=\{e => setUserData(\{...userData, message: e.target.value\})\} />\cb1 \
+\cb3                                 <button onClick=\{submitFinal\} disabled=\{loading\} className="w-full py-5 bg-white text-black font-bold rounded-2xl text-xl transition-all shadow-2xl flex items-center justify-center gap-2 hover:bg-gray-100 transition-colors">\{loading ? '\uc0\u26143 \u36556 \u35336 \u31639 \u20013 ...' : '\u21051 \u19979 \u38728 \u39746 \u22865 \u32004 '\} <Icons.ChevronRight /></button>\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                     )\}\cb1 \
+\
+\cb3                     \{step === 'result' && (() => \{\cb1 \
+\cb3                         const fp = calculatePercentages(scores);\cb1 \
+\cb3                         const sorted = Object.entries(fp).sort((a,b) => b[1] - a[1]).map(([id, pct]) => (\{ ...ALL_CHARACTERS.find(c => c.id === id), pct \}));\cb1 \
+\cb3                         return (\cb1 \
+\cb3                             <div className="min-h-screen py-20 px-6 overflow-y-auto animate-fade-in flex flex-col items-center text-center">\cb1 \
+\cb3                                 <div className="max-w-6xl w-full space-y-16">\cb1 \
+\cb3                                     <div className="space-y-4"><h2 className="text-sm font-serif tracking-[1em] text-white/40 uppercase">\uc0\u26143 \u36556 \u23450 \u35542 </h2><h1 className="text-5xl font-serif text-white tracking-[0.2em]">\u38728 \u39746 \u22865 \u21512 \u22577 \u21578 </h1></div>\cb1 \
+\cb3                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">\cb1 \
+\cb3                                         \{sorted.map((c, i) => (\cb1 \
+\cb3                                             <div key=\{c.id\} className=\{`glass-panel rounded-3xl overflow-hidden transition-all duration-1000 transform animate-fade-in $\{i === 0 ? 'destiny-glow scale-105 z-10' : 'opacity-70 grayscale-[30%] hover:grayscale-0 hover:scale-102 hover:opacity-100'\}`\} style=\{\{ animationDelay: `$\{i * 0.3\}s` \}\}>\cb1 \
+\cb3                                                 <div className="relative aspect-[3/4] overflow-hidden text-left"><img src=\{c.img\} className="w-full h-full object-cover" onError=\{e=>e.target.src='https://via.placeholder.com/400x600?text='+c.name\}/><div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div><div className="absolute top-4 right-4 bg-white text-black px-4 py-1 rounded-full font-serif font-bold text-lg">\{c.pct\}%</div><div className="absolute bottom-6 left-0 right-0 text-center text-white"><h3 className="text-4xl font-serif font-bold tracking-[0.3em]">\{c.name\}</h3>\{i === 0 && <span className="text-[10px] uppercase tracking-[0.5em] text-yellow-500 font-bold">\uc0\u21629 \u23450 \u20043 \u36984 </span>\}</div></div>\cb1 \
+\cb3                                                 <div className="p-8 space-y-6 text-left"><div className="h-1 w-full bg-white/5 rounded-full overflow-hidden"><div className=\{`h-full transition-all duration-1000 delay-500 $\{i === 0 ? 'bg-white bar-glow' : 'bg-white/40'\}`\} style=\{\{ width: `$\{c.pct\}%` \}\}></div></div><p className="text-gray-200 text-sm font-light italic leading-relaxed text-center">\uc0\u12300 \{c.quote\}\u12301 </p></div>\cb1 \
+\cb3                                             </div>\cb1 \
+\cb3                                         ))\}\cb1 \
+\cb3                                     </div>\cb1 \
+\cb3                                     <div className="glass-panel p-10 rounded-3xl max-w-2xl mx-auto space-y-4"><p className="text-white/60 text-sm tracking-widest leading-loose">\uc0\u26143 \u36556 \u39023 \u31034 \u20320 \u30340 \u38728 \u39746 \u20855 \u26377 \u22810 \u37325 \u20999 \u38754 \u65292 <br/>\u32080 \u26524 \u24050 \u20132 \u30001 \u12300 \u21629 \u36939 \u24341 \u36335 \u20154 \u12301 \u30041 \u23384 \u12290 </p><div className="pt-6 border-t border-white/10 text-[10px] text-white/20 tracking-[.5em] uppercase">Fate synchronized to DM.</div></div>\cb1 \
+\cb3                                 </div>\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                         );\cb1 \
+\cb3                     \})()\}\cb1 \
+\
+\cb3                     \{step === 'admin_login' && (\cb1 \
+\cb3                         <div className="min-h-screen flex items-center justify-center p-6 animate-fade-in text-center">\cb1 \
+\cb3                             <div className="glass-panel p-10 rounded-3xl w-full max-w-sm space-y-6 shadow-2xl">\cb1 \
+\cb3                                 <h2 className="text-2xl font-serif text-white tracking-widest uppercase">\uc0\u24341 \u36335 \u20154 \u39511 \u35657 </h2>\cb1 \
+\cb3                                 <input type="password" id="adminPwd" className="w-full bg-black/50 border border-white/10 p-4 rounded-xl text-center text-white focus:outline-none" placeholder="\uc0\u36664 \u20837 \u31192 \u38000 " />\cb1 \
+\cb3                                 <button onClick=\{() => \{ if (document.getElementById('adminPwd').value === 'warmbed888') setStep('admin'); else alert('\uc0\u37679 \u35492 '); \}\} className="w-full py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-100 transition-all shadow-xl uppercase tracking-widest">\u38283 \u21855 \u24460 \u21488 </button>\cb1 \
+\cb3                                 <button onClick=\{() => setStep('landing')\} className="w-full text-white/20 text-xs mt-4 tracking-widest uppercase">\uc0\u36820 \u22238 \u36855 \u38695 \u39318 \u38913 </button>\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                     )\}\cb1 \
+\
+\cb3                     \{step === 'admin' && (\cb1 \
+\cb3                         <div className="min-h-screen p-10 bg-black/90 backdrop-blur-3xl overflow-y-auto animate-fade-in">\cb1 \
+\cb3                             <div className="max-w-7xl mx-auto space-y-16">\cb1 \
+\cb3                                 <div className="flex justify-between items-end border-b border-white/10 pb-8"><div className="flex items-center gap-4 text-white text-left"><Icons.Settings /><h1 className="text-4xl font-serif tracking-[.2em] uppercase">\uc0\u28331 \u24202 \u12539 \u22825 \u31204 \u35264 \u28204 \u21488 </h1></div><button onClick=\{() => setStep('landing')\} className="text-white/30 text-sm uppercase transition-colors hover:text-white tracking-widest">Logout</button></div>\cb1 \
+\cb3                                 \{(() => \{\cb1 \
+\cb3                                     // Group and sort sessions by Date (Latest First)\cb1 \
+\cb3                                     const grouped = allResponses.reduce((acc, curr) => \{\cb1 \
+\cb3                                         const key = `$\{curr.gameDate\} $\{curr.gameTime\}`;\cb1 \
+\cb3                                         if (!acc[key]) acc[key] = [];\cb1 \
+\cb3                                         acc[key].push(curr);\cb1 \
+\cb3                                         return acc;\cb1 \
+\cb3                                     \}, \{\});\cb1 \
+\cb3                                     const sortedSessionKeys = Object.keys(grouped).sort((a, b) => b.localeCompare(a));\cb1 \
+\cb3                                     \cb1 \
+\cb3                                     return sortedSessionKeys.map(key => (\cb1 \
+\cb3                                         <div key=\{key\} className="space-y-8 text-left animate-fade-in">\cb1 \
+\cb3                                             <h2 className="text-2xl font-serif text-white/80 flex items-center gap-4"><div className="w-8 h-[1px] bg-white/20"></div> \uc0\u22240 \u26524 \u32080 \u40670 \u65306 \{key\}</h2>\cb1 \
+\cb3                                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">\cb1 \
+\cb3                                                 \{grouped[key].map((p, i) => \{\cb1 \
+\cb3                                                     const pcts = calculatePercentages(p.scores);\cb1 \
+\cb3                                                     return (\cb1 \
+\cb3                                                         <div key=\{i\} className="glass-panel p-8 rounded-2xl space-y-6 border-white/5 hover:border-white/20 transition-all">\cb1 \
+\cb3                                                             <div className="flex justify-between items-center text-white"><span className="text-2xl font-bold tracking-wider text-left">\{p.name\}</span><span className=\{`px-4 py-1 rounded-full text-[10px] uppercase font-bold $\{p.gender === 'male' ? 'bg-blue-500/20 text-blue-300' : 'bg-pink-500/20 text-pink-300'\}`\}>\{p.gender === 'male' ? '\uc0\u30007 ' : '\u22899 '\}</span></div>\cb1 \
+\cb3                                                             <div className="space-y-3">\cb1 \
+\cb3                                                                 <div className="text-[10px] text-white/40 tracking-[0.2em] uppercase border-b border-white/10 pb-1 mb-2">\uc0\u38728 \u39746 \u36969 \u37197 \u20308 \u27604 </div>\cb1 \
+\cb3                                                                 \{Object.entries(pcts).sort((a,b)=>b[1]-a[1]).map(([sid, pct], j) => \{\cb1 \
+\cb3                                                                     const char = ALL_CHARACTERS.find(c=>c.id===sid);\cb1 \
+\cb3                                                                     return (\cb1 \
+\cb3                                                                         <div key=\{sid\} className=\{`flex justify-between items-center text-xs $\{j === 0 ? 'text-white font-bold' : 'text-white/30'\}`\}>\cb1 \
+\cb3                                                                             <span>\{char?.name || sid\}</span>\cb1 \
+\cb3                                                                             <div className="flex-1 border-b border-white/5 mx-4 border-dotted opacity-20"></div>\cb1 \
+\cb3                                                                             <span>\{pct\}%</span>\cb1 \
+\cb3                                                                         </div>\cb1 \
+\cb3                                                                     );\cb1 \
+\cb3                                                                 \})\}\cb1 \
+\cb3                                                             </div>\cb1 \
+\cb3                                                             \{p.message && <div className="text-[11px] text-gray-300 bg-white/5 p-4 rounded-xl italic leading-relaxed text-left border border-white/5">\uc0\u55357 \u56492  \u24341 \u36335 \u20154 \u31169 \u35486 \u65306 \u12300 \{p.message\}\u12301 </div>\}\cb1 \
+\cb3                                                         </div>\cb1 \
+\cb3                                                     );\cb1 \
+\cb3                                                 \})\}\cb1 \
+\cb3                                             </div>\cb1 \
+\cb3                                         </div>\cb1 \
+\cb3                                     ));\cb1 \
+\cb3                                 \})()\}\cb1 \
+\cb3                                 \{allResponses.length === 0 && <div className="text-center py-40 text-white/10 text-4xl font-serif tracking-widest uppercase w-full">No Records Found</div>\}\cb1 \
+\cb3                             </div>\cb1 \
+\cb3                         </div>\cb1 \
+\cb3                     )\}\cb1 \
+\cb3                 </div>\cb1 \
+\cb3             );\cb1 \
+\cb3         \}\cb1 \
+\
+\cb3         const root = ReactDOM.createRoot(document.getElementById('root'));\cb1 \
+\cb3         root.render(<App />);\cb1 \
+\cb3     \cf6 \strokec6 </\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 </\cf2 \strokec2 body\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\cf6 \cb3 \strokec6 </\cf2 \strokec2 html\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
+\pard\pardeftab720\partightenfactor0
+\cf13 \cb14 \outl0\strokewidth0 <!DOCTYPE\cf15  html\cf13 >\cf16 \cb1 \
+\pard\pardeftab720\partightenfactor0
+\cf17 \cb14 <\cf13 html\cf16  \cf15 lang\cf17 =\cf18 "zh-TW"\cf17 >\cf16 \cb1 \
+\cf17 \cb14 <\cf13 head\cf17 >\cf16 \cb1 \
+\cb14     \cf17 <\cf13 meta\cf16  \cf15 charset\cf17 =\cf18 "UTF-8"\cf17 >\cf16 \cb1 \
+\cb14     \cf17 <\cf13 meta\cf16  \cf15 name\cf17 =\cf18 "viewport"\cf16  \cf15 content\cf17 =\cf18 "width=device-width, initial-scale=1.0"\cf17 >\cf16 \cb1 \
+\cb14     \cf17 <\cf13 title\cf17 >
+\f1 \cf16 \'a1\'6d\'b7\'c5\'a7\'c9\'a1\'6e\'a9\'78\'a4\'e8\'aa\'b1\'ae\'61\'a4\'df\'b4\'fa\'a8\'74\'b2\'ce
+\f0 \cf17 </\cf13 title\cf17 >\cf16 \cb1 \
+\cb14     \cf19 <!-- Tailwind CSS -->\cf16 \cb1 \
+\cb14     \cf17 <\cf13 script\cf16  \cf15 src\cf17 =\cf18 "https://cdn.tailwindcss.com"\cf17 ></\cf13 script\cf17 >\cf16 \cb1 \
+\cb14     \cf19 <!-- React & Babel -->\cf16 \cb1 \
+\cb14     \cf17 <\cf13 script\cf16  \cf15 src\cf17 =\cf18 "https://unpkg.com/react@18/umd/react.production.min.js"\cf17 ></\cf13 script\cf17 >\cf16 \cb1 \
+\cb14     \cf17 <\cf13 script\cf16  \cf15 src\cf17 =\cf18 "https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"\cf17 ></\cf13 script\cf17 >\cf16 \cb1 \
+\cb14     \cf17 <\cf13 script\cf16  \cf15 src\cf17 =\cf18 "https://unpkg.com/@babel/standalone/babel.min.js"\cf17 ></\cf13 script\cf17 >\cf16 \cb1 \
+\cb14     \cf19 <!-- Lucide Icons -->\cf16 \cb1 \
+\cb14     \cf17 <\cf13 script\cf16  \cf15 src\cf17 =\cf18 "https://unpkg.com/lucide@latest"\cf17 ></\cf13 script\cf17 >\cf16 \cb1 \
+\cf17 \cb14 </\cf13 head\cf17 >\cf16 \cb1 \
+\cf17 \cb14 <\cf13 body\cf16  \cf15 class\cf17 =\cf18 "bg-black"\cf17 >\cf16 \cb1 \
+\cb14     \cf17 <\cf13 div\cf16  \cf15 id\cf17 =\cf18 "root"\cf17 ></\cf13 div\cf17 >\cf16 \cb1 \
+\
+\cb14     \cf17 <\cf13 script\cf16  \cf15 type\cf17 =\cf18 "text/babel"\cf17 >\cf16 \cb1 \
+\cb14         const \{ useState, useEffect \} = React;\cb1 \
+\
+\cb14         // Firebase Imports from CDN\cb1 \
+\cb14         import \{ initializeApp \} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";\cb1 \
+\cb14         import \{ getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, setDoc \} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";\cb1 \
+\cb14         import \{ getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken \} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";\cb1 \
+\
+\cb14         // --- Firebase Configuration ---\cb1 \
+\cb14         // 
+\f1 \'b3\'6f\'b8\'cc\'b7\'7c\'a6\'db\'b0\'ca\'c5\'aa\'a8\'fa\'c0\'f4\'b9\'d2\'b4\'a3\'a8\'d1\'aa\'ba\'b0\'74\'b8\'6d
+\f0 \cb1 \
+\cb14         const firebaseConfig = JSON.parse(__firebase_config);\cb1 \
+\cb14         const app = initializeApp(firebaseConfig);\cb1 \
+\cb14         const auth = getAuth(app);\cb1 \
+\cb14         const db = getFirestore(app);\cb1 \
+\cb14         const appId = typeof __app_id !== 'undefined' ? __app_id : 'warm-bed-test';\cb1 \
+\
+\cb14         // --- Assets & Data ---\cb1 \
+\cb14         // 
+\f1 \'aa\'60\'b7\'4e\'a1\'47\'a6\'62
+\f0  Google 
+\f1 \'a8\'f3\'a7\'40\'a5\'ad\'a5\'78\'a4\'57\'a1\'41
+\f0 img 
+\f1 \'b8\'f4\'ae\'7c\'bd\'d0\'a7\'f3\'b4\'ab\'ac\'b0\'a7\'b9\'be\'e3\'aa\'ba
+\f0  https 
+\f1 \'ba\'f4\'a7\'7d
+\f0 \cb1 \
+\cb14         const CHARACTERS = \{\cb1 \
+\cb14             male: [\cb1 \
+\cb14                 \{ id: 'lyon', name: '
+\f1 \'a8\'bd\'a9\'f9
+\f0 ', img: '
+\f1 \'a8\'bd\'a9\'f9
+\f0 _0.jpg', description: '
+\f1 \'c5\'51\'b9\'44\'b6\'c6\'ba\'43\'a1\'42\'a4\'e2\'ac\'71\'ac\'bd\'bc\'46\'aa\'ba\'b0\'ea\'a4\'fd\'a1\'43\'be\'41\'a6\'58\'af\'c2\'b7\'52\'c4\'d2\'a1\'42\'b3\'df\'c5\'77\'f6\'74\'c0\'b8\'a5\'42\'b9\'44\'bc\'77\'b7\'50\'a7\'43\'aa\'ba\'aa\'b1\'ae\'61\'a1\'43
+\f0 ' \},\cb1 \
+\cb14                 \{ id: 'adam', name: '
+\f1 \'a8\'c8\'b7\'ed
+\f0 ', img: '
+\f1 \'a8\'c8\'b7\'ed
+\f0 _0.jpg', description: '
+\f1 \'c6\'46\'bb\'ee\'b5\'bd\'a8\'7d\'ab\'6f\'a6\'5d\'a9\'52\'b9\'42\'a6\'a8\'ac\'b0\'b4\'5f\'a4\'b3\'aa\'cc\'aa\'ba\'af\'ab\'a4\'f7\'a1\'43\'be\'41\'a6\'58\'a4\'ba\'ae\'d6\'b5\'bd\'a8\'7d\'a1\'42\'a5\'69\'b1\'b5\'a8\'fc\'a4\'54\'a8\'a4\'c5\'ca\'a1\'42\'a7\'dc\'c0\'a3\'aa\'ba\'aa\'b1\'ae\'61\'a1\'43
+\f0 ' \},\cb1 \
+\cb14                 \{ id: 'vick', name: '
+\f1 \'ba\'fb\'a7\'4a
+\f0 ', img: '
+\f1 \'ba\'fb\'a7\'4a
+\f0 _0.jpg', description: '
+\f1 \'b3\'a5\'a4\'df\'ab\'6b\'ab\'6b\'aa\'ba\'b5\'ea\'b0\'b2\'a1\'75\'ac\'40\'b1\'cf\'aa\'cc\'a1\'76\'a1\'43\'be\'41\'a6\'58\'c5\'76\'b1\'fd\'b7\'a5\'b1\'6a\'a1\'42\'b3\'b1\'c0\'e3\'a8\'6b\'b0\'ad\'ab\'ac\'a1\'42\'b1\'6a\'bf\'e9\'a5\'58\'aa\'ba\'aa\'b1\'ae\'61\'a1\'43
+\f0 ' \},\cb1 \
+\cb14             ],\cb1 \
+\cb14             female: [\cb1 \
+\cb14                 \{ id: 'daisy', name: '
+\f1 \'c2\'4c\'a6\'e8
+\f0 ', img: '
+\f1 \'c2\'4c\'a6\'e8
+\f0 _0.jpg', description: '
+\f1 \'b4\'63\'ac\'72\'b6\'c6\'ba\'43\'a1\'42\'b3\'a5\'a4\'df\'ab\'6b\'ab\'6b\'aa\'ba\'a4\'6b\'ac\'d3\'a1\'43\'be\'41\'a6\'58\'b3\'df\'c5\'77\'b0\'a9\'ac\'ec\'a1\'42\'af\'c8\'be\'4b\'aa\'f7\'b0\'67\'bb\'50\'c5\'76\'a4\'4f\'a1\'42\'b1\'6a\'bf\'e9\'a5\'58\'aa\'ba\'aa\'b1\'ae\'61\'a1\'43
+\f0 ' \},\cb1 \
+\cb14                 \{ id: 'jin', name: '
+\f1 \'d4\'bb
+\f0 ', img: '
+\f1 \'d4\'bb
+\f0 _0.jpg', description: '
+\f1 \'b3\'a8\'a8\'74\'a4\'6b\'a7\'c5\'a1\'42\'a4\'ba\'a4\'df\'a5\'52\'ba\'a1\'ba\'e2\'ad\'70\'a1\'43\'be\'41\'a6\'58\'b3\'df\'c5\'77\'a4\'54\'a8\'a4\'c5\'ca\'a1\'42\'a6\'db\'a8\'70\'b3\'67\'b0\'fd\'a1\'42\'a4\'70\'b6\'fd
+\f0 /
+\f1 \'b7\'41\'a4\'6c\'a4\'e5\'be\'c7\'aa\'ba\'aa\'b1\'ae\'61\'a1\'43
+\f0 ' \},\cb1 \
+\cb14                 \{ id: 'feiyi', name: '
+\f1 \'b5\'e1\'a5\'ec
+\f0 ', img: '
+\f1 \'b5\'e1\'a5\'ec
+\f0 _0.jpg', description: '
+\f1 \'af\'66\'bc\'62\'a6\'44\'b0\'54\'ae\'76\'a1\'42\'b4\'f7\'b1\'e6\'b1\'cf\'c5\'ab\'aa\'ba\'a5\'69\'bc\'a6\'a4\'48\'a1\'43\'be\'41\'a6\'58\'c5\'ca\'b3\'ad\'a1\'42\'a6\'59\'b7\'a5\'ad\'50\'a9\'65\'a9\'7d\'bd\'75\'a1\'42\'ae\'7a\'b6\'d5\'a9\'d3\'a8\'fc\'c0\'a3\'a4\'4f\'aa\'ba\'aa\'b1\'ae\'61\'a1\'43
+\f0 ' \},\cb1 \
+\cb14             ]\cb1 \
+\cb14         \};\cb1 \
+\
+\cb14         const QUESTIONS_MALE = [\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'multi',\cb1 \
+\cb14                 title: '
+\f1 \'a5\'65\'a4\'52\'ae\'76\'ae\'b3\'a4\'46\'b3\'5c\'a6\'68\'b1\'69\'a5\'64\'a4\'f9\'a1\'41\'ac\'44\'bf\'ef\'a4\'40\'a8\'c7\'a4\'de\'b0\'5f\'a7\'41\'bf\'b3\'bd\'ec\'aa\'ba\'a1\'47
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a9\'c7\'aa\'ab
+\f0 ', scores: \{ vick: 5, lyon: 2, adam: -3 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'ad\'49\'ad\'74
+\f0 ', scores: \{ adam: 5, vick: 2 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'c5\'76\'a4\'4f
+\f0 ', scores: \{ lyon: 5, vick: -3, adam: -3 \} \},\cb1 \
+\cb14                     \{ text: 'D. 
+\f1 \'b1\'6a\'a8\'ee
+\f0 ', scores: \{ vick: 5, lyon: 2, adam: -3 \} \},\cb1 \
+\cb14                     \{ text: 'E. 
+\f1 \'bc\'5a\'af\'ab
+\f0 ', scores: \{ adam: 5, lyon: 2 \} \},\cb1 \
+\cb14                     \{ text: 'F. 
+\f1 \'b7\'a5\'ad\'50
+\f0 ', scores: \{ lyon: 5, vick: 2, adam: -3 \} \},\cb1 \
+\cb14                     \{ text: 'G. 
+\f1 \'c3\'4d\'a4\'68
+\f0 ', scores: \{ vick: 5 \} \},\cb1 \
+\cb14                     \{ text: 'H. 
+\f1 \'b0\'ea\'a4\'fd
+\f0 ', scores: \{ lyon: 5 \} \},\cb1 \
+\cb14                     \{ text: 'I. 
+\f1 \'a4\'fd\'a4\'6c
+\f0 ', scores: \{ adam: 5 \} \},\cb1 \
+\cb14                     \{ text: 'J. 
+\f1 \'c0\'a3\'a7\'ed
+\f0 ', scores: \{ adam: 5, vick: 2, lyon: -5 \} \},\cb1 \
+\cb14                     \{ text: 'K. 
+\f1 \'af\'75\'a4\'df
+\f0 ', scores: \{ lyon: 5, adam: 2, vick: -3 \} \},\cb1 \
+\cb14                     \{ text: 'L. 
+\f1 \'a7\'51\'a5\'ce
+\f0 ', scores: \{ vick: 5 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'a7\'41\'bd\'f1\'a4\'4a\'a4\'46\'af\'c1\'a6\'68\'ba\'bf\'a1\'41\'b3\'6f\'ac\'4f\'af\'c8\'be\'4b\'aa\'f7\'b0\'67\'aa\'ba\'b3\'a3\'a5\'ab\'a1\'41\'a7\'41\'b3\'cc\'b3\'df\'c5\'77\'a5\'a6\'aa\'ba\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'c1\'63\'b5\'d8\'a1\'42\'a6\'57\'ac\'79\'ae\'62\'b7\'7c\'a1\'42\'c4\'b3\'b7\'7c\'ae\'75\'a6\'ec\'a1\'42\'aa\'ab\'b1\'fd\'be\'ee\'ac\'79\'a1\'43
+\f0 ', scores: \{ lyon: 10, vick: 5 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a4\'69\'b6\'a7\'a1\'42\'b1\'d0\'b0\'f3\'c4\'c1\'c1\'6e\'a1\'42\'c5\'ca\'a4\'48\'a7\'43\'bb\'79\'a1\'42\'ae\'fc\'bb\'7d\'a4\'73\'b7\'f9\'a1\'43
+\f0 ', scores: \{ adam: 10, lyon: 5 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'be\'f7\'b7\'7c\'a1\'42\'ba\'6a\'bb\'50\'c2\'41\'a6\'e5\'a1\'42\'ba\'e2\'ad\'70\'ad\'49\'ab\'71\'a1\'42\'b1\'b0\'b9\'dc\'a6\'fb\'a6\'b3\'a1\'43
+\f0 ', scores: \{ vick: 10, lyon: 5 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'ae\'61\'b1\'da\'a4\'ba\'b3\'a1\'ba\'61\'b0\'64\'bb\'50\'a6\'40\'a1\'41\'ad\'59\'b1\'4e\'ae\'61\'b1\'da\'a4\'f1\'a7\'40\'a4\'40\'ad\'d3\'a4\'fd\'b4\'c2\'a1\'41\'b1\'7a\'c4\'b1\'b1\'6f\'a6\'db\'a4\'76\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'b4\'bf\'b8\'67\'ab\'c2\'c4\'59\'b4\'bc\'bc\'7a\'a1\'41\'a6\'70\'a4\'b5\'c3\'f8\'a5\'48\'ae\'bb\'ba\'4e\'aa\'ba\'bc\'c9\'a7\'67\'a1\'43
+\f0 ', scores: \{ lyon: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a4\'e2\'b4\'a4\'ad\'ab\'a7\'4c\'a1\'41\'b3\'a5\'a4\'df\'ab\'6b\'ab\'6b\'aa\'ba\'b1\'4e\'ad\'78\'a1\'43
+\f0 ', scores: \{ vick: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'bc\'7e\'c6\'7b\'b2\'60\'a8\'48\'a1\'41\'b7\'52\'a4\'57\'a4\'fd\'a6\'5a\'aa\'ba\'a4\'fd\'a4\'6c\'a1\'43
+\f0 ', scores: \{ adam: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b1\'b5\'a8\'fc\'c3\'b9\'bc\'77\'ae\'61\'b1\'da\'be\'b1\'b3\'b9\'ae\'c9\'a1\'41\'b1\'7a\'c5\'a5\'a8\'ec\'aa\'ba\'b1\'c2\'be\'b1\'b5\'fc\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'c5\'76\'a4\'4f\'a1\'41\'ac\'4f\'a7\'da\'ad\'cc\'a8\'ab\'a6\'56\'b1\'6a\'b2\'b1\'aa\'ba\'b6\'a5\'b1\'e8\'a1\'43\'b3\'a5\'a4\'df\'ac\'4f\'a7\'41\'aa\'ba\'a7\'51\'bc\'43\'a1\'43
+\f0 ', scores: \{ vick: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'b5\'bd\'a8\'7d\'a1\'41\'b7\'52\'a1\'41\'a5\'bf\'b8\'71\'ac\'4f\'ae\'61\'b1\'da\'b9\'ef\'a5\'7e\'aa\'ba\'a7\'ce\'b6\'48\'a1\'43\'ab\'4f\'ab\'f9\'a7\'41\'a4\'df\'a4\'a4\'aa\'ba\'a5\'fa\'a9\'fa\'a1\'43
+\f0 ', scores: \{ adam: 15 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'bd\'d0\'c0\'48\'a4\'df\'a9\'d2\'b1\'fd\'a7\'61\'a1\'41\'a7\'da\'aa\'ba\'a4\'fd\'a1\'41\'b1\'61\'a4\'57\'a7\'41\'aa\'ba\'b6\'c6\'ba\'43\'a1\'41\'ab\'65\'b8\'f4\'c0\'e9\'c4\'ea\'a1\'41\'be\'a8\'ba\'de\'a8\'c9\'bc\'d6\'a1\'43
+\f0 ', scores: \{ lyon: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b5\'6f\'b2\'7b\'ae\'61\'b1\'da\'a4\'b9\'b3\'5c\'a4\'54\'ad\'d3\'a4\'48\'a6\'b3\'b1\'a1\'b7\'50\'aa\'c8\'b8\'af\'a1\'41\'a6\'fd\'b9\'ea\'bb\'da\'ab\'6f\'a6\'55\'a6\'b3\'a6\'55\'aa\'ba\'ba\'e2\'bd\'4c\'a1\'41\'a7\'41\'b7\'7c\'bb\'7b\'ac\'b0\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a7\'da\'a7\'b9\'a5\'fe\'b1\'b5\'a8\'fc\'a1\'41\'b7\'52\'b1\'a1\'b4\'4e\'ac\'4f\'ad\'6e\'be\'61\'a6\'db\'a4\'76\'aa\'a7\'b9\'dc\'a8\'d3\'aa\'ba\'a4\'7e\'a6\'b3\'bd\'ec\'a1\'43
+\f0 ', scores: \{ adam: 10, vick: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a7\'da\'a5\'69\'a5\'48\'b9\'c1\'b8\'d5\'a1\'41\'a5\'75\'ad\'6e\'c5\'de\'bf\'e8\'af\'e0\'b0\'f7\'a6\'db\'ac\'a2\'a1\'43
+\f0 ', scores: \{ adam: 5, vick: 5 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'a7\'da\'a7\'b9\'a5\'fe\'a4\'a3\'a5\'69\'a5\'48\'b1\'b5\'a8\'fc\'a1\'41\'b7\'52\'b1\'a1\'b4\'4e\'ac\'4f\'ad\'6e\'b5\'b4\'b9\'ef\'a9\'be\'b8\'db\'aa\'ba\'a1\'43
+\f0 ', scores: \{ adam: -10, vick: -10, lyon: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'a8\'43\'b9\'6a\'a4\'40\'ac\'71\'ae\'c9\'b6\'a1\'b7\'7c\'a6\'b3\'b3\'f5\'b2\'b1\'a4\'6a\'aa\'ba\'b7\'7c\'c4\'b3\'a1\'41\'b7\'7c\'c4\'b3\'a4\'57\'a7\'41\'a7\'c6\'b1\'e6\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a8\'d4\'a8\'d4\'a6\'d3\'bd\'cd\'a1\'41\'a7\'da\'a6\'b3\'b7\'a5\'b1\'6a\'aa\'ba\'bf\'e9\'a5\'58\'bb\'e2\'be\'c9\'af\'e0\'a4\'4f\'a1\'43
+\f0 ', scores: \{ lyon: 10, vick: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a7\'da\'a5\'69\'a5\'48\'b5\'6f\'a8\'a5\'a1\'41\'a7\'da\'bf\'e9\'a5\'58\'a4\'4f\'c1\'d9\'a6\'e6\'a1\'43
+\f0 ', scores: \{ adam: 10, vick: -5, lyon: -10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b7\'52\'aa\'ba\'ba\'d8\'a4\'6c\'a4\'5d\'b7\'7c\'a6\'62\'b1\'fd\'b1\'e6\'a4\'a4\'ba\'ec\'a9\'f1\'a1\'41\'a7\'41\'c4\'b1\'b1\'6f\'b3\'6f\'c1\'fb\'ba\'d8\'a4\'6c\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'aa\'b4\'ba\'c0\'aa\'e1\'ba\'d8\'a4\'6c\'a1\'41\'a5\'4e\'aa\'ed\'aa\'ba\'ac\'4f\'af\'c2\'ba\'e9\'aa\'ba\'b7\'52\'a1\'41\'b5\'4c\'a8\'70\'a9\'5e\'c4\'6d\'aa\'ba\'b7\'52\'a1\'43
+\f0 ', scores: \{ lyon: 10, adam: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'ba\'d8\'a4\'6c\'a1\'48\'a4\'c0\'a9\'fa\'ac\'4f\'a4\'40\'c1\'fb\'b3\'c1\'a4\'6c\'a1\'43\'aa\'e1\'c1\'60\'ac\'4f\'ad\'6e\'b5\'b2\'aa\'47\'aa\'ba\'a1\'41\'a7\'da\'ad\'6e\'aa\'ba\'ac\'4f\'c2\'b3\'ad\'b9\'bb\'50\'c2\'d7\'a6\'ac\'a1\'43
+\f0 ', scores: \{ vick: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b9\'ef\'a9\'f3\'b7\'52\'b1\'a1\'a7\'41\'aa\'ba\'ba\'41\'ab\'d7\'b0\'be\'a6\'56\'a1\'47
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'b7\'52\'b1\'a1\'ac\'4f\'b1\'6a\'aa\'cc\'aa\'ba\'c5\'76\'a4\'4f\'a1\'41\'ae\'7a\'aa\'cc\'a5\'75\'af\'e0\'bf\'d1\'a8\'fa\'a7\'51\'af\'71\'a1\'41\'a6\'d3\'a7\'da\'a1\'41\'af\'75\'a5\'bf\'aa\'ba\'b1\'6a\'aa\'cc\'a1\'43
+\f0 ', scores: \{ lyon: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'b7\'52\'b1\'a1\'ac\'4f\'c5\'76\'a4\'4f\'aa\'ba\'aa\'fe\'c4\'dd\'a1\'41\'a7\'da\'b1\'4e\'a5\'c3\'bb\'b7\'af\'c1\'a8\'fa\'c5\'76\'a4\'4f\'a1\'41\'c1\'cd\'a6\'56\'a7\'51\'af\'71\'a1\'41\'b7\'52\'a4\'48\'ac\'4f\'be\'d4\'a7\'51\'ab\'7e\'a1\'43
+\f0 ', scores: \{ vick: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'b7\'52\'a5\'75\'ac\'4f\'b7\'52\'a1\'41\'a7\'da\'b7\'7c\'c5\'fd\'b7\'52\'a4\'48\'ac\'db\'ab\'48\'a7\'da\'ac\'4f\'a6\'6f\'aa\'ba\'a6\'50\'b7\'f9\'a1\'41\'a7\'da\'bb\'50\'a6\'6f\'a7\'51\'af\'71\'a5\'c3\'a4\'a3\'bd\'c4\'ac\'f0\'a1\'43
+\f0 ', scores: \{ adam: 15 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b7\'ed\'a7\'41\'b5\'6f\'b2\'7b\'b3\'6f\'ad\'d3\'ae\'61\'b1\'da\'a7\'59\'b1\'4e\'b1\'59\'c3\'61\'a1\'41\'af\'c1\'a6\'68\'ba\'bf\'a4\'5d\'a7\'59\'b1\'4e\'b7\'b4\'b7\'c0\'a1\'41\'a7\'41\'b7\'7c\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'b5\'4c\'a9\'d2\'bf\'d7\'a1\'41\'a7\'da\'b7\'7c\'b5\'b9\'a9\'52\'b9\'42\'a4\'40\'ad\'d3\'b2\'b1\'a4\'6a\'aa\'ba\'c1\'c2\'b9\'f5\'a1\'41\'a5\'76\'ae\'d1\'a4\'a7\'a4\'57\'a1\'41\'ab\'b0\'a5\'ab\'aa\'ba\'b7\'b4\'b7\'c0\'a5\'b2\'a6\'f1\'c0\'48\'a7\'da\'aa\'ba\'a6\'ba\'a4\'60\'a1\'43
+\f0 ', scores: \{ lyon: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a4\'6a\'b7\'48\'b1\'4e\'b6\'c9\'a1\'41\'b2\'d7\'a9\'f3\'a5\'fa\'a9\'fa\'bb\'50\'af\'75\'ac\'db\'ad\'ab\'a6\'5e\'af\'c1\'a6\'68\'ba\'bf\'a1\'43
+\f0 ', scores: \{ adam: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'a5\'69\'a5\'48\'a6\'62\'bc\'6f\'bc\'56\'a4\'a7\'a4\'57\'ad\'ab\'ab\'d8\'b7\'73\'aa\'ba\'a4\'fd\'b0\'ea\'a1\'41\'ad\'fe\'a9\'c8\'a5\'a6\'b4\'f9\'a4\'70\'a6\'d3\'b8\'a8\'be\'7a\'a1\'43\'a5\'cd\'a9\'52\'a4\'a3\'a6\'ba\'a1\'41\'c5\'76\'b1\'fd\'a4\'a3\'b0\'49\'a1\'43
+\f0 ', scores: \{ vick: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'ae\'61\'b1\'da\'a4\'a3\'b9\'4c\'ac\'4f\'ad\'d3\'c0\'b0\'ac\'a3\'a1\'41\'a8\'ba\'bb\'f2\'b9\'ef\'a7\'41\'a8\'d3\'bb\'a1\'a1\'41\'a6\'e5\'bd\'74\'bf\'cb\'b1\'a1\'aa\'ba\'b7\'4e\'b8\'71\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a6\'e5\'bd\'74\'a4\'a3\'af\'e0\'a9\'77\'b8\'71\'a7\'da\'a4\'ba\'a4\'df\'a9\'d3\'bb\'7b\'aa\'ba\'a1\'75\'ae\'61\'b1\'da\'a1\'76\'a1\'41\'bf\'cb\'a4\'48\'ac\'4f\'a4\'57\'ab\'d2\'bf\'ef\'aa\'ba\'a1\'41\'a6\'fd\'a7\'da\'ad\'6e\'a6\'db\'a4\'76\'bf\'ef\'a1\'43
+\f0 ', scores: \{ lyon: 10, vick: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'bf\'cb\'b1\'a1\'ac\'4f\'b3\'79\'aa\'ab\'a5\'44\'b5\'b9\'a7\'da\'aa\'ba\'a4\'d1\'b5\'4d\'c5\'f9\'b2\'cc\'a1\'41\'ac\'4f\'bf\'57\'c4\'dd\'a9\'f3\'a7\'da\'aa\'ba\'ac\'c3\'c4\'5f\'a1\'41\'a7\'da\'b7\'7c\'b7\'52\'a7\'da\'aa\'ba\'bf\'cb\'a4\'48\'a1\'43
+\f0 ', scores: \{ adam: 15 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \}\cb1 \
+\cb14         ];\cb1 \
+\
+\cb14         const QUESTIONS_FEMALE = [\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'multi',\cb1 \
+\cb14                 title: '
+\f1 \'a5\'65\'a4\'52\'ae\'76\'ae\'b3\'a4\'46\'b3\'5c\'a6\'68\'b1\'69\'a5\'64\'a4\'f9\'a1\'41\'ac\'44\'bf\'ef\'a4\'40\'a8\'c7\'a4\'de\'b0\'5f\'a7\'41\'bf\'b3\'bd\'ec\'aa\'ba\'a1\'47
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'ac\'d3\'a6\'5a
+\f0 ', scores: \{ daisy: 5 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'ab\'71\'b0\'66
+\f0 ', scores: \{ feiyi: 5, jin: 2 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'af\'75\'b7\'52
+\f0 ', scores: \{ daisy: 5, feiyi: 2, jin: -3 \} \},\cb1 \
+\cb14                     \{ text: 'D. 
+\f1 \'a4\'6b\'a7\'c5
+\f0 ', scores: \{ jin: 5 \} \},\cb1 \
+\cb14                     \{ text: 'E. 
+\f1 \'c5\'76\'a4\'4f
+\f0 ', scores: \{ daisy: 5, jin: 2, feiyi: -3 \} \},\cb1 \
+\cb14                     \{ text: 'F. 
+\f1 \'b7\'b4\'b7\'c0
+\f0 ', scores: \{ jin: 5, feiyi: 2 \} \},\cb1 \
+\cb14                     \{ text: 'G. 
+\f1 \'a4\'bd\'a5\'44
+\f0 ', scores: \{ feiyi: 5 \} \},\cb1 \
+\cb14                     \{ text: 'H. 
+\f1 \'a4\'cf\'ae\'74
+\f0 ', scores: \{ feiyi: 5, jin: 2 \} \},\cb1 \
+\cb14                     \{ text: 'I. 
+\f1 \'ab\'e1\'b6\'fd
+\f0 ', scores: \{ daisy: 5, jin: 2, feiyi: -3 \} \},\cb1 \
+\cb14                     \{ text: 'J. 
+\f1 \'b1\'cf\'c5\'ab
+\f0 ', scores: \{ feiyi: 5, jin: 2, daisy: -3 \} \},\cb1 \
+\cb14                     \{ text: 'K. 
+\f1 \'b4\'5f\'a4\'b3
+\f0 ', scores: \{ jin: 5 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'a7\'41\'bd\'f1\'a4\'4a\'a4\'46\'af\'c1\'a6\'68\'ba\'bf\'a1\'41\'b3\'6f\'ac\'4f\'af\'c8\'be\'4b\'aa\'f7\'b0\'67\'aa\'ba\'b3\'a3\'a5\'ab\'a1\'41\'a7\'41\'b3\'cc\'b3\'df\'c5\'77\'a5\'a6\'aa\'ba\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'c1\'63\'b5\'d8\'a1\'42\'a6\'57\'ac\'79\'ae\'62\'b7\'7c\'a1\'42\'c4\'b3\'b7\'7c\'ae\'75\'a6\'ec\'a1\'42\'aa\'ab\'b1\'fd\'be\'ee\'ac\'79\'a1\'43
+\f0 ', scores: \{ daisy: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a6\'db\'a5\'d1\'a1\'42\'a4\'54\'a8\'a4\'c3\'f6\'ab\'59\'a1\'42\'b4\'e5\'a4\'62\'a6\'b3\'be\'6c\'a1\'42\'b0\'b2\'b7\'4e\'af\'75\'a4\'df\'a1\'43
+\f0 ', scores: \{ jin: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'bc\'5a\'b8\'a8\'a1\'42\'ac\'b0\'aa\'ea\'a7\'40\'ad\'ce\'a1\'42\'a9\'fa\'a4\'eb\'b0\'aa\'c4\'61\'a1\'42\'ac\'bf\'a6\'c3\'a9\'fa\'a4\'eb\'a1\'43
+\f0 ', scores: \{ feiyi: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'ae\'61\'b1\'da\'a4\'ba\'b3\'a1\'ba\'61\'b0\'64\'bb\'50\'a6\'40\'a1\'41\'ad\'59\'b1\'4e\'ae\'61\'b1\'da\'a4\'f1\'a7\'40\'a4\'40\'ad\'d3\'a4\'fd\'b4\'c2\'a1\'41\'b1\'7a\'c4\'b1\'b1\'6f\'a6\'db\'a4\'76\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'b7\'52\'c5\'76\'a4\'4f\'a4\'5d\'b7\'52\'a8\'c9\'bc\'d6\'aa\'ba\'b3\'a5\'a4\'df\'a4\'6b\'ac\'d3\'a1\'43
+\f0 ', scores: \{ daisy: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a5\'44\'ae\'5f\'a4\'48\'ad\'cc\'a5\'cd\'a6\'ba\'aa\'ba\'b0\'aa\'b4\'bc\'b0\'ea\'ae\'76\'a1\'43
+\f0 ', scores: \{ jin: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'a5\'44\'ae\'5f\'a8\'63\'ba\'bb\'a1\'41\'ba\'ca\'b8\'54\'b7\'52\'a4\'48\'aa\'ba\'b1\'4b\'b1\'b4\'ad\'ba\'bb\'e2\'a1\'43
+\f0 ', scores: \{ feiyi: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b1\'b5\'a8\'fc\'c3\'b9\'bc\'77\'ae\'61\'b1\'da\'be\'b1\'b3\'b9\'ae\'c9\'a1\'41\'b1\'7a\'c5\'a5\'a8\'ec\'aa\'ba\'b1\'c2\'be\'b1\'b5\'fc\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'c5\'76\'a4\'4f\'a1\'41\'ac\'4f\'a7\'da\'ad\'cc\'a8\'ab\'a6\'56\'b1\'6a\'b2\'b1\'aa\'ba\'b6\'a5\'b1\'e8\'a1\'43\'b3\'a5\'a4\'df\'ac\'4f\'a7\'41\'aa\'ba\'a7\'51\'bc\'43\'a1\'43
+\f0 ', scores: \{ daisy: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'b5\'bd\'a8\'7d\'a1\'41\'b7\'52\'a1\'41\'a5\'bf\'b8\'71\'ac\'4f\'ae\'61\'b1\'da\'b9\'ef\'a5\'7e\'aa\'ba\'a7\'ce\'b6\'48\'a1\'43\'ab\'4f\'ab\'f9\'a7\'41\'a4\'df\'a4\'a4\'aa\'ba\'a5\'fa\'a9\'fa\'a1\'43
+\f0 ', scores: \{ jin: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'a7\'41\'a5\'bb\'a4\'a3\'b0\'74\'ab\'dd\'a6\'62\'b3\'6f\'b8\'cc\'a1\'41\'a6\'fd\'a7\'41\'b1\'b0\'b9\'dc\'a4\'46\'b7\'52\'a4\'48\'aa\'ba\'a4\'40\'a4\'c1\'a1\'41\'bd\'f2\'b5\'db\'af\'75\'a4\'df\'b1\'b5\'b9\'4c\'a4\'46\'be\'b1\'b3\'b9\'a1\'43
+\f0 ', scores: \{ feiyi: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b5\'6f\'b2\'7b\'ae\'61\'b1\'da\'a4\'b9\'b3\'5c\'a4\'54\'ad\'d3\'a4\'48\'a6\'b3\'b1\'a1\'b7\'50\'aa\'c8\'b8\'af\'a1\'43\'a7\'41\'ab\'e7\'bb\'f2\'bb\'7b\'ac\'b0\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a7\'da\'a5\'69\'a5\'48\'b1\'b5\'a8\'fc\'a1\'43
+\f0 ', scores: \{ jin: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a7\'da\'a4\'a3\'af\'e0\'b1\'b5\'a8\'fc\'a1\'43
+\f0 ', scores: \{ daisy: 15, feiyi: 15, jin: -40 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'a7\'da\'b5\'4c\'a9\'d2\'bf\'d7\'a1\'43
+\f0 ', scores: \{\} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'a6\'70\'aa\'47\'a6\'62\'b7\'7c\'c4\'b3\'a4\'a4\'a1\'41\'a7\'41\'a6\'a8\'ac\'b0\'a4\'46\'b2\'b3\'a5\'da\'a4\'a7\'aa\'ba\'a1\'41\'a8\'ba\'bb\'f2\'a7\'41\'aa\'ba\'a4\'df\'ba\'41\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a7\'da\'a7\'dc\'c0\'a3\'af\'e0\'a4\'4f\'b8\'fb\'b1\'6a\'a1\'41\'a5\'75\'ad\'6e\'c5\'de\'bf\'e8\'a6\'58\'b2\'7a\'a7\'da\'a7\'b9\'a5\'fe\'a5\'69\'a5\'48\'b1\'b5\'a8\'fc\'a1\'43
+\f0 ', scores: \{ feiyi: 20, daisy: -20 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a7\'da\'ac\'4a\'a4\'a3\'b7\'51\'c0\'a3\'a4\'4f\'a7\'4f\'a4\'48\'a4\'53\'a4\'a3\'b7\'51\'a7\'dc\'c0\'a3\'a1\'43
+\f0 ', scores: \{ jin: 20 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'a7\'da\'a7\'dc\'a4\'a3\'a4\'46\'a4\'40\'c2\'49\'c0\'a3\'a1\'41\'b1\'71\'a8\'d3\'b4\'4e\'a5\'75\'a6\'b3\'a7\'da\'a5\'68\'c0\'a3\'a4\'4f\'a7\'4f\'a4\'48\'a1\'43
+\f0 ', scores: \{ daisy: 20, feiyi: -20 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b7\'52\'aa\'ba\'ba\'d8\'a4\'6c\'a4\'5d\'b7\'7c\'a6\'62\'b1\'fd\'b1\'e6\'a4\'a4\'ba\'ec\'a9\'f1\'a1\'41\'a7\'41\'c4\'b1\'b1\'6f\'b3\'6f\'c1\'fb\'ba\'d8\'a4\'6c\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a5\'a6\'a4\'a3\'ac\'4f\'a4\'40\'a6\'b7\'aa\'e1\'a1\'41\'ac\'4f\'a4\'40\'b4\'ca\'ba\'5f\'be\'f0\'a1\'41\'af\'e0\'ba\'c9\'b1\'a1\'b5\'b1\'b1\'fe\'a7\'4f\'aa\'ba\'b4\'d3\'aa\'ab\'a1\'43
+\f0 ', scores: \{ daisy: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'aa\'b4\'ba\'c0\'ba\'d8\'a4\'6c\'a1\'41\'a6\'fd\'a4\'a3\'a5\'75\'a4\'40\'c1\'fb\'a1\'43\'a7\'da\'a6\'b3\'a4\'a3\'a5\'75\'a4\'40\'ad\'d3\'b7\'52\'a4\'48\'a1\'43
+\f0 ', scores: \{ jin: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'c4\'a2\'b5\'af\'a1\'41\'a7\'da\'ad\'6e\'c5\'fd\'c5\'ca\'a4\'48\'c2\'f7\'a4\'a3\'b6\'7d\'a7\'da\'a1\'41\'a7\'da\'a4\'5d\'a4\'40\'bc\'cb\'a1\'43\'a4\'40\'b0\'5f\'a8\'48\'b2\'5f\'a1\'41\'a7\'4f\'ac\'40\'b1\'cf\'a7\'da\'a1\'43
+\f0 ', scores: \{ feiyi: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b9\'ef\'a9\'f3\'b7\'52\'b1\'a1\'a9\'4d\'a7\'51\'af\'71\'a7\'41\'aa\'ba\'ba\'41\'ab\'d7\'b0\'be\'a6\'56\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'b7\'52\'b1\'a1\'ac\'4f\'b1\'6a\'aa\'cc\'aa\'ba\'c5\'76\'a4\'4f\'a1\'41\'ae\'7a\'aa\'cc\'a5\'75\'af\'e0\'bf\'d1\'a8\'fa\'a7\'51\'af\'71\'a1\'41\'a6\'d3\'a7\'da\'a1\'41\'af\'75\'a5\'bf\'aa\'ba\'b1\'6a\'aa\'cc\'a1\'43
+\f0 ', scores: \{ daisy: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'b7\'52\'b5\'4c\'aa\'6b\'b8\'f3\'b6\'56\'a7\'51\'af\'71\'a1\'41\'a7\'da\'a5\'75\'b7\'7c\'bf\'ef\'be\'dc\'a9\'4d\'a7\'da\'a7\'51\'af\'71\'a6\'50\'c0\'57\'aa\'cc\'ac\'db\'b7\'52\'a1\'43
+\f0 ', scores: \{ jin: 10 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'b7\'52\'a4\'a3\'b4\'4e\'ac\'4f\'b3\'cc\'a4\'6a\'aa\'ba\'a7\'51\'af\'71\'b6\'dc\'a1\'48\'a7\'da\'a5\'69\'a5\'48\'a8\'f5\'b7\'4c\'a6\'70\'b9\'d0\'ae\'4a\'a1\'41\'a6\'fd\'a7\'da\'ad\'6e\'b7\'ed\'b7\'52\'a4\'48\'aa\'ba\'a5\'44\'ae\'5f\'a1\'43
+\f0 ', scores: \{ feiyi: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'b7\'ed\'a7\'41\'b5\'6f\'b2\'7b\'b3\'6f\'ad\'d3\'ae\'61\'b1\'da\'a7\'59\'b1\'4e\'b1\'59\'c3\'61\'a1\'41\'af\'c1\'a6\'68\'ba\'bf\'a4\'5d\'a7\'59\'b1\'4e\'b7\'b4\'b7\'c0\'a1\'41\'a7\'41\'aa\'ba\'ba\'41\'ab\'d7\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a7\'da\'ac\'4f\'ae\'61\'b1\'da\'aa\'ba\'a5\'44\'ae\'5f\'a1\'41\'b3\'6f\'bb\'a1\'a9\'fa\'a7\'40\'ac\'b0\'aa\'b1\'a8\'e3\'b3\'6f\'a4\'77\'b8\'67\'a8\'53\'a6\'b3\'bb\'f9\'ad\'c8\'a4\'46\'a1\'41\'aa\'b1\'b1\'6f\'ab\'dc\'b6\'7d\'a4\'df\'a1\'43
+\f0 ', scores: \{ daisy: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'a7\'da\'bc\'d6\'a8\'a3\'a6\'70\'a6\'b9\'a1\'41\'a4\'6a\'b7\'48\'b1\'4e\'b6\'c9\'a1\'41\'b2\'d7\'a9\'f3\'a5\'fa\'a9\'fa\'bb\'50\'af\'75\'ac\'db\'ad\'ab\'a6\'5e\'af\'c1\'a6\'68\'ba\'bf\'a1\'43
+\f0 ', scores: \{ jin: 15 \} \},\cb1 \
+\cb14                     \{ text: 'C. 
+\f1 \'a7\'da\'ad\'6e\'a5\'68\'a4\'40\'ad\'d3\'b7\'73\'aa\'ba\'a6\'61\'a4\'e8\'a1\'41\'a8\'ba\'b8\'cc\'a6\'b3\'a7\'da\'b7\'51\'ad\'6e\'aa\'ba\'a4\'40\'a4\'c1\'a1\'43
+\f0 ', scores: \{ feiyi: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \},\cb1 \
+\cb14             \{\cb1 \
+\cb14                 type: 'single',\cb1 \
+\cb14                 title: '
+\f1 \'ae\'61\'b1\'da\'a4\'a3\'b9\'4c\'ac\'4f\'ad\'d3\'c0\'b0\'ac\'a3\'a1\'41\'a8\'ba\'bb\'f2\'b9\'ef\'a7\'41\'a8\'d3\'bb\'a1\'a1\'41\'a6\'e5\'bd\'74\'bf\'cb\'b1\'a1\'aa\'ba\'b7\'4e\'b8\'71\'ac\'4f\'a1\'48
+\f0 ',\cb1 \
+\cb14                 options: [\cb1 \
+\cb14                     \{ text: 'A. 
+\f1 \'a6\'e5\'bd\'74\'a4\'a3\'af\'e0\'a9\'77\'b8\'71\'a7\'da\'a4\'ba\'a4\'df\'a9\'d3\'bb\'7b\'aa\'ba\'a1\'75\'ae\'61\'b1\'da\'a1\'76\'a1\'41\'bf\'cb\'a4\'48\'ac\'4f\'a4\'57\'ab\'d2\'bf\'ef\'aa\'ba\'a1\'41\'a6\'fd\'a7\'da\'ad\'6e\'a6\'db\'a4\'76\'bf\'ef\'a1\'43
+\f0 ', scores: \{ daisy: 10 \} \},\cb1 \
+\cb14                     \{ text: 'B. 
+\f1 \'bf\'cb\'b1\'a1\'ac\'4f\'b3\'79\'aa\'ab\'a5\'44\'b5\'b9\'a7\'da\'aa\'ba\'a4\'d1\'b5\'4d\'c5\'f9\'b2\'cc\'a1\'41\'ac\'4f\'bf\'57\'c4\'dd\'a9\'f3\'a7\'da\'aa\'ba\'ac\'c3\'c4\'5f\'a1\'41\'a7\'da\'b7\'7c\'b7\'52\'a7\'da\'aa\'ba\'bf\'cb\'a4\'48\'a1\'43
+\f0 ', scores: \{ feiyi: 10, jin: 10 \} \},\cb1 \
+\cb14                 ]\cb1 \
+\cb14             \}\cb1 \
+\cb14         ];\cb1 \
+\
+\cb14         // --- Icon Components (Simple SVGs) ---\cb1 \
+\cb14         const CrownIcon = () => (\cb1 \
+\cb14             <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-600 mb-4 animate-pulse"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>\cb1 \
+\cb14         );\cb1 \
+\
+\cb14         function App() \{\cb1 \
+\cb14             const [step, setStep] = useState('landing');\cb1 \
+\cb14             const [user, setUser] = useState(null);\cb1 \
+\cb14             const [userData, setUserData] = useState(\{\cb1 \
+\cb14                 name: '',\cb1 \
+\cb14                 gender: 'male',\cb1 \
+\cb14                 gameDate: '',\cb1 \
+\cb14                 gameTime: '',\cb1 \
+\cb14                 message: ''\cb1 \
+\cb14             \});\cb1 \
+\cb14             const [currentQIndex, setCurrentQIndex] = useState(0);\cb1 \
+\cb14             const [scores, setScores] = useState(\{\});\cb1 \
+\cb14             const [selectedOptions, setSelectedOptions] = useState([]);\cb1 \
+\cb14             const [allResponses, setAllResponses] = useState([]);\cb1 \
+\cb14             const [loading, setLoading] = useState(false);\cb1 \
+\
+\cb14             useEffect(() => \{\cb1 \
+\cb14                 const initAuth = async () => \{\cb1 \
+\cb14                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) \{\cb1 \
+\cb14                         await signInWithCustomToken(auth, __initial_auth_token);\cb1 \
+\cb14                     \} else \{\cb1 \
+\cb14                         await signInAnonymously(auth);\cb1 \
+\cb14                     \}\cb1 \
+\cb14                 \};\cb1 \
+\cb14                 initAuth();\cb1 \
+\cb14                 const unsubscribe = onAuthStateChanged(auth, setUser);\cb1 \
+\cb14                 return () => unsubscribe();\cb1 \
+\cb14             \}, []);\cb1 \
+\
+\cb14             useEffect(() => \{\cb1 \
+\cb14                 if (!user || step !== 'admin') return;\cb1 \
+\cb14                 const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), orderBy('timestamp', 'desc'));\cb1 \
+\cb14                 const unsubscribe = onSnapshot(q, (snapshot) => \{\cb1 \
+\cb14                     const data = snapshot.docs.map(doc => (\{ id: doc.id, ...doc.data() \}));\cb1 \
+\cb14                     setAllResponses(data);\cb1 \
+\cb14                 \}, (err) => console.error("Firestore error:", err));\cb1 \
+\cb14                 return () => unsubscribe();\cb1 \
+\cb14             \}, [user, step]);\cb1 \
+\
+\cb14             const handleStart = () => setStep('info');\cb1 \
+\
+\cb14             const handleInfoSubmit = (e) => \{\cb1 \
+\cb14                 e.preventDefault();\cb1 \
+\cb14                 const initialScores = userData.gender === 'male' \cb1 \
+\cb14                     ? \{ lyon: 0, adam: 0, vick: 0 \} \cb1 \
+\cb14                     : \{ daisy: 0, jin: 0, feiyi: 0 \};\cb1 \
+\cb14                 setScores(initialScores);\cb1 \
+\cb14                 setStep('quiz');\cb1 \
+\cb14             \};\cb1 \
+\
+\cb14             const currentQuestions = userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE;\cb1 \
+\cb14             const currentQ = currentQuestions[currentQIndex];\cb1 \
+\
+\cb14             const handleOptionClick = (option) => \{\cb1 \
+\cb14                 if (currentQ.type === 'single') \{\cb1 \
+\cb14                     const newScores = \{ ...scores \};\cb1 \
+\cb14                     Object.entries(option.scores).forEach(([char, val]) => \{\cb1 \
+\cb14                         newScores[char] = (newScores[char] || 0) + val;\cb1 \
+\cb14                     \});\cb1 \
+\cb14                     setScores(newScores);\cb1 \
+\cb14                     if (currentQIndex < currentQuestions.length - 1) \{\cb1 \
+\cb14                         setCurrentQIndex(currentQIndex + 1);\cb1 \
+\cb14                     \} else \{\cb1 \
+\cb14                         setStep('message');\cb1 \
+\cb14                     \}\cb1 \
+\cb14                 \} else \{\cb1 \
+\cb14                     const exists = selectedOptions.find(o => o.text === option.text);\cb1 \
+\cb14                     if (exists) \{\cb1 \
+\cb14                         setSelectedOptions(selectedOptions.filter(o => o.text !== option.text));\cb1 \
+\cb14                     \} else \{\cb1 \
+\cb14                         setSelectedOptions([...selectedOptions, option]);\cb1 \
+\cb14                     \}\cb1 \
+\cb14                 \}\cb1 \
+\cb14             \};\cb1 \
+\
+\cb14             const nextMultiStep = () => \{\cb1 \
+\cb14                 const newScores = \{ ...scores \};\cb1 \
+\cb14                 selectedOptions.forEach(opt => \{\cb1 \
+\cb14                     Object.entries(opt.scores).forEach(([char, val]) => \{\cb1 \
+\cb14                         newScores[char] = (newScores[char] || 0) + val;\cb1 \
+\cb14                     \});\cb1 \
+\cb14                 \});\cb1 \
+\cb14                 setScores(newScores);\cb1 \
+\cb14                 setSelectedOptions([]);\cb1 \
+\cb14                 if (currentQIndex < currentQuestions.length - 1) \{\cb1 \
+\cb14                     setCurrentQIndex(currentQIndex + 1);\cb1 \
+\cb14                 \} else \{\cb1 \
+\cb14                     setStep('message');\cb1 \
+\cb14                 \}\cb1 \
+\cb14             \};\cb1 \
+\
+\cb14             const submitFinal = async () => \{\cb1 \
+\cb14                 setLoading(true);\cb1 \
+\cb14                 try \{\cb1 \
+\cb14                     const finalResult = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];\cb1 \
+\cb14                     const payload = \{\cb1 \
+\cb14                         ...userData,\cb1 \
+\cb14                         scores,\cb1 \
+\cb14                         result: finalResult,\cb1 \
+\cb14                         timestamp: new Date().toISOString(),\cb1 \
+\cb14                         uid: user.uid\cb1 \
+\cb14                     \};\cb1 \
+\cb14                     await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), payload);\cb1 \
+\cb14                     setStep('result');\cb1 \
+\cb14                 \} catch (error) \{\cb1 \
+\cb14                     console.error(error);\cb1 \
+\cb14                 \} finally \{\cb1 \
+\cb14                     setLoading(false);\cb1 \
+\cb14                 \}\cb1 \
+\cb14             \};\cb1 \
+\
+\cb14             // Views\cb1 \
+\cb14             if (step === 'landing') return (\cb1 \
+\cb14                 <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6 text-center space-y-8">\cb1 \
+\cb14                     <CrownIcon />\cb1 \
+\cb14                     <h1 className="text-5xl font-serif tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-yellow-200 to-yellow-700">
+\f1 \'b7\'c5\'a7\'c9
+\f0 </h1>\cb1 \
+\cb14                     <p className="text-lg text-gray-400 font-light max-w-md leading-relaxed">\cb1 \
+\cb14                         
+\f1 \'a1\'75\'a4\'48\'c1\'60\'b7\'52\'a6\'62\'b8\'6f\'b4\'63\'aa\'ba\'b7\'c5\'a7\'c9\'b8\'cc\'a1\'41\'b4\'4d\'a7\'e4\'a4\'40\'a6\'ec\'af\'ab\'a1\'43\'a1\'76
+\f0 <br/>
+\f1 \'c5\'76\'a4\'4f\'a1\'42\'bc\'a4\'b1\'e6\'a1\'42\'ad\'49\'bc\'77\'bb\'50\'af\'c2\'b7\'52\'a1\'43
+\f0 <br/>
+\f1 \'a7\'41\'a1\'41\'b7\'7c\'ac\'4f\'bd\'d6\'a1\'48
+\f0 \cb1 \
+\cb14                     </p>\cb1 \
+\cb14                     <button onClick=\{handleStart\} className="px-12 py-4 bg-gradient-to-r from-yellow-800 to-yellow-600 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-lg shadow-yellow-900/20">
+\f1 \'b6\'69\'a4\'4a\'b4\'fa\'c5\'e7
+\f0 </button>\cb1 \
+\cb14                     <button onClick=\{() => setStep('admin_login')\} className="text-gray-600 text-sm hover:text-gray-400">
+\f1 \'a5\'44\'ab\'f9\'a4\'48\'ab\'e1\'a5\'78
+\f0 </button>\cb1 \
+\cb14                 </div>\cb1 \
+\cb14             );\cb1 \
+\
+\cb14             if (step === 'info') return (\cb1 \
+\cb14                 <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-950 text-white p-6">\cb1 \
+\cb14                     <div className="w-full max-w-md bg-neutral-900/50 p-8 rounded-2xl border border-neutral-800 shadow-2xl">\cb1 \
+\cb14                         <h2 className="text-2xl font-serif mb-6 text-yellow-500">
+\f1 \'b0\'f2\'a5\'bb\'b8\'ea\'b0\'54\'bb\'60\'b6\'b0
+\f0 </h2>\cb1 \
+\cb14                         <form onSubmit=\{handleInfoSubmit\} className="space-y-4">\cb1 \
+\cb14                             <input type="text" required placeholder="
+\f1 \'aa\'b1\'ae\'61\'a6\'57\'ba\'d9
+\f0 " className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none focus:border-yellow-600" value=\{userData.name\} onChange=\{e => setUserData(\{...userData, name: e.target.value\})\} />\cb1 \
+\cb14                             <div className="flex gap-2">\cb1 \
+\cb14                                 <button type="button" onClick=\{() => setUserData(\{...userData, gender: 'male'\})\} className=\{`flex-1 p-3 rounded-lg border transition-all $\{userData.gender === 'male' ? 'bg-blue-900/30 border-blue-500 text-blue-200' : 'bg-neutral-800 border-neutral-700 text-gray-500'\}`\}>
+\f1 \'a8\'6b\'a5\'cd\'aa\'a9
+\f0 </button>\cb1 \
+\cb14                                 <button type="button" onClick=\{() => setUserData(\{...userData, gender: 'female'\})\} className=\{`flex-1 p-3 rounded-lg border transition-all $\{userData.gender === 'female' ? 'bg-pink-900/30 border-pink-500 text-pink-200' : 'bg-neutral-800 border-neutral-700 text-gray-500'\}`\}>
+\f1 \'a4\'6b\'a5\'cd\'aa\'a9
+\f0 </button>\cb1 \
+\cb14                             </div>\cb1 \
+\cb14                             <div className="grid grid-cols-2 gap-4">\cb1 \
+\cb14                                 <input type="date" required className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none text-white" value=\{userData.gameDate\} onChange=\{e => setUserData(\{...userData, gameDate: e.target.value\})\} />\cb1 \
+\cb14                                 <input type="time" required className="w-full bg-neutral-800 border border-neutral-700 p-3 rounded-lg focus:outline-none text-white" value=\{userData.gameTime\} onChange=\{e => setUserData(\{...userData, gameTime: e.target.value\})\} />\cb1 \
+\cb14                             </div>\cb1 \
+\cb14                             <button className="w-full py-4 bg-yellow-700 hover:bg-yellow-600 rounded-xl font-bold mt-4 transition-all">
+\f1 \'b6\'7d\'a9\'6c\'a4\'df\'b4\'fa
+\f0 </button>\cb1 \
+\cb14                         </form>\cb1 \
+\cb14                     </div>\cb1 \
+\cb14                 </div>\cb1 \
+\cb14             );\cb1 \
+\
+\cb14             if (step === 'quiz') return (\cb1 \
+\cb14                 <div className="flex flex-col min-h-screen bg-black text-white p-6">\cb1 \
+\cb14                     <div className="max-w-2xl mx-auto w-full pt-12 space-y-8">\cb1 \
+\cb14                         <span className="text-yellow-600 font-serif text-sm tracking-widest uppercase">Question \{currentQIndex + 1\}</span>\cb1 \
+\cb14                         <h2 className="text-3xl font-serif leading-tight">\{currentQ.title\}</h2>\cb1 \
+\cb14                         <div className="space-y-3">\cb1 \
+\cb14                             \{currentQ.options.map((option, i) => \{\cb1 \
+\cb14                                 const isSelected = selectedOptions.find(o => o.text === option.text);\cb1 \
+\cb14                                 return (\cb1 \
+\cb14                                     <button key=\{i\} onClick=\{() => handleOptionClick(option)\} className=\{`w-full text-left p-5 rounded-xl border transition-all duration-300 $\{isSelected ? 'border-yellow-600 bg-yellow-950/20 text-yellow-200' : 'border-neutral-800 bg-neutral-900 text-gray-300'\}`\}>\cb1 \
+\cb14                                         \{option.text\}\cb1 \
+\cb14                                     </button>\cb1 \
+\cb14                                 );\cb1 \
+\cb14                             \})\}\cb1 \
+\cb14                         </div>\cb1 \
+\cb14                         \{currentQ.type === 'multi' && (\cb1 \
+\cb14                             <button onClick=\{nextMultiStep\} disabled=\{selectedOptions.length === 0\} className="w-full py-4 bg-yellow-800 disabled:opacity-30 rounded-xl font-bold">
+\f1 \'a4\'55\'a4\'40\'c3\'44
+\f0 </button>\cb1 \
+\cb14                         )\}\cb1 \
+\cb14                     </div>\cb1 \
+\cb14                 </div>\cb1 \
+\cb14             );\cb1 \
+\
+\cb14             if (step === 'message') return (\cb1 \
+\cb14                 <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white p-6">\cb1 \
+\cb14                     <div className="w-full max-w-md space-y-6">\cb1 \
+\cb14                         <h2 className="text-2xl font-serif text-yellow-500">
+\f1 \'b7\'51\'b9\'ef\'a5\'44\'ab\'f9\'a4\'48\'bb\'a1\'aa\'ba\'b8\'dc\'a1\'48
+\f0 </h2>\cb1 \
+\cb14                         <textarea className="w-full h-40 bg-neutral-900 border border-neutral-800 p-4 rounded-xl focus:outline-none focus:border-yellow-600" placeholder="
+\f1 \'b9\'ef\'a8\'a4\'a6\'e2\'aa\'ba\'b4\'c1\'ab\'dd\'a9\'ce\'b3\'c6\'b5\'f9
+\f0 ..." value=\{userData.message\} onChange=\{e => setUserData(\{...userData, message: e.target.value\})\} />\cb1 \
+\cb14                         <button onClick=\{submitFinal\} disabled=\{loading\} className="w-full py-4 bg-yellow-700 hover:bg-yellow-600 rounded-xl font-bold text-lg">\{loading ? '
+\f1 \'a9\'52\'b9\'42\'ad\'70\'ba\'e2\'a4\'a4
+\f0 ...' : '
+\f1 \'b4\'a3\'a5\'e6\'b5\'b2\'aa\'47
+\f0 '\}</button>\cb1 \
+\cb14                     </div>\cb1 \
+\cb14                 </div>\cb1 \
+\cb14             );\cb1 \
+\
+\cb14             if (step === 'result') \{\cb1 \
+\cb14                 const resultId = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];\cb1 \
+\cb14                 const character = CHARACTERS[userData.gender].find(c => c.id === resultId);\cb1 \
+\cb14                 return (\cb1 \
+\cb14                     <div className="flex flex-col items-center min-h-screen bg-black text-white p-6">\cb1 \
+\cb14                         <div className="max-w-xl w-full text-center space-y-8 mt-12">\cb1 \
+\cb14                             <h2 className="text-xl font-serif tracking-widest text-yellow-600 uppercase">Your Destiny is...</h2>\cb1 \
+\cb14                             <div className="relative mx-auto w-64 h-80 overflow-hidden rounded-2xl border-4 border-yellow-800/50">\cb1 \
+\cb14                                 <img src=\{character?.img\} alt=\{character?.name\} className="w-full h-full object-cover" />\cb1 \
+\cb14                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />\cb1 \
+\cb14                                 <div className="absolute bottom-4 left-0 right-0 text-3xl font-serif font-bold tracking-widest">\{character?.name\}</div>\cb1 \
+\cb14                             </div>\cb1 \
+\cb14                             <p className="text-gray-400 italic font-light px-4 leading-relaxed">\{character?.description\}</p>\cb1 \
+\cb14                             <div className="pt-8 text-xs text-gray-600 text-center">
+\f1 \'b4\'fa\'c5\'e7\'b5\'b2\'aa\'47\'b6\'c8\'a8\'d1\'b0\'d1\'a6\'d2\'a1\'41\'bd\'d0\'a5\'48\'b2\'7b\'b3\'f5\'a5\'44\'ab\'f9\'a4\'48\'a4\'c0\'b0\'74\'ac\'b0\'b7\'c7\'a1\'43
+\f0 </div>\cb1 \
+\cb14                         </div>\cb1 \
+\cb14                     </div>\cb1 \
+\cb14                 );\cb1 \
+\cb14             \}\cb1 \
+\
+\cb14             if (step === 'admin_login') \{\cb1 \
+\cb14                 return (\cb1 \
+\cb14                     <div className="flex items-center justify-center min-h-screen bg-neutral-950 text-white p-6">\cb1 \
+\cb14                         <div className="w-full max-w-sm bg-neutral-900 p-8 rounded-2xl space-y-6">\cb1 \
+\cb14                             <h2 className="text-2xl font-serif text-center">
+\f1 \'ab\'e1\'a5\'78\'c5\'76\'ad\'ad\'c5\'e7\'c3\'d2
+\f0 </h2>\cb1 \
+\cb14                             <input type="password" id="adminPwd" className="w-full bg-black border border-neutral-700 p-3 rounded-lg" placeholder="
+\f1 \'bd\'d0\'bf\'e9\'a4\'4a\'a5\'44\'ab\'f9\'a4\'48\'b1\'4b\'bd\'58
+\f0 " />\cb1 \
+\cb14                             <button onClick=\{() => \{\cb1 \
+\cb14                                 const val = document.getElementById('adminPwd').value;\cb1 \
+\cb14                                 if (val === 'warmbed888') setStep('admin');\cb1 \
+\cb14                                 else alert('
+\f1 \'b1\'4b\'bd\'58\'bf\'f9\'bb\'7e
+\f0 ');\cb1 \
+\cb14                             \}\} className="w-full py-3 bg-neutral-100 text-black font-bold rounded-lg">
+\f1 \'b6\'69\'a4\'4a\'ab\'e1\'a5\'78
+\f0 </button>\cb1 \
+\cb14                             <button onClick=\{() => setStep('landing')\} className="w-full text-sm text-gray-500 underline">
+\f1 \'aa\'f0\'a6\'5e\'ad\'ba\'ad\'b6
+\f0 </button>\cb1 \
+\cb14                         </div>\cb1 \
+\cb14                     </div>\cb1 \
+\cb14                 );\cb1 \
+\cb14             \}\cb1 \
+\
+\cb14             if (step === 'admin') \{\cb1 \
+\cb14                 const sessions = allResponses.reduce((acc, curr) => \{\cb1 \
+\cb14                     const key = `$\{curr.gameDate\} $\{curr.gameTime\}`;\cb1 \
+\cb14                     if (!acc[key]) acc[key] = [];\cb1 \
+\cb14                     acc[key].push(curr);\cb1 \
+\cb14                     return acc;\cb1 \
+\cb14                 \}, \{\});\cb1 \
+\cb14                 return (\cb1 \
+\cb14                     <div className="min-h-screen bg-neutral-950 text-white p-8">\cb1 \
+\cb14                         <div className="max-w-6xl mx-auto space-y-8">\cb1 \
+\cb14                             <div className="flex justify-between items-center border-b border-neutral-800 pb-4">\cb1 \
+\cb14                                 <h1 className="text-3xl font-serif text-yellow-500">
+\f1 \'a1\'6d\'b7\'c5\'a7\'c9\'a1\'6e\'b4\'fa\'c5\'e7\'ab\'e1\'a5\'78
+\f0 </h1>\cb1 \
+\cb14                                 <button onClick=\{() => setStep('landing')\} className="text-gray-500">
+\f1 \'b5\'6e\'a5\'58
+\f0 </button>\cb1 \
+\cb14                             </div>\cb1 \
+\cb14                             \{Object.entries(sessions).map(([sessionKey, players]) => (\cb1 \
+\cb14                                 <div key=\{sessionKey\} className="bg-neutral-900/50 rounded-2xl p-6 border border-neutral-800">\cb1 \
+\cb14                                     <h2 className="text-xl font-bold mb-4 text-yellow-600">
+\f1 \'b3\'f5\'a6\'b8\'a1\'47
+\f0 \{sessionKey\}</h2>\cb1 \
+\cb14                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">\cb1 \
+\cb14                                         \{players.map((p, idx) => (\cb1 \
+\cb14                                             <div key=\{idx\} className="bg-black/50 p-4 rounded-xl border border-neutral-800 space-y-3">\cb1 \
+\cb14                                                 <div className="text-lg font-bold">\{p.name\} (\{p.gender === 'male' ? '
+\f1 \'a8\'6b
+\f0 ' : '
+\f1 \'a4\'6b
+\f0 '\})</div>\cb1 \
+\cb14                                                 <div className="space-y-1">\cb1 \
+\cb14                                                     \{Object.entries(p.scores).sort((a,b) => b[1]-a[1]).map(([key, val]) => (\cb1 \
+\cb14                                                         <div key=\{key\} className="flex justify-between text-xs text-gray-400">\cb1 \
+\cb14                                                             <span>\{CHARACTERS[p.gender].find(c => c.id === key).name\}</span>\cb1 \
+\cb14                                                             <span>\{val\} pt</span>\cb1 \
+\cb14                                                         </div>\cb1 \
+\cb14                                                     ))\}\cb1 \
+\cb14                                                 </div>\cb1 \
+\cb14                                                 \{p.message && <div className="text-[11px] text-gray-500 bg-neutral-950 p-2 rounded italic italic">
+\f2 \uc0\u55357 \u56492 
+\f0  \{p.message\}</div>\}\cb1 \
+\cb14                                             </div>\cb1 \
+\cb14                                         ))\}\cb1 \
+\cb14                                     </div>\cb1 \
+\cb14                                 </div>\cb1 \
+\cb14                             ))\}\cb1 \
+\cb14                         </div>\cb1 \
+\cb14                     </div>\cb1 \
+\cb14                 );\cb1 \
+\cb14             \}\cb1 \
+\
+\cb14             return null;\cb1 \
+\cb14         \}\cb1 \
+\
+\cb14         const root = ReactDOM.createRoot(document.getElementById('root'));\cb1 \
+\cb14         root.render(<App />);\cb1 \
+\cb14     \cf17 </\cf13 script\cf17 >\cf16 \cb1 \
+\cf17 \cb14 </\cf13 body\cf17 >\cf16 \cb1 \
+\cf17 \cb14 </\cf13 html\cf17 >\cf16 \cb1 \
+}
