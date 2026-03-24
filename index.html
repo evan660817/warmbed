@@ -163,7 +163,7 @@
         const YEARS = [today.getFullYear(), today.getFullYear() + 1];
         const MONTHS = Array.from({length: 12}, (_, i) => i + 1);
         const DAYS = Array.from({length: 31}, (_, i) => i + 1);
-        const HOURS = Array.from({length: 13}, (_, i) => `${i + 10}:00`);
+        const HOURS = Array.from({length: 15}, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
 
         function App() {
             const [step, setStep] = useState('landing');
