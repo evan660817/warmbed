@@ -95,10 +95,18 @@
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
         // --- Firebase Config ---
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        let app = null, auth = null, db = null;
+        try {
+            const configStr = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+            const firebaseConfig = typeof configStr === 'string' ? JSON.parse(configStr) : configStr;
+            if (Object.keys(firebaseConfig).length > 0) {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+            }
+        } catch (e) {
+            console.warn("Firebase not configured:", e);
+        }
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'warm-bed-test';
 
         const Icons = {
@@ -174,16 +182,20 @@
                 setUserData(prev => ({ ...prev, gameDate: `${dateState.year}-${String(dateState.month).padStart(2,'0')}-${String(dateState.day).padStart(2,'0')}` }));
             }, [dateState]);
 
-            useEffect(() => {
-                const initAuth = async () => {
-                    try {
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    } catch (err) { console.error("Auth error", err); }
-                };
+        useEffect(() => {
+            const initAuth = async () => {
+                if (!auth) {
+                    setUser({ uid: 'local-user' });
+                    return;
+                }
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch (err) { console.error("Auth error", err); }
+            };
                 initAuth();
                 const unsubscribe = onAuthStateChanged(auth, setUser);
                 return () => unsubscribe();
@@ -191,6 +203,10 @@
 
             useEffect(() => {
                 if (!user || step !== 'admin') return;
+                if (!db) {
+                    setAllResponses([]);
+                    return;
+                }
                 const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
                 const q = query(colRef);
                 const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -242,10 +258,17 @@
                 setLoading(true);
                 try {
                     const result = Object.entries(scores).reduce((a, b) => a[1] > b[1] ? a : b)[0];
-                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), { 
-                        ...userData, scores, result, timestamp: new Date().toISOString(), uid: user.uid 
-                    });
+                    if (db) {
+                        await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), { 
+                            ...userData, scores, result, timestamp: new Date().toISOString(), uid: user.uid 
+                        });
+                    } else {
+                        console.log("Mock saved result:", result);
+                    }
                     setStep('result');
+                } catch (err) {
+                    console.error("Save error:", err);
+                    setStep('result'); // force through so player can still see result
                 } finally {
                     setLoading(false);
                     window.scrollTo(0, 0);
@@ -429,351 +452,6 @@
         root.render(<App />);
     </script>
 </body>
-</html>
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>《溫床》官方玩家心測系統</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & Babel -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body class="bg-black">
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        // Firebase Imports from CDN
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        // --- Firebase Configuration ---
-        // 這裡會自動讀取環境提供的配置
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'warm-bed-test';
-
-        // --- Assets & Data ---
-        // 注意：在 Google 協作平台上，img 路徑請更換為完整的 https 網址
-        const CHARACTERS = {
-            male: [
-                { id: 'lyon', name: '里昂', img: '里昂_0.jpg', description: '霸道傲慢、手段狠厲的國王。適合純愛黨、喜歡飆戲且道德感低的玩家。' },
-                { id: 'adam', name: '亞當', img: '亞當_0.jpg', description: '靈魂善良卻因命運成為復仇者的神父。適合內核善良、可接受三角戀、抗壓的玩家。' },
-                { id: 'vick', name: '維克', img: '維克_0.jpg', description: '野心勃勃的虛假「拯救者」。適合權欲極強、陰濕男鬼型、強輸出的玩家。' },
-            ],
-            female: [
-                { id: 'daisy', name: '黛西', img: '黛西_0.jpg', description: '惡毒傲慢、野心勃勃的女皇。適合喜歡骨科、紙醉金迷與權力、強輸出的玩家。' },
-                { id: 'jin', name: '堇', img: '堇_0.jpg', description: '釣系女巫、內心充滿算計。適合喜歡三角戀、自私貪婪、小媽/嫂子文學的玩家。' },
-                { id: 'feiyi', name: '菲伊', img: '菲伊_0.jpg', description: '病嬌刑訊師、渴望救贖的可憐人。適合戀陪、吃極致委屈線、弱勢承受壓力的玩家。' },
-            ]
-        };
-
-        const QUESTIONS_MALE = [
-            {
-                type: 'multi',
-                title: '占卜師拿了許多張卡片，挑選一些引起你興趣的：',
-                options: [
-                    { text: 'A. 怪物', scores: { vick: 5, lyon: 2, adam: -3 } },
-                    { text: 'B. 背負', scores: { adam: 5, vick: 2 } },
-                    { text: 'C. 權力', scores: { lyon: 5, vick: -3, adam: -3 } },
-                    { text: 'D. 強制', scores: { vick: 5, lyon: 2, adam: -3 } },
-                    { text: 'E. 墮神', scores: { adam: 5, lyon: 2 } },
-                    { text: 'F. 極致', scores: { lyon: 5, vick: 2, adam: -3 } },
-                    { text: 'G. 騎士', scores: { vick: 5 } },
-                    { text: 'H. 國王', scores: { lyon: 5 } },
-                    { text: 'I. 王子', scores: { adam: 5 } },
-                    { text: 'J. 壓抑', scores: { adam: 5, vick: 2, lyon: -5 } },
-                    { text: 'K. 真心', scores: { lyon: 5, adam: 2, vick: -3 } },
-                    { text: 'L. 利用', scores: { vick: 5 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '你踏入了索多瑪，這是紙醉金迷的都市，你最喜歡它的？',
-                options: [
-                    { text: 'A. 繁華、名流宴會、議會席位、物欲橫流。', scores: { lyon: 10, vick: 5 } },
-                    { text: 'B. 夕陽、教堂鐘聲、戀人低語、海誓山盟。', scores: { adam: 10, lyon: 5 } },
-                    { text: 'C. 機會、槍與鮮血、算計背叛、掠奪佔有。', scores: { vick: 10, lyon: 5 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '家族內部榮辱與共，若將家族比作一個王朝，您覺得自己是？',
-                options: [
-                    { text: 'A. 曾經威嚴智慧，如今難以捉摸的暴君。', scores: { lyon: 10 } },
-                    { text: 'B. 手握重兵，野心勃勃的將軍。', scores: { vick: 10 } },
-                    { text: 'C. 憂鬱深沈，愛上王后的王子。', scores: { adam: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '接受羅德家族勳章時，您聽到的授勳詞是？',
-                options: [
-                    { text: 'A. 權力，是我們走向強盛的階梯。野心是你的利劍。', scores: { vick: 10 } },
-                    { text: 'B. 善良，愛，正義是家族對外的形象。保持你心中的光明。', scores: { adam: 15 } },
-                    { text: 'C. 請隨心所欲吧，我的王，帶上你的傲慢，前路燦爛，儘管享樂。', scores: { lyon: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '發現家族允許三個人有情感糾葛，但實際卻各有各的算盤，你會認為？',
-                options: [
-                    { text: 'A. 我完全接受，愛情就是要靠自己爭奪來的才有趣。', scores: { adam: 10, vick: 10 } },
-                    { text: 'B. 我可以嘗試，只要邏輯能夠自洽。', scores: { adam: 5, vick: 5 } },
-                    { text: 'C. 我完全不可以接受，愛情就是要絕對忠誠的。', scores: { adam: -10, vick: -10, lyon: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '每隔一段時間會有場盛大的會議，會議上你希望？',
-                options: [
-                    { text: 'A. 侃侃而談，我有極強的輸出領導能力。', scores: { lyon: 10, vick: 10 } },
-                    { text: 'B. 我可以發言，我輸出力還行。', scores: { adam: 10, vick: -5, lyon: -10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '愛的種子也會在欲望中綻放，你覺得這顆種子是？',
-                options: [
-                    { text: 'A. 玫瑰花種子，代表的是純粹的愛，無私奉獻的愛。', scores: { lyon: 10, adam: 10 } },
-                    { text: 'B. 種子？分明是一顆麥子。花總是要結果的，我要的是糧食與豐收。', scores: { vick: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '對於愛情你的態度偏向：',
-                options: [
-                    { text: 'A. 愛情是強者的權力，弱者只能謀取利益，而我，真正的強者。', scores: { lyon: 10 } },
-                    { text: 'B. 愛情是權力的附屬，我將永遠索取權力，趨向利益，愛人是戰利品。', scores: { vick: 10 } },
-                    { text: 'C. 愛只是愛，我會讓愛人相信我是她的同盟，我與她利益永不衝突。', scores: { adam: 15 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '當你發現這個家族即將崩壞，索多瑪也即將毀滅，你會？',
-                options: [
-                    { text: 'A. 無所謂，我會給命運一個盛大的謝幕，史書之上，城市的毀滅必伴隨我的死亡。', scores: { lyon: 10 } },
-                    { text: 'B. 大廈將傾，終於光明與真相重回索多瑪。', scores: { adam: 10 } },
-                    { text: 'C. 可以在廢墟之上重建新的王國，哪怕它渺小而落魄。生命不死，權欲不衰。', scores: { vick: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '家族不過是個幫派，那麼對你來說，血緣親情的意義是？',
-                options: [
-                    { text: 'A. 血緣不能定義我內心承認的「家族」，親人是上帝選的，但我要自己選。', scores: { lyon: 10, vick: 10 } },
-                    { text: 'B. 親情是造物主給我的天然羈絆，是獨屬於我的珍寶，我會愛我的親人。', scores: { adam: 15 } },
-                ]
-            }
-        ];
-
-        const QUESTIONS_FEMALE = [
-            {
-                type: 'multi',
-                title: '占卜師拿了許多張卡片，挑選一些引起你興趣的：',
-                options: [
-                    { text: 'A. 皇后', scores: { daisy: 5 } },
-                    { text: 'B. 叛逆', scores: { feiyi: 5, jin: 2 } },
-                    { text: 'C. 真愛', scores: { daisy: 5, feiyi: 2, jin: -3 } },
-                    { text: 'D. 女巫', scores: { jin: 5 } },
-                    { text: 'E. 權力', scores: { daisy: 5, jin: 2, feiyi: -3 } },
-                    { text: 'F. 毀滅', scores: { jin: 5, feiyi: 2 } },
-                    { text: 'G. 公主', scores: { feiyi: 5 } },
-                    { text: 'H. 反差', scores: { feiyi: 5, jin: 2 } },
-                    { text: 'I. 後媽', scores: { daisy: 5, jin: 2, feiyi: -3 } },
-                    { text: 'J. 救贖', scores: { feiyi: 5, jin: 2, daisy: -3 } },
-                    { text: 'K. 復仇', scores: { jin: 5 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '你踏入了索多瑪，這是紙醉金迷的都市，你最喜歡它的？',
-                options: [
-                    { text: 'A. 繁華、名流宴會、議會席位、物欲橫流。', scores: { daisy: 10 } },
-                    { text: 'B. 自由、三角關係、游刃有餘、假意真心。', scores: { jin: 10 } },
-                    { text: 'C. 墮落、為虎作倀、明月高懸、玷污明月。', scores: { feiyi: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '家族內部榮辱與共，若將家族比作一個王朝，您覺得自己是？',
-                options: [
-                    { text: 'A. 愛權力也愛享樂的野心女皇。', scores: { daisy: 10 } },
-                    { text: 'B. 主宰人們生死的高智國師。', scores: { jin: 10 } },
-                    { text: 'C. 主宰牢獄，監禁愛人的密探首領。', scores: { feiyi: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '接受羅德家族勳章時，您聽到的授勳詞是？',
-                options: [
-                    { text: 'A. 權力，是我們走向強盛的階梯。野心是你的利劍。', scores: { daisy: 10 } },
-                    { text: 'B. 善良，愛，正義是家族對外的形象。保持你心中的光明。', scores: { jin: 10 } },
-                    { text: 'C. 你本不配待在這裡，但你掠奪了愛人的一切，踩著真心接過了勳章。', scores: { feiyi: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '發現家族允許三個人有情感糾葛。你怎麼認為？',
-                options: [
-                    { text: 'A. 我可以接受。', scores: { jin: 10 } },
-                    { text: 'B. 我不能接受。', scores: { daisy: 15, feiyi: 15, jin: -40 } },
-                    { text: 'C. 我無所謂。', scores: {} },
-                ]
-            },
-            {
-                type: 'single',
-                title: '如果在會議中，你成為了眾矢之的，那麼你的心態是？',
-                options: [
-                    { text: 'A. 我抗壓能力較強，只要邏輯合理我完全可以接受。', scores: { feiyi: 20, daisy: -20 } },
-                    { text: 'B. 我既不想壓力別人又不想抗壓。', scores: { jin: 20 } },
-                    { text: 'C. 我抗不了一點壓，從來就只有我去壓力別人。', scores: { daisy: 20, feiyi: -20 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '愛的種子也會在欲望中綻放，你覺得這顆種子是？',
-                options: [
-                    { text: 'A. 它不是一朵花，是一棵榕樹，能盡情絞殺別的植物。', scores: { daisy: 10 } },
-                    { text: 'B. 玫瑰種子，但不只一顆。我有不只一個愛人。', scores: { jin: 10 } },
-                    { text: 'C. 罌粟，我要讓戀人離不開我，我也一樣。一起沈淪，別拯救我。', scores: { feiyi: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '對於愛情和利益你的態度偏向是？',
-                options: [
-                    { text: 'A. 愛情是強者的權力，弱者只能謀取利益，而我，真正的強者。', scores: { daisy: 10 } },
-                    { text: 'B. 愛無法跨越利益，我只會選擇和我利益同頻者相愛。', scores: { jin: 10 } },
-                    { text: 'C. 愛不就是最大的利益嗎？我可以卑微如塵埃，但我要當愛人的主宰。', scores: { feiyi: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '當你發現這個家族即將崩壞，索多瑪也即將毀滅，你的態度是？',
-                options: [
-                    { text: 'A. 我是家族的主宰，這說明作為玩具這已經沒有價值了，玩得很開心。', scores: { daisy: 10 } },
-                    { text: 'B. 我樂見如此，大廈將傾，終於光明與真相重回索多瑪。', scores: { jin: 15 } },
-                    { text: 'C. 我要去一個新的地方，那裡有我想要的一切。', scores: { feiyi: 10 } },
-                ]
-            },
-            {
-                type: 'single',
-                title: '家族不過是個幫派，那麼對你來說，血緣親情的意義是？',
-                options: [
-                    { text: 'A. 血緣不能定義我內心承認的「家族」，親人是上帝選的，但我要自己選。', scores: { daisy: 10 } },
-                    { text: 'B. 親情是造物主給我的天然羈絆，是獨屬於我的珍寶，我會愛我的親人。', scores: { feiyi: 10, jin: 10 } },
-                ]
-            }
-        ];
-
-        // --- Icon Components (Simple SVGs) ---
-        const CrownIcon = () => (
-            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-yellow-600 mb-4 animate-pulse"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
-        );
-
-        function App() {
-            const [step, setStep] = useState('landing');
-            const [user, setUser] = useState(null);
-            const [userData, setUserData] = useState({
-                name: '',
-                gender: 'male',
-                gameDate: '',
-                gameTime: '',
-                message: ''
-            });
-            const [currentQIndex, setCurrentQIndex] = useState(0);
-            const [scores, setScores] = useState({});
-            const [selectedOptions, setSelectedOptions] = useState([]);
-            const [allResponses, setAllResponses] = useState([]);
-            const [loading, setLoading] = useState(false);
-
-            useEffect(() => {
-                const initAuth = async () => {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
-                    }
-                };
-                initAuth();
-                const unsubscribe = onAuthStateChanged(auth, setUser);
-                return () => unsubscribe();
-            }, []);
-
-            useEffect(() => {
-                if (!user || step !== 'admin') return;
-                const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'responses'), orderBy('timestamp', 'desc'));
-                const unsubscribe = onSnapshot(q, (snapshot) => {
-                    const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setAllResponses(data);
-                }, (err) => console.error("Firestore error:", err));
-                return () => unsubscribe();
-            }, [user, step]);
-
-            const handleStart = () => setStep('info');
-
-            const handleInfoSubmit = (e) => {
-                e.preventDefault();
-                const initialScores = userData.gender === 'male' 
-                    ? { lyon: 0, adam: 0, vick: 0 } 
-                    : { daisy: 0, jin: 0, feiyi: 0 };
-                setScores(initialScores);
-                setStep('quiz');
-            };
-
-            const currentQuestions = userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE;
-            const currentQ = currentQuestions[currentQIndex];
-
-            const handleOptionClick = (option) => {
-                if (currentQ.type === 'single') {
-                    const newScores = { ...scores };
-                    Object.entries(option.scores).forEach(([char, val]) => {
-                        newScores[char] = (newScores[char] || 0) + val;
-                    });
-                    setScores(newScores);
-                    if (currentQIndex < currentQuestions.length - 1) {
-                        setCurrentQIndex(currentQIndex + 1);
-                    } else {
-                        setStep('message');
-                    }
-                } else {
-                    const exists = selectedOptions.find(o => o.text === option.text);
-                    if (exists) {
-                        setSelectedOptions(selectedOptions.filter(o => o.text !== option.text));
-                    } else {
-                        setSelectedOptions([...selectedOptions, option]);
-                    }
-                }
-            };
-
-            const nextMultiStep = () => {
-                const newScores = { ...scores };
-                selectedOptions.forEach(opt => {
-                    Object.entries(opt.scores).forEach(([char, val]) => {
-                        newScores[char] = (newScores[char] || 0) + val;
-                    });
-                });
-                setScores(newScores);
-                setSelectedOptions([]);
-                if (currentQIndex < currentQuestions.length - 1) {
-                    setCurrentQIndex(currentQIndex + 1);
-                } else {
-                    setStep('message');
-                }
-            };
-
             const submitFinal = async () => {
                 setLoading(true);
                 try {
