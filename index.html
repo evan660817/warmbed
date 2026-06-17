@@ -10,6 +10,10 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Firebase Compat SDK (works with file:// and GitHub Pages, no ES modules needed) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap');
         
@@ -86,12 +90,7 @@
 <body>
     <div id="root"></div>
 
-    <script type="text/babel" data-type="module">
-        // --- Firebase Imports ---
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, onSnapshot, query, orderBy, doc, setDoc, deleteDoc, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
+    <script type="text/babel">
         const { useState, useEffect, useRef, useMemo } = React;
 
         // --- Firebase Config ---
@@ -103,11 +102,13 @@
           messagingSenderId: "185212685372",
           appId: "1:185212685372:web:9f428e49a0674706e98739"
         };
-        let app = null, auth = null, db = null, appId = firebaseConfig.appId;
+
+        const appId = firebaseConfig.appId;
+        let app = null, auth = null, db = null;
         try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
+            app = firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            db = firebase.firestore();
         } catch (e) {
             console.warn("Firebase initialization failed:", e);
         }
@@ -200,9 +201,9 @@
                     }
                     try {
                         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
+                            await auth.signInWithCustomToken(__initial_auth_token);
                         } else {
-                            await signInAnonymously(auth);
+                            await auth.signInAnonymously();
                         }
                     } catch (err) { console.error("Auth error", err); }
                 };
@@ -210,12 +211,12 @@
                 
                 let unsubscribeAuth = () => {};
                 if (auth) {
-                    unsubscribeAuth = onAuthStateChanged(auth, setUser);
+                    unsubscribeAuth = auth.onAuthStateChanged(setUser);
                 }
                 
                 let unsubscribeGate = () => {};
                 if (db) {
-                    unsubscribeGate = onSnapshot(doc(db, 'admin', 'gateSettings'), (docSnap) => {
+                    unsubscribeGate = db.doc('admin/gateSettings').onSnapshot((docSnap) => {
                         if (docSnap.exists() && docSnap.data().allowedPasswords) {
                             // Support both old string format and new object {pw,date,time} format
                             const raw = docSnap.data().allowedPasswords;
@@ -237,9 +238,8 @@
                     setAllResponses(localData);
                     return;
                 }
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
-                const q = query(colRef);
-                const unsubscribe = onSnapshot(q, (snapshot) => {
+                const colRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses');
+                const unsubscribe = colRef.onSnapshot((snapshot) => {
                     const validData = [];
                     const now = new Date();
                     
@@ -253,7 +253,7 @@
                                 const gameDateTime = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]), parseInt(timeParts[0]), parseInt(timeParts[1]));
                                 if ((now - gameDateTime) >= 24 * 60 * 60 * 1000) {
                                     expired = true;
-                                    deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'responses', docSnap.id)).catch(console.error);
+                                    colRef.doc(docSnap.id).delete().catch(console.error);
                                 }
                             }
                         }
@@ -312,9 +312,8 @@
                         usedPassword: verifyCode
                     };
                     if (db) {
-                        const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
-                        const qCount = query(colRef, where('gameDate', '==', userData.gameDate), where('gameTime', '==', userData.gameTime));
-                        const snapshot = await getDocs(qCount);
+                        const colRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses');
+                        const snapshot = await colRef.where('gameDate', '==', userData.gameDate).where('gameTime', '==', userData.gameTime).get();
                         
                         if (snapshot.size >= 6 && verifyCode !== 'warmbed888') {
                             alert(`您選擇的場次（${userData.gameDate} ${userData.gameTime}）測驗名額已滿 6 人！\n\n為了不影響系統分配，無法再送出新的結果。\n若您是換人補填，請先聯絡主辦人在後台「刪除錯誤的舊紀錄」，釋出名額後即可順利送出。`);
@@ -322,7 +321,7 @@
                             return;
                         }
                         
-                        await addDoc(colRef, payload);
+                        await colRef.add(payload);
                     } else {
                         const localData = JSON.parse(localStorage.getItem('mock_responses') || '[]');
                         localData.push(payload);
@@ -580,7 +579,7 @@
                                                 </div>
                                                 <button onClick={async () => {
                                                     const newPws = gatePasswords.filter((_, i) => i !== idx);
-                                                    if(db) await setDoc(doc(db, 'admin', 'gateSettings'), { allowedPasswords: newPws }, { merge: true });
+                                                    if(db) await db.doc('admin/gateSettings').set({ allowedPasswords: newPws }, { merge: true });
                                                 }} className="text-red-400 hover:text-red-300 transition-colors p-1" title="撤銷該密碼">✕</button>
                                             </div>
                                         ))}
@@ -600,7 +599,7 @@
                                                 if(!already) {
                                                     const newEntry = { pw: newPasswordInput.trim(), date: newPwDate, time: newPwTime };
                                                     const newPws = [...gatePasswords, newEntry];
-                                                    if(db) await setDoc(doc(db, 'admin', 'gateSettings'), { allowedPasswords: newPws }, { merge: true });
+                                                    if(db) await db.doc('admin/gateSettings').set({ allowedPasswords: newPws }, { merge: true });
                                                     setNewPasswordInput('');
                                                     setNewPwDate('');
                                                 }
@@ -665,7 +664,7 @@
                                                                 </div>
                                                                 <button onClick={async () => {
                                                                     if (confirm(`確定要刪除玩家「${p.name}」的紀錄嗎？\n刪除後名額會自動釋出，且無法復原。`)) {
-                                                                        if (db) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'responses', p.id));
+                                                                        if (db) await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc(p.id).delete();
                                                                     }
                                                                 }} className="text-red-400/50 hover:text-red-400 bg-white/5 hover:bg-white/10 p-2 md:p-3 rounded-xl transition-all shadow-lg hover:shadow-red-500/20" title="刪除此紀錄並釋出名額"><Icons.Trash /></button>
                                                             </div>
