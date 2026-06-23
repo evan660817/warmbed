@@ -236,7 +236,7 @@
                     });
                 }
                 return () => unsubscribeGate();
-            }, [user]);
+            }, [user?.uid]);
 
             useEffect(() => {
                 if (!user || step !== 'admin') return;
@@ -640,6 +640,13 @@
                                     </div>
                                     <div className="mt-4 p-2 bg-black/50 rounded text-xs text-white/30 font-mono break-all">
                                         DEBUG: gatePasswords={JSON.stringify(gatePasswords)} | user={user?.uid || 'null'} | win.__debugGate={JSON.stringify(window.__debugGate || 'null')}
+                                        <button onClick={async () => {
+                                            try {
+                                                const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('gate-config');
+                                                const doc = await gateRef.get();
+                                                alert(doc.exists ? "FOUND: " + JSON.stringify(doc.data()) : "NOT FOUND ON SERVER");
+                                            } catch(e) { alert("FETCH ERROR: " + e.message); }
+                                        }} className="ml-2 px-2 py-1 bg-white/20 rounded">Check Server</button>
                                     </div>
                                 </div>
                                 {(() => {
