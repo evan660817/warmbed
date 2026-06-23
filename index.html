@@ -217,7 +217,7 @@
                 
                 let unsubscribeGate = () => {};
                 if (db) {
-                    unsubscribeGate = db.doc('admin/gateSettings').onSnapshot((docSnap) => {
+                    unsubscribeGate = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('settings').doc('gate').onSnapshot((docSnap) => {
                         if (docSnap.exists() && docSnap.data().allowedPasswords) {
                             // Support both old string format and new object {pw,date,time} format
                             const raw = docSnap.data().allowedPasswords;
@@ -584,7 +584,7 @@
                                                 </div>
                                                 <button onClick={async () => {
                                                     const newPws = gatePasswords.filter((_, i) => i !== idx);
-                                                    if(db) await db.doc('admin/gateSettings').set({ allowedPasswords: newPws }, { merge: true });
+                                                    if(db) await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('settings').doc('gate').set({ allowedPasswords: newPws }, { merge: true });
                                                 }} className="text-red-400 hover:text-red-300 transition-colors p-1" title="撤銷該密碼">✕</button>
                                             </div>
                                         ))}
@@ -609,7 +609,7 @@
                                             try {
                                                 const newEntry = { pw: newPasswordInput.trim(), date: newPwDate, time: newPwTime };
                                                 const newPws = [...gatePasswords, newEntry];
-                                                await db.doc('admin/gateSettings').set({ allowedPasswords: newPws }, { merge: true });
+                                                await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('settings').doc('gate').set({ allowedPasswords: newPws }, { merge: true });
                                                 setNewPasswordInput('');
                                                 setNewPwDate('');
                                                 alert('\u2705 \u91d1\u9470\u300c' + newEntry.pw + '\u300d\u5efa\u7acb\u6210\u529f\uff01\n\u5834\u6b21\uff1a' + newEntry.date + ' ' + newEntry.time);
