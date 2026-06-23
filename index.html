@@ -222,13 +222,18 @@
                 if (user && db) {
                     const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('gate-config');
                     unsubscribeGate = gateRef.onSnapshot((docSnap) => {
+                        window.__debugGate = docSnap.exists() ? docSnap.data() : 'NOT_EXISTS';
                         if (docSnap.exists() && docSnap.data().allowedPasswords) {
                             const raw = docSnap.data().allowedPasswords;
                             setGatePasswords(raw.map(item => typeof item === 'string' ? { pw: item, date: '', time: '' } : item));
                         } else {
                             setGatePasswords([]);
                         }
-                    }, (err) => console.error('Gate onSnapshot error:', err));
+                    }, (err) => {
+                        window.__debugGateErr = err.message;
+                        console.error('Gate onSnapshot error:', err);
+                        alert('讀取金鑰失敗: ' + err.message);
+                    });
                 }
                 return () => unsubscribeGate();
             }, [user]);
@@ -632,6 +637,9 @@
                                                 setAddingPw(false);
                                             }
                                         }} style={{cursor: addingPw ? 'not-allowed' : 'pointer'}} className={`py-3 rounded-xl font-bold transition-all tracking-widest uppercase ${addingPw ? 'bg-white/40 text-black/50' : 'bg-white hover:bg-gray-200 text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]'}`}>{addingPw ? '\u5132\u5b58\u4e2d...' : '\u958b\u653e\u6b0a\u9650'}</button>
+                                    </div>
+                                    <div className="mt-4 p-2 bg-black/50 rounded text-xs text-white/30 font-mono break-all">
+                                        DEBUG: gatePasswords={JSON.stringify(gatePasswords)} | user={user?.uid || 'null'} | win.__debugGate={JSON.stringify(window.__debugGate || 'null')}
                                     </div>
                                 </div>
                                 {(() => {
