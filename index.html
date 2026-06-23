@@ -185,6 +185,7 @@
             const [newPasswordInput, setNewPasswordInput] = useState('');
             const [newPwDate, setNewPwDate] = useState('');
             const [newPwTime, setNewPwTime] = useState('14:00');
+            const [addingPw, setAddingPw] = useState(false);
 
             const currentQuestions = useMemo(() => userData.gender === 'male' ? QUESTIONS_MALE : QUESTIONS_FEMALE, [userData.gender]);
             const currentQ = useMemo(() => currentQuestions[currentQIndex] || currentQuestions[0], [currentQuestions, currentQIndex]);
@@ -593,20 +594,27 @@
                                                 {HOURS.map(h => <option key={h} value={h}>{h}</option>)}
                                             </select>
                                         </div>
-                                        <button onClick={async () => {
-                                            if(newPasswordInput.trim() && newPwDate) {
-                                                const already = gatePasswords.find(item => item.pw === newPasswordInput.trim());
-                                                if(!already) {
-                                                    const newEntry = { pw: newPasswordInput.trim(), date: newPwDate, time: newPwTime };
-                                                    const newPws = [...gatePasswords, newEntry];
-                                                    if(db) await db.doc('admin/gateSettings').set({ allowedPasswords: newPws }, { merge: true });
-                                                    setNewPasswordInput('');
-                                                    setNewPwDate('');
-                                                }
-                                            } else {
-                                                alert('請同時輸入密碼與選擇對應的日期！');
+                                        <button disabled={addingPw} onClick={async () => {
+                                            if(!newPasswordInput.trim()) { alert('請輸入場次密碼！'); return; }
+                                            if(!newPwDate) { alert('請選擇場次日期！'); return; }
+                                            const already = gatePasswords.find(item => item.pw === newPasswordInput.trim());
+                                            if(already) { alert(`密碼「${newPasswordInput.trim()}」已存在，請換一個密碼。`); return; }
+                                            if(!db) { alert('Firebase 未連線，無法儲存。\n請檢查網路連線後重新整理頁面。'); return; }
+                                            setAddingPw(true);
+                                            try {
+                                                const newEntry = { pw: newPasswordInput.trim(), date: newPwDate, time: newPwTime };
+                                                const newPws = [...gatePasswords, newEntry];
+                                                await db.doc('admin/gateSettings').set({ allowedPasswords: newPws }, { merge: true });
+                                                setNewPasswordInput('');
+                                                setNewPwDate('');
+                                                alert(`✅ 金鑰「${newEntry.pw}」已成功建立！\n場次：${newEntry.date} ${newEntry.time}`);
+                                            } catch(err) {
+                                                console.error('Save password error:', err);
+                                                alert('儲存失敗：' + err.message + '\n\n請確認 Firebase 權限設定是否正確。');
+                                            } finally {
+                                                setAddingPw(false);
                                             }
-                                        }} className="bg-white hover:bg-gray-200 text-black py-3 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(255,255,255,0.3)] tracking-widest uppercase">開放權限</button>
+                                        }} className={`py-3 rounded-xl font-bold transition-all tracking-widest uppercase ${addingPw ? 'bg-white/40 text-black/50 cursor-not-allowed' : 'bg-white hover:bg-gray-200 text-black shadow-[0_0_15px_rgba(255,255,255,0.3)]'}`}>{addingPw ? '儲存中...' : '開放權限'}</button>
                                     </div>
                                 </div>
                                 {(() => {
