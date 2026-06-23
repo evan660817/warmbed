@@ -217,15 +217,16 @@
                 
                 let unsubscribeGate = () => {};
                 if (db) {
-                    unsubscribeGate = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('settings').doc('gate').onSnapshot((docSnap) => {
+                    // Use the same responses collection path (confirmed read/write access), special doc ID for gate config
+                    const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('__gate_config__');
+                    unsubscribeGate = gateRef.onSnapshot((docSnap) => {
                         if (docSnap.exists() && docSnap.data().allowedPasswords) {
-                            // Support both old string format and new object {pw,date,time} format
                             const raw = docSnap.data().allowedPasswords;
                             setGatePasswords(raw.map(item => typeof item === 'string' ? { pw: item, date: '', time: '' } : item));
                         } else {
                             setGatePasswords([]);
                         }
-                    }, (err) => console.error(err));
+                    }, (err) => console.error('Gate onSnapshot error:', err));
                 }
 
                 return () => { unsubscribeAuth(); unsubscribeGate(); };
@@ -584,7 +585,13 @@
                                                 </div>
                                                 <button onClick={async () => {
                                                     const newPws = gatePasswords.filter((_, i) => i !== idx);
-                                                    if(db) await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('settings').doc('gate').set({ allowedPasswords: newPws }, { merge: true });
+                                                    if(db) {
+                                                        try {
+                                                            const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('__gate_config__');
+                                                            await gateRef.set({ allowedPasswords: newPws });
+                                                            setGatePasswords(newPws);
+                                                        } catch(err) { alert('刪除失敗：' + err.message); }
+                                                    }
                                                 }} className="text-red-400 hover:text-red-300 transition-colors p-1" title="撤銷該密碼">✕</button>
                                             </div>
                                         ))}
@@ -609,7 +616,10 @@
                                             try {
                                                 const newEntry = { pw: newPasswordInput.trim(), date: newPwDate, time: newPwTime };
                                                 const newPws = [...gatePasswords, newEntry];
-                                                await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('settings').doc('gate').set({ allowedPasswords: newPws }, { merge: true });
+                                                const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('__gate_config__');
+                                                await gateRef.set({ allowedPasswords: newPws });
+                                                // Update local state immediately so UI refreshes without waiting for onSnapshot
+                                                setGatePasswords(newPws);
                                                 setNewPasswordInput('');
                                                 setNewPwDate('');
                                                 alert('\u2705 \u91d1\u9470\u300c' + newEntry.pw + '\u300d\u5efa\u7acb\u6210\u529f\uff01\n\u5834\u6b21\uff1a' + newEntry.date + ' ' + newEntry.time);
