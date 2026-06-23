@@ -217,8 +217,8 @@
                 
                 let unsubscribeGate = () => {};
                 if (db) {
-                    // Use the same responses collection path (confirmed read/write access), special doc ID for gate config
-                    const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('__gate_config__');
+                    // Use the responses collection (confirmed read/write access), with a special non-reserved doc ID
+                    const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('gate-config');
                     unsubscribeGate = gateRef.onSnapshot((docSnap) => {
                         if (docSnap.exists() && docSnap.data().allowedPasswords) {
                             const raw = docSnap.data().allowedPasswords;
@@ -246,6 +246,7 @@
                     const now = new Date();
                     
                     snapshot.docs.forEach(docSnap => {
+                        if (docSnap.id === 'gate-config') return; // skip gate config document
                         const r = { id: docSnap.id, ...docSnap.data() };
                         let expired = false;
                         if (r.gameDate && r.gameTime) {
@@ -587,7 +588,7 @@
                                                     const newPws = gatePasswords.filter((_, i) => i !== idx);
                                                     if(db) {
                                                         try {
-                                                            const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('__gate_config__');
+                                                            const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('gate-config');
                                                             await gateRef.set({ allowedPasswords: newPws });
                                                             setGatePasswords(newPws);
                                                         } catch(err) { alert('刪除失敗：' + err.message); }
@@ -616,7 +617,7 @@
                                             try {
                                                 const newEntry = { pw: newPasswordInput.trim(), date: newPwDate, time: newPwTime };
                                                 const newPws = [...gatePasswords, newEntry];
-                                                const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('__gate_config__');
+                                                const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('gate-config');
                                                 await gateRef.set({ allowedPasswords: newPws });
                                                 // Update local state immediately so UI refreshes without waiting for onSnapshot
                                                 setGatePasswords(newPws);
