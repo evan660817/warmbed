@@ -214,10 +214,12 @@
                 if (auth) {
                     unsubscribeAuth = auth.onAuthStateChanged(setUser);
                 }
-                
+                return () => { unsubscribeAuth(); };
+            }, []);
+
+            useEffect(() => {
                 let unsubscribeGate = () => {};
-                if (db) {
-                    // Use the responses collection (confirmed read/write access), with a special non-reserved doc ID
+                if (user && db) {
                     const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('gate-config');
                     unsubscribeGate = gateRef.onSnapshot((docSnap) => {
                         if (docSnap.exists() && docSnap.data().allowedPasswords) {
@@ -228,9 +230,8 @@
                         }
                     }, (err) => console.error('Gate onSnapshot error:', err));
                 }
-
-                return () => { unsubscribeAuth(); unsubscribeGate(); };
-            }, []);
+                return () => unsubscribeGate();
+            }, [user]);
 
             useEffect(() => {
                 if (!user || step !== 'admin') return;
