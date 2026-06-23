@@ -219,11 +219,22 @@
 
             useEffect(() => {
                 let unsubscribeGate = () => {};
-                if (user && db) {
+                if (user?.uid && db) {
                     const gateRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('responses').doc('gate-config');
+                    
+                    gateRef.get().then(docSnap => {
+                        window.__debugGate = docSnap.exists ? docSnap.data() : 'NOT_EXISTS';
+                        if (docSnap.exists && docSnap.data().allowedPasswords) {
+                            const raw = docSnap.data().allowedPasswords;
+                            setGatePasswords(raw.map(item => typeof item === 'string' ? { pw: item, date: '', time: '' } : item));
+                        } else {
+                            setGatePasswords([]);
+                        }
+                    }).catch(err => console.error('Gate get error:', err));
+
                     unsubscribeGate = gateRef.onSnapshot((docSnap) => {
-                        window.__debugGate = docSnap.exists() ? docSnap.data() : 'NOT_EXISTS';
-                        if (docSnap.exists() && docSnap.data().allowedPasswords) {
+                        window.__debugGate = docSnap.exists ? docSnap.data() : 'NOT_EXISTS';
+                        if (docSnap.exists && docSnap.data().allowedPasswords) {
                             const raw = docSnap.data().allowedPasswords;
                             setGatePasswords(raw.map(item => typeof item === 'string' ? { pw: item, date: '', time: '' } : item));
                         } else {
